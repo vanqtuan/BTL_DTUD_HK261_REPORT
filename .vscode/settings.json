@@ -1,0 +1,31 @@
+{
+    // Build bằng pdflatex + bibtex trực tiếp (không dùng latexmk, vì latexmk
+    // lỗi trên Windows khi đường dẫn thư mục có dấu tiếng Việt).
+    "latex-workshop.latex.tools": [
+        {
+            "name": "pdflatex",
+            "command": "pdflatex",
+            "args": ["-synctex=1", "-interaction=nonstopmode", "-file-line-error", "%DOC%"]
+        },
+        {
+            "name": "bibtex",
+            "command": "bibtex",
+            "args": ["%DOCFILE%"]
+        }
+    ],
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "pdflatex -> bibtex -> pdflatex x2",
+            "tools": ["pdflatex", "bibtex", "pdflatex", "pdflatex"]
+        },
+        {
+            "name": "pdflatex (nhanh, 1 lan)",
+            "tools": ["pdflatex"]
+        }
+    ],
+    "latex-workshop.latex.recipe.default": "first",
+    "latex-workshop.latex.autoBuild.run": "onSave",
+    "latex-workshop.view.pdf.viewer": "tab",
+    "latex-workshop.linting.chktex.enabled": false,
+    "files.encoding": "utf8"
+}

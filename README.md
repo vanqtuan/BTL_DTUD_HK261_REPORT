@@ -7,18 +7,28 @@ Template LaTeX chung cho cả nhóm. Mỗi thành viên viết chương của m�
 
 ## Biên dịch
 
-Yêu cầu: MiKTeX / TeX Live (pdfLaTeX + BibTeX) hoặc Overleaf.
+### Cài đặt lần đầu (Windows + VS Code)
+
+1. Cài **MiKTeX**: `winget install MiKTeX.MiKTeX`. Khi cài, chọn *Install missing packages on-the-fly = Yes*.
+2. Mở **MiKTeX Console** → **Check for updates** → **Update now**. Bắt buộc làm, nếu không mọi lệnh sẽ báo lỗi *"So far, you have not checked for MiKTeX updates"*.
+3. Cài extension **LaTeX Workshop** (`james-yu.latex-workshop`) trong VS Code.
+4. Khởi động lại VS Code.
+
+### Build
+
+**VS Code:** repo đã có sẵn [.vscode/settings.json](.vscode/settings.json), build theo chuỗi `pdflatex → bibtex → pdflatex ×2` (không dùng latexmk). Mở `main.tex` hoặc bất kỳ file chương nào, nhấn `Ctrl+Alt+B` để build, `Ctrl+Alt+V` để xem PDF. Mỗi lần lưu file sẽ tự build lại.
+
+> Nếu mở cả thư mục cha (không phải `Report/`) làm workspace trong VS Code, hãy copy `.vscode/settings.json` sang thư mục `.vscode/` của workspace đó.
+
+**Dòng lệnh:**
 
 ```bash
-latexmk main.tex          # tự chạy pdflatex + bibtex đủ số lần
-latexmk -c                # dọn file tạm
+pdflatex main && bibtex main && pdflatex main && pdflatex main
 ```
 
-Không có latexmk: `pdflatex main` → `bibtex main` → `pdflatex main` → `pdflatex main`.
+`latexmk main.tex` cũng dùng được, **trừ khi đường dẫn thư mục có dấu tiếng Việt** (latexmk trên Windows lỗi *"Problem making path"*). Tốt nhất clone repo vào thư mục không dấu, VD `D:\BTL\Report`.
 
 **Overleaf:** upload cả thư mục (zip), chọn Compiler = pdfLaTeX, Main document = `main.tex`.
-
-**VS Code (LaTeX Workshop):** mở thư mục `Report/`, mở `main.tex`, nhấn `Ctrl+Alt+B`.
 
 Biên dịch nhanh chỉ chương của mình: bỏ comment dòng `% \includeonly{chapters/chuong3}` trong `main.tex` (sửa đúng tên chương). **Không commit thay đổi này.**
 

@@ -24,7 +24,8 @@ build/
 main.pdf
 
 # ---- Editor / OS ----
-.vscode/
+.vscode/*
+!.vscode/settings.json
 *.swp
 *~
 .DS_Store
