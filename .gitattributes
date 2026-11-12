@@ -1,0 +1,5 @@
+# Thong nhat xuong dong LF de tranh conflict gia Windows/Mac/Linux
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.pdf binary
