@@ -15,7 +15,7 @@
 \newcommand{\chenanh}[2]{%
     \IfFileExists{image/#2}%
         {\includegraphics[width=#1]{#2}}%
-        {\fcolorbox{red}{red!5}{\parbox[c][3cm][c]{#1}{\centering\color{red}%
+        {\fcolorbox{red}{red!5}{\parbox[c][3cm][c]{\dimexpr #1-2\fboxsep-2\fboxrule\relax}{\centering\color{red}%
             \textbf{THIẾU ẢNH}\\\footnotesize\texttt{image/\detokenize{#2}}}}}%
 }
 

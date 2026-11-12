@@ -1,62 +1,107 @@
 % !TEX root = ../main.tex
 % =====================================================================
-%  CHƯƠNG 6 — KẾT QUẢ THỰC NGHIỆM VÀ ĐÁNH GIÁ
+%  CHƯƠNG 6 — KẾT QUẢ MÔ PHỎNG TỔNG QUÁT
 % ---------------------------------------------------------------------
 %  Người phụ trách : [TODO: Họ tên - MSSV]
 %  Tiền tố label   : c6      (fig:c6:..., tab:c6:..., eq:c6:..., sec:c6:...)
 %  Thư mục ảnh     : image/chuong6/
 %  File TLTK       : references/chuong6.bib   (key: c6_...)
-%  Độ dài gợi ý    : 5–10 trang
-%  Mục tiêu        : Kết quả đo thực tế tại nhiều mức khối lượng, so sánh
-%                    Lý thuyết – Mô phỏng – Thực tế, kiểm tra yêu cầu ±5%.
-%  Quy ước         : Gom kết quả vào BẢNG TỔNG HỢP; ảnh đo đặt theo cặp bằng
-%                    \haihinh (dòng | áp). KHÔNG tạo mỗi khối lượng một \section.
+%  Độ dài gợi ý    : 6–10 trang
+%  Đáp ứng yêu cầu : (d) và kiểm chứng (e) trên toàn hệ thống.
+%  Mục tiêu        : GHÉP 3 thành phần (Chương 3 + Chương 4 + Chương 5) thành
+%                    một mạch duy nhất và mô phỏng ĐẦU CUỐI:
+%                    khối lượng -> Load cell -> ... -> mã số ADC -> khối lượng tính lại.
+%  Quy ước         : - KHÔNG lặp lại tính toán của Chương 3, 4, 5; chỉ tham chiếu
+%                      bằng \ref{sec:c3:...}, \ref{tab:c5:...}.
+%                    - Gom kết quả vào BẢNG TỔNG HỢP; KHÔNG tạo mỗi khối lượng
+%                      một \section.
 % =====================================================================
-\chapter{Kết quả thực nghiệm và đánh giá}
+\chapter{Kết quả mô phỏng tổng quát}
 \label{chap:c6}
 
 % ---------------------------------------------------------------------
-\section{Phương pháp và thiết bị đo}
-\label{sec:c6:phuong-phap}
+\section{Sơ đồ mô phỏng toàn hệ thống}
+\label{sec:c6:so-do}
 
-\TODO{Mô tả quy trình đo, thiết bị (đồng hồ VOM, nguồn, quả cân chuẩn), điều kiện môi trường.}
+Mạch mô phỏng toàn hệ thống được ghép từ mạch đọc Load cell, chuyển đổi áp thành dòng và đọc dòng
+(Chương~\ref{chap:c3}), mạch bù nhiệt (Chương~\ref{chap:c4}) và mạch đọc ADC (Chương~\ref{chap:c5}),
+với tín hiệu giao tiếp giữa các khối theo Bảng~\ref{tab:c2:giao-tiep-khoi}.
+
+\hinh[0.95\textwidth]{chuong6/so_do_toan_he_thong.png}{Sơ đồ mô phỏng toàn hệ thống}{fig:c6:so-do-toan-he-thong}
+
+\TODO{Mô tả cách ghép nối, các điểm đo (test point) trên sơ đồ, những điều chỉnh khi ghép (nếu có).}
 
 % ---------------------------------------------------------------------
-\section{Kết quả đo tại các mức khối lượng}
-\label{sec:c6:ket-qua}
+\section{Kịch bản mô phỏng}
+\label{sec:c6:kich-ban}
 
-% Ví dụ ảnh đo theo cặp:
-\haihinh{chuong6/m0_dong.jpg}{Dòng ngõ ra tại $m = \qty{0}{\gram}$}{fig:c6:m0-dong}%
-        {chuong6/m0_ap.jpg}{Điện áp ngõ ra tại $m = \qty{0}{\gram}$}{fig:c6:m0-ap}
+\TODO{Liệt kê các trường hợp mô phỏng: dải khối lượng (VD: 0, 2 mg, 100 g, 500 g, 1 kg) và dải nhiệt độ; phương pháp quy đổi mã ADC về khối lượng.}
+
+Khối lượng tính lại từ mã số ADC được xác định theo:
+\begin{equation}
+    m_{\text{tính}} = \TODO{}
+    \label{eq:c6:khoi-luong-tinh-lai}
+\end{equation}
+
+% ---------------------------------------------------------------------
+\section{Kết quả mô phỏng theo khối lượng}
+\label{sec:c6:theo-khoi-luong}
+
+\TODO{Hình mô phỏng tiêu biểu (dùng \textbackslash haihinh), tại nhiệt độ chuẩn \qty{25}{\celsius}.}
 
 \begin{table}[H]
     \centering
-    \caption{Tổng hợp kết quả đo thực tế}
-    \label{tab:c6:ket-qua-do}
+    \caption{Kết quả mô phỏng đầu cuối theo khối lượng tại \qty{25}{\celsius}}
+    \label{tab:c6:theo-khoi-luong}
     \renewcommand{\arraystretch}{1.3}
-    \begin{tabular}{|c|c|c|c|c|c|}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{|c|c|c|c|c|c|c|}
         \hline
         \textbf{$m$ (\unit{\gram})} &
+        \textbf{$V_{\text{KĐ}}$ (\unit{\volt})} &
         \textbf{$I_{\mathrm{lt}}$ (\unit{\milli\ampere})} &
         \textbf{$I_{\mathrm{mp}}$ (\unit{\milli\ampere})} &
-        \textbf{$I_{\mathrm{tt}}$ (\unit{\milli\ampere})} &
-        \textbf{$V_{\mathrm{ADC}}$ (\unit{\volt})} &
+        \textbf{Mã ADC} &
+        \textbf{$m_{\text{tính}}$ (\unit{\gram})} &
         \textbf{Sai số (\unit{\percent})} \\ \hline
-        0    & 4.00  & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\ \hline
-        100  & 5.60  & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\ \hline
-        500  & 12.00 & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\ \hline
-        1000 & 20.00 & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\ \hline
-    \end{tabular}
+        0    & \TODO{} & 4.00  & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\ \hline
+        100  & \TODO{} & 5.60  & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\ \hline
+        500  & \TODO{} & 12.00 & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\ \hline
+        1000 & \TODO{} & 20.00 & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\ \hline
+    \end{tabular}}
 \end{table}
 
+\nhanxet{\TODO{Độ tuyến tính và sai số theo khối lượng.}}
+
 % ---------------------------------------------------------------------
-\section{So sánh lý thuyết, mô phỏng và thực tế}
+\section{Kết quả mô phỏng theo nhiệt độ}
+\label{sec:c6:theo-nhiet-do}
+
+\TODO{Mô phỏng toàn hệ thống ở các nhiệt độ khác nhau, có và không có mạch bù (so sánh với Bảng~\ref{tab:c4:ket-qua-bu-nhiet}).}
+
+% ---------------------------------------------------------------------
+\section{So sánh mô phỏng riêng lẻ và mô phỏng toàn hệ thống}
 \label{sec:c6:so-sanh}
 
-\TODO{Vẽ đồ thị $I$ theo $m$ (lý thuyết / mô phỏng / thực tế), nhận xét độ tuyến tính.}
+\TODO{So sánh với kết quả riêng lẻ ở Bảng~\ref{tab:c3:tong-ket} và Bảng~\ref{tab:c5:ket-qua-adc}; giải thích sai lệch phát sinh khi ghép (tải, offset tích lũy, ...).}
 
 % ---------------------------------------------------------------------
-\section{Đánh giá kết quả}
+\section{Đánh giá so với yêu cầu đề tài}
 \label{sec:c6:danh-gia}
 
-\nhanxet{\TODO{Kết luận hệ thống có đạt yêu cầu sai số $\pm\qty{5}{\percent}$ hay không, nguyên nhân sai số.}}
+\begin{table}[H]
+    \centering
+    \caption{Đối chiếu kết quả mô phỏng với yêu cầu đề tài}
+    \label{tab:c6:doi-chieu-yeu-cau}
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabularx}{\textwidth}{|l|c|c|X|}
+        \hline
+        \textbf{Yêu cầu} & \textbf{Mục tiêu} & \textbf{Đạt được} & \textbf{Nhận xét} \\ \hline
+        Tầm đo          & \qtyrange{0}{1}{\kilo\gram}     & \TODO{} & \TODO{} \\ \hline
+        Độ phân giải    & \qty{2}{\milli\gram}            & \TODO{} & \TODO{} \\ \hline
+        Ngõ ra dòng     & \qtyrange{4}{20}{\milli\ampere} & \TODO{} & \TODO{} \\ \hline
+        Sai số          & $\pm\qty{5}{\percent}$          & \TODO{} & \TODO{} \\ \hline
+    \end{tabularx}
+\end{table}
+
+\nhanxet{\TODO{Kết luận hệ thống có đạt yêu cầu hay không, nguyên nhân sai số chính.}}

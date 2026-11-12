@@ -13,6 +13,7 @@
 
 - **Môn:** Điện tử ứng dụng, Bộ môn Điện tử, Khoa Điện - Điện tử, ĐH Bách Khoa TP.HCM.
 - **Đề tài 9:** Thiết kế mạch đo khối lượng (tiểu ly) dùng Load cell. Tầm đo 0–1 kg, độ phân giải 2 mg, ngõ ra dòng 4–20 mA (thả nổi). Gồm: (a) chọn và mô phỏng Load cell; (b) chọn và mô phỏng OPAMP theo datasheet; (c) mạch bù nhiệt; (d) sai số ±5%; (e) mạch đọc dòng, ngõ ra ADC, chọn ADC, mô phỏng kiểm chứng.
+- **Giai đoạn hiện tại: Stage 1, chỉ TÍNH TOÁN và MÔ PHỎNG** (chưa thi công phần cứng). Không viết nội dung về PCB, hàn mạch hay đo thực tế.
 - **Trình biên dịch:** pdfLaTeX, gói `vietnam` (utf8), lớp `extreport`, cỡ chữ 13pt.
 - **Ngôn ngữ báo cáo:** tiếng Việt có dấu, văn phong học thuật, ngôi “nhóm” / “chúng em”.
 
@@ -46,14 +47,22 @@ Report/
 
 | Chương | File | Nội dung | Tiền tố |
 |---|---|---|---|
-| 1 | `chapters/chuong1.tex` | Giới thiệu đề tài, yêu cầu, sơ đồ khối | `c1` |
-| 2 | `chapters/chuong2.tex` | Cơ sở lý thuyết và lựa chọn linh kiện | `c2` |
-| 3 | `chapters/chuong3.tex` | Tính toán và mô phỏng mạch xử lý tín hiệu (yêu cầu a–d) | `c3` |
-| 4 | `chapters/chuong4.tex` | Mạch đọc dòng và bộ ADC (yêu cầu e) | `c4` |
-| 5 | `chapters/chuong5.tex` | Thiết kế và thi công phần cứng | `c5` |
-| 6 | `chapters/chuong6.tex` | Kết quả thực nghiệm và đánh giá | `c6` |
-| – | `chapters/ketluan.tex` | Kết luận và hướng phát triển | `kl` |
-| – | `chapters/phuluc.tex` | Phụ lục | `pl` |
+| 1 | `chapters/chuong1.tex` | Giới thiệu đề tài, yêu cầu, phạm vi Stage 1 | `c1` |
+| 2 | `chapters/chuong2.tex` | Cơ sở lý thuyết và sơ đồ khối (+ bảng giao tiếp giữa các khối) | `c2` |
+| 3 | `chapters/chuong3.tex` | Thiết kế mạch đọc Load cell, chuyển áp thành dòng, mạch đọc dòng. Mô phỏng riêng lẻ (yêu cầu a, b, e-đọc dòng) | `c3` |
+| 4 | `chapters/chuong4.tex` | Thiết kế mạch bù nhiệt. Mô phỏng riêng lẻ (yêu cầu c) | `c4` |
+| 5 | `chapters/chuong5.tex` | Thiết kế mạch đọc ADC. Mô phỏng riêng lẻ (yêu cầu e-ADC) | `c5` |
+| 6 | `chapters/chuong6.tex` | Kết quả mô phỏng tổng quát: ghép 3 khối, mô phỏng đầu cuối (yêu cầu d) | `c6` |
+| – | `chapters/ketluan.tex` | Kết luận và hướng phát triển (giai đoạn tiếp theo) | `kl` |
+| – | `chapters/phuluc.tex` | Phụ lục: danh sách file mô phỏng, linh kiện dự kiến | `pl` |
+
+### 1.1. Liên kết giữa các chương [BẮT BUỘC]
+
+1. **Chương 2 không chọn linh kiện.** Chương 2 chỉ trình bày lý thuyết và sơ đồ khối. Việc chọn linh kiện cụ thể (Load cell, INA, OPAMP, cảm biến nhiệt, kiến trúc ADC) nằm trong chương thiết kế tương ứng (3, 4, 5).
+2. **Bảng giao tiếp khối `tab:c2:giao-tiep-khoi` (Chương 2) là "hợp đồng" chung.** Dải tín hiệu vào/ra của mỗi khối (VD: ngõ ra mạch đọc dòng = ngõ vào ADC) được thống nhất tại đây trước khi thiết kế. Muốn thay đổi thì phải báo cả nhóm và cập nhật bảng.
+3. **Chương 3, 4, 5 dùng chung một khung:** *Yêu cầu thiết kế → Lựa chọn linh kiện → Tính toán → Mô phỏng riêng lẻ → Tổng kết*. Mỗi mạch phải có **mô phỏng riêng lẻ** (ngõ vào là nguồn lý tưởng), kèm `\nhanxet{}`. Mỗi chương kết thúc bằng mục **Tổng kết** có bảng so sánh lý thuyết với mô phỏng.
+4. **Chương 6 không lặp lại tính toán** của Chương 3–5. Chỉ trình bày: sơ đồ ghép toàn hệ thống, kịch bản mô phỏng, bảng kết quả đầu cuối (khối lượng → dòng → mã ADC → khối lượng tính lại), so sánh với kết quả riêng lẻ và đối chiếu với yêu cầu đề. Tham chiếu chương trước bằng `\ref{sec:c3:...}`, `\ref{tab:c5:...}`.
+5. Được phép `\ref` tới label của chương khác. **Không đổi tên label đã có**, vì chương khác có thể đang tham chiếu tới nó.
 
 ---
 
@@ -114,7 +123,7 @@ Nội dung...
 | Bảng | `tab:cN:ten` | `tab:c2:thong-so-loadcell` |
 | Phương trình | `eq:cN:ten` | `eq:c3:do-loi-ina` |
 | Code | `lst:cN:ten` | `lst:c4:doc-adc` |
-| Key TLTK | `cN_ten` | `c2_ina333` |
+| Key TLTK | `cN_ten` | `c3_ina333` |
 
 - Tên label: chữ thường, **không dấu**, nối bằng `-`, không khoảng trắng, không `_` (trừ key TLTK).
 - Tiền tố chương giúp **không bị trùng label khi merge**. Tuyệt đối không bỏ tiền tố.

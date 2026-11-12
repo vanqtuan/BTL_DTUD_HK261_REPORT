@@ -1,31 +1,35 @@
 % !TEX root = ../main.tex
 % =====================================================================
-%  CHƯƠNG 2 — CƠ SỞ LÝ THUYẾT VÀ LỰA CHỌN LINH KIỆN
+%  CHƯƠNG 2 — CƠ SỞ LÝ THUYẾT VÀ SƠ ĐỒ KHỐI
 % ---------------------------------------------------------------------
 %  Người phụ trách : [TODO: Họ tên - MSSV]
 %  Tiền tố label   : c2      (fig:c2:..., tab:c2:..., eq:c2:..., sec:c2:...)
 %  Thư mục ảnh     : image/chuong2/
 %  File TLTK       : references/chuong2.bib   (key: c2_...)
 %  Độ dài gợi ý    : 6–10 trang
-%  Mục tiêu        : Trình bày lý thuyết nền và LÝ DO lựa chọn từng linh kiện
-%                    (so sánh, bảng thông số trích từ datasheet, có trích dẫn).
+%  Mục tiêu        : (1) Lý thuyết nền cho các khối ở Chương 3, 4, 5.
+%                    (2) Sơ đồ khối tổng quát + BẢNG GIAO TIẾP GIỮA CÁC KHỐI
+%                        (Bảng tab:c2:giao-tiep-khoi). Bảng này là "hợp đồng"
+%                        chung: Chương 3, 4, 5 thiết kế theo đúng dải tín hiệu
+%                        ghi trong bảng, Chương 6 ghép lại dựa trên bảng này.
+%  Lưu ý           : Chương này chỉ trình bày LÝ THUYẾT. Việc lựa chọn linh
+%                    kiện cụ thể nằm trong chương thiết kế tương ứng (3, 4, 5).
 % =====================================================================
-\chapter{Cơ sở lý thuyết và lựa chọn linh kiện}
+\chapter{Cơ sở lý thuyết và sơ đồ khối}
 \label{chap:c2}
 
 % ---------------------------------------------------------------------
-\section{Tổng quan về Load cell}
+\section{Cảm biến Load cell}
 \label{sec:c2:loadcell}
 
 \subsection{Cấu tạo}
 \label{sec:c2:loadcell-cau-tao}
 % Gợi ý: thân đàn hồi, strain gauge, vỏ bọc. Có hình minh họa.
 
-\TODO{Trình bày cấu tạo Load cell.}
+\TODO{Trình bày cấu tạo Load cell, kèm hình.}
 
-\subsection{Nguyên lý hoạt động}
+\subsection{Nguyên lý hoạt động và cầu Wheatstone}
 \label{sec:c2:loadcell-nguyen-ly}
-% Gợi ý: cầu Wheatstone, quan hệ điện áp ra theo khối lượng, có phương trình đánh số.
 
 Điện áp ngõ ra của Load cell tỉ lệ tuyến tính với khối lượng đặt lên cảm biến:
 \begin{equation}
@@ -38,73 +42,67 @@ và $m_{\max}$ là tải trọng định mức của Load cell.
 \TODO{Giải thích nguyên lý cầu Wheatstone, kèm hình.}
 
 % ---------------------------------------------------------------------
-\section{Lựa chọn Load cell}
-\label{sec:c2:chon-loadcell}
-% Gợi ý: so sánh 2--3 loại có bán tại VN, chọn 1 loại, bảng thông số từ datasheet.
+\section{Bộ khuếch đại thuật toán và khuếch đại dụng cụ}
+\label{sec:c2:opamp}
+% Gợi ý: OPAMP lý tưởng vs thực tế (Vos, Ib, GBW, CMRR, slew rate);
+% cấu trúc khuếch đại dụng cụ (INA) 3 OPAMP, công thức độ lợi.
 
-\TODO{Lý do lựa chọn Load cell.}
-
-\begin{table}[H]
-    \centering
-    \caption{Thông số kỹ thuật Load cell \TODO{model}}
-    \label{tab:c2:thong-so-loadcell}
-    \renewcommand{\arraystretch}{1.3}
-    \begin{tabular}{|l|c|}
-        \hline
-        \textbf{Thông số} & \textbf{Giá trị} \\ \hline
-        Tải trọng định mức           & \qty{1}{\kilo\gram} \\ \hline
-        Độ nhạy định mức (RO)        & \TODO{} \unit{\milli\volt\per\volt} \\ \hline
-        Trở kháng ngõ vào            & \TODO{} \unit{\ohm} \\ \hline
-        Trở kháng ngõ ra             & \TODO{} \unit{\ohm} \\ \hline
-        Điện áp hoạt động            & \TODO{} \unit{\volt} \\ \hline
-    \end{tabular}
-\end{table}
-
-% ---------------------------------------------------------------------
-\section{Lựa chọn bộ khuếch đại}
-\label{sec:c2:chon-opamp}
-% Gợi ý: INA (instrumentation amplifier) cho tín hiệu vi sai mV;
-% OPAMP chính xác cho các khối V-I, đệm, cộng. Nêu thông số quan trọng:
-% Vos, drift, CMRR, GBW, nguồn cấp. Trích dẫn datasheet bằng \cite{}.
-
-Bộ khuếch đại dụng cụ được lựa chọn dựa trên các thông số trong datasheet~\cite{c2_ina333}.
-
-\TODO{So sánh và chọn INA / OPAMP, kèm bảng thông số.}
-
-% ---------------------------------------------------------------------
-\section{Cảm biến nhiệt độ cho mạch bù nhiệt}
-\label{sec:c2:cam-bien-nhiet}
-
-\TODO{Giới thiệu RTD/NTC/IC cảm biến nhiệt và lý do lựa chọn.}
+\TODO{Trình bày các thông số không lý tưởng của OPAMP và cấu trúc INA.}
 
 % ---------------------------------------------------------------------
 \section{Chuẩn tín hiệu dòng 4--20mA}
 \label{sec:c2:chuan-4-20ma}
+% Gợi ý: ưu điểm (chống nhiễu, phát hiện đứt dây), khái niệm ngõ ra thả nổi,
+% nguyên lý mạch chuyển đổi áp - dòng và mạch đọc dòng bằng điện trở shunt.
 
-\TODO{Ưu điểm của chuẩn 4--20mA, khái niệm ngõ ra thả nổi.}
-
-% ---------------------------------------------------------------------
-\section{Lựa chọn ADC}
-\label{sec:c2:chon-adc}
-% Gợi ý: số bit tối thiểu từ độ phân giải yêu cầu: 2^N >= tầm đo / độ phân giải.
-
-\TODO{Tính số bit tối thiểu và chọn ADC / phương án ADC.}
+\TODO{Trình bày chuẩn 4--20mA, nguyên lý chuyển đổi V-I và đọc dòng.}
 
 % ---------------------------------------------------------------------
-\section{Tổng hợp linh kiện sử dụng}
-\label{sec:c2:tong-hop}
+\section{Ảnh hưởng của nhiệt độ và cảm biến nhiệt}
+\label{sec:c2:nhiet-do}
+% Gợi ý: trôi điểm không, trôi độ nhạy; các loại cảm biến nhiệt (RTD, NTC,
+% IC cảm biến) và phương trình đặc tính.
+
+\TODO{Trình bày ảnh hưởng nhiệt độ lên cảm biến và các loại cảm biến nhiệt.}
+
+% ---------------------------------------------------------------------
+\section{Bộ chuyển đổi tương tự -- số (ADC)}
+\label{sec:c2:adc}
+% Gợi ý: các thông số (số bit, LSB, Vref, sai số lượng tử), các kiến trúc
+% ADC phổ biến (SAR, Sigma-Delta, Flash, nhiều bước).
+
+\TODO{Trình bày các thông số và kiến trúc ADC.}
+
+% ---------------------------------------------------------------------
+\section{Sơ đồ khối tổng quát của hệ thống}
+\label{sec:c2:so-do-khoi}
+
+Sơ đồ khối tổng quát của hệ thống được trình bày trong Hình~\ref{fig:c2:so-do-khoi}.
+
+\hinh[0.95\textwidth]{chuong2/so_do_khoi.png}{Sơ đồ khối tổng quát của hệ thống}{fig:c2:so-do-khoi}
+
+\TODO{Mô tả chức năng của từng khối trong sơ đồ.}
+
+\subsection{Giao tiếp tín hiệu giữa các khối}
+\label{sec:c2:giao-tiep-khoi}
+
+Dải tín hiệu tại ngõ vào và ngõ ra của từng khối được thống nhất trong
+Bảng~\ref{tab:c2:giao-tiep-khoi}. Các chương thiết kế phía sau tuân theo các giá trị này
+để khi ghép nối ở Chương~\ref{chap:c6} các khối hoạt động đúng với nhau.
 
 \begin{table}[H]
     \centering
-    \caption{Tổng hợp các linh kiện chính được lựa chọn}
-    \label{tab:c2:tong-hop-linh-kien}
+    \caption{Đặc tả tín hiệu giao tiếp giữa các khối}
+    \label{tab:c2:giao-tiep-khoi}
     \renewcommand{\arraystretch}{1.3}
-    \begin{tabularx}{\textwidth}{|c|l|l|X|}
+    \begin{tabularx}{\textwidth}{|c|X|c|c|c|}
         \hline
-        \textbf{STT} & \textbf{Khối} & \textbf{Linh kiện} & \textbf{Lý do lựa chọn} \\ \hline
-        1 & Cảm biến        & \TODO{} & \TODO{} \\ \hline
-        2 & Khuếch đại      & \TODO{} & \TODO{} \\ \hline
-        3 & Chuyển đổi V-I  & \TODO{} & \TODO{} \\ \hline
-        4 & ADC             & \TODO{} & \TODO{} \\ \hline
+        \textbf{STT} & \textbf{Khối} & \textbf{Chương} & \textbf{Ngõ vào} & \textbf{Ngõ ra} \\ \hline
+        1 & Load cell                     & 3 & \qtyrange{0}{1}{\kilo\gram} & \TODO{} \unit{\milli\volt} \\ \hline
+        2 & Khuếch đại vi sai             & 3 & \TODO{} \unit{\milli\volt} & \TODO{} \unit{\volt} \\ \hline
+        3 & Bù nhiệt                      & 4 & \TODO{}                    & \TODO{}             \\ \hline
+        4 & Chuyển đổi áp thành dòng      & 3 & \TODO{} \unit{\volt}       & \qtyrange{4}{20}{\milli\ampere} \\ \hline
+        5 & Đọc dòng                      & 3 & \qtyrange{4}{20}{\milli\ampere} & \TODO{} \unit{\volt} \\ \hline
+        6 & ADC                           & 5 & \TODO{} \unit{\volt}       & \TODO{} bit         \\ \hline
     \end{tabularx}
 \end{table}

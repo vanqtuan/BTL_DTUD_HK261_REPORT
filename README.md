@@ -37,11 +37,11 @@ Biên dịch nhanh chỉ chương của mình: bỏ comment dòng `% \includeonl
 | Chương | File | Ảnh | TLTK | Người phụ trách |
 |---|---|---|---|---|
 | 1. Giới thiệu đề tài | `chapters/chuong1.tex` | `image/chuong1/` | `references/chuong1.bib` | _điền tên_ |
-| 2. Cơ sở lý thuyết & chọn linh kiện | `chapters/chuong2.tex` | `image/chuong2/` | `references/chuong2.bib` | _điền tên_ |
-| 3. Tính toán & mô phỏng | `chapters/chuong3.tex` | `image/chuong3/` | `references/chuong3.bib` | _điền tên_ |
-| 4. Mạch đọc dòng & ADC | `chapters/chuong4.tex` | `image/chuong4/` | `references/chuong4.bib` | _điền tên_ |
-| 5. Phần cứng | `chapters/chuong5.tex` | `image/chuong5/` | `references/chuong5.bib` | _điền tên_ |
-| 6. Kết quả thực nghiệm | `chapters/chuong6.tex` | `image/chuong6/` | `references/chuong6.bib` | _điền tên_ |
+| 2. Cơ sở lý thuyết & sơ đồ khối | `chapters/chuong2.tex` | `image/chuong2/` | `references/chuong2.bib` | _điền tên_ |
+| 3. Mạch đọc Load cell, V-I, đọc dòng | `chapters/chuong3.tex` | `image/chuong3/` | `references/chuong3.bib` | _điền tên_ |
+| 4. Mạch bù nhiệt | `chapters/chuong4.tex` | `image/chuong4/` | `references/chuong4.bib` | _điền tên_ |
+| 5. Mạch đọc ADC | `chapters/chuong5.tex` | `image/chuong5/` | `references/chuong5.bib` | _điền tên_ |
+| 6. Kết quả mô phỏng tổng quát | `chapters/chuong6.tex` | `image/chuong6/` | `references/chuong6.bib` | _điền tên_ |
 | Kết luận, phụ lục, `config/`, `main.tex` | | | | Nhóm trưởng |
 
 ## Quy trình Git
@@ -88,4 +88,4 @@ Hoặc tạo Pull Request trên GitHub/GitLab để review trước khi merge.
 
 ## Quy ước commit message
 
-`<phạm vi>: <mô tả ngắn không dấu>`, ví dụ: `chuong2: them bang thong so loadcell`, `config: them goi circuitikz`, `image/chuong5: them anh layout`.
+`<phạm vi>: <mô tả ngắn không dấu>`, ví dụ: `chuong2: them bang thong so loadcell`, `config: them goi circuitikz`, `image/chuong5: them anh mo phong ADC`.

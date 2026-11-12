@@ -1,29 +1,43 @@
 % !TEX root = ../main.tex
 % =====================================================================
-%  CHƯƠNG 3 — TÍNH TOÁN VÀ MÔ PHỎNG MẠCH XỬ LÝ TÍN HIỆU
+%  CHƯƠNG 3 — THIẾT KẾ MẠCH ĐỌC LOAD CELL, CHUYỂN ĐỔI ÁP THÀNH DÒNG
+%             VÀ MẠCH ĐỌC DÒNG
 % ---------------------------------------------------------------------
 %  Người phụ trách : [TODO: Họ tên - MSSV]
 %  Tiền tố label   : c3      (fig:c3:..., tab:c3:..., eq:c3:..., sec:c3:...)
 %  Thư mục ảnh     : image/chuong3/
 %  File TLTK       : references/chuong3.bib   (key: c3_...)
 %  Độ dài gợi ý    : 10–15 trang
-%  Mục tiêu        : Với MỖI khối: (1) sơ đồ mạch -> (2) tính toán có phương
-%                    trình đánh số -> (3) chọn giá trị linh kiện -> (4) hình mô
-%                    phỏng -> (5) \nhanxet{} so sánh với lý thuyết.
-%                    Đáp ứng yêu cầu a, b, c, d của đề.
+%  Đáp ứng yêu cầu : (a), (b) và phần mạch đọc dòng của (e).
+%  Quy trình MỖI KHỐI: (1) sơ đồ mạch -> (2) tính toán, phương trình đánh số
+%                    -> (3) chọn giá trị linh kiện -> (4) MÔ PHỎNG RIÊNG LẺ
+%                    -> (5) \nhanxet{} so sánh với lý thuyết.
+%  Giao tiếp       : Dải tín hiệu vào/ra phải khớp Bảng tab:c2:giao-tiep-khoi.
 % =====================================================================
-\chapter{Tính toán và mô phỏng mạch xử lý tín hiệu}
+\chapter{Thiết kế mạch đọc Load cell, chuyển đổi áp thành dòng và mạch đọc dòng}
 \label{chap:c3}
 
 % ---------------------------------------------------------------------
-\section{Mô hình hóa và mô phỏng Load cell}
+\section{Yêu cầu thiết kế}
+\label{sec:c3:yeu-cau}
+
+\TODO{Tóm tắt yêu cầu của các khối trong chương: dải vào/ra theo Bảng~\ref{tab:c2:giao-tiep-khoi}, nguồn cấp, sai số mục tiêu.}
+
+% ---------------------------------------------------------------------
+\section{Lựa chọn và mô phỏng Load cell}
+\label{sec:c3:loadcell}
+% Yêu cầu (a).
+
+\subsection{Lựa chọn Load cell}
+\label{sec:c3:chon-loadcell}
+
+\TODO{Lý do lựa chọn Load cell, bảng thông số trích từ datasheet (có \textbackslash cite).}
+
+\subsection{Mô hình hóa Load cell}
 \label{sec:c3:mo-hinh-loadcell}
-% Yêu cầu (a). Xây dựng mô hình điện trở tương đương, tính R_f theo m,
-% mô phỏng tại m = 0 và m = 1 kg.
 
-\TODO{Trình bày mô hình Load cell và tính toán.}
+\TODO{Xây dựng mô hình điện trở tương đương, tính $R_f$ theo khối lượng $m$.}
 
-% Ví dụ hệ phương trình:
 \begin{equation}
     \left\{
     \begin{aligned}
@@ -34,72 +48,93 @@
     \label{eq:c3:rin-rout}
 \end{equation}
 
-% Ví dụ hai hình mô phỏng cạnh nhau:
+\subsection{Mô phỏng Load cell}
+\label{sec:c3:mo-phong-loadcell}
+
 \haihinh{chuong3/loadcell_m0.png}{Mô phỏng Load cell khi $m = \qty{0}{\kilo\gram}$}{fig:c3:loadcell-m0}%
         {chuong3/loadcell_m1.png}{Mô phỏng Load cell khi $m = \qty{1}{\kilo\gram}$}{fig:c3:loadcell-m1}
 
-\nhanxet{\TODO{So sánh kết quả mô phỏng ở Hình~\ref{fig:c3:loadcell-m0} và
+\nhanxet{\TODO{So sánh kết quả ở Hình~\ref{fig:c3:loadcell-m0} và
 Hình~\ref{fig:c3:loadcell-m1} với giá trị tính theo \eqref{eq:c3:rin-rout}.}}
 
 % ---------------------------------------------------------------------
-\section{Mô phỏng OPAMP theo datasheet}
-\label{sec:c3:mo-phong-opamp}
-% Yêu cầu (b). Mô phỏng các thông số không lý tưởng (Vos, Ib, GBW, CMRR...)
-% và so sánh với datasheet bằng bảng.
+\section{Lựa chọn và mô phỏng OPAMP theo datasheet}
+\label{sec:c3:opamp}
+% Yêu cầu (b). Chọn INA cho khuếch đại vi sai và OPAMP cho V-I, đọc dòng, đệm.
+% Mô phỏng các thông số (Vos, Ib, GBW, CMRR...) và so sánh với datasheet.
 
-\TODO{Mô phỏng các thông số OPAMP và lập bảng so sánh với datasheet.}
+Bộ khuếch đại dụng cụ được lựa chọn dựa trên các thông số trong datasheet~\cite{c3_ina333}.
+
+\TODO{Lý do lựa chọn INA / OPAMP.}
+
+\begin{table}[H]
+    \centering
+    \caption{So sánh thông số OPAMP giữa datasheet và mô phỏng}
+    \label{tab:c3:opamp-datasheet}
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabular}{|l|c|c|}
+        \hline
+        \textbf{Thông số} & \textbf{Datasheet} & \textbf{Mô phỏng} \\ \hline
+        Điện áp offset ngõ vào $V_{\mathrm{OS}}$ & \TODO{} & \TODO{} \\ \hline
+        Dòng phân cực $I_{\mathrm{B}}$           & \TODO{} & \TODO{} \\ \hline
+        Tích độ lợi -- băng thông (GBW)          & \TODO{} & \TODO{} \\ \hline
+        CMRR                                     & \TODO{} & \TODO{} \\ \hline
+    \end{tabular}
+\end{table}
 
 % ---------------------------------------------------------------------
 \section{Mạch khuếch đại vi sai}
 \label{sec:c3:khuech-dai}
 
-\TODO{Tính độ lợi cần thiết, chọn $R_G$, mô phỏng.}
+\TODO{Tính độ lợi cần thiết theo Bảng~\ref{tab:c2:giao-tiep-khoi}, chọn $R_G$, mạch hiệu chỉnh điểm không.}
+
+\subsection{Mô phỏng mạch khuếch đại vi sai}
+\label{sec:c3:mo-phong-khuech-dai}
+
+\TODO{Hình mô phỏng tại $m = \qty{0}{\kilo\gram}$ và $m = \qty{1}{\kilo\gram}$, kèm \textbackslash nhanxet.}
 
 % ---------------------------------------------------------------------
-\section{Mạch chuyển đổi điện áp -- dòng điện (V-I) 4--20mA}
+\section{Mạch chuyển đổi áp thành dòng 4--20mA}
 \label{sec:c3:vi-converter}
 
-\TODO{Thiết lập quan hệ tuyến tính $I = aV + b$, thiết kế mạch, mô phỏng tại \qty{0}{\kilo\gram} và \qty{1}{\kilo\gram}.}
+\TODO{Thiết lập quan hệ tuyến tính $I = aV + b$, thiết kế mạch, chọn linh kiện.}
+
+\subsection{Mô phỏng mạch chuyển đổi áp thành dòng}
+\label{sec:c3:mo-phong-vi}
+
+\TODO{Hình mô phỏng tại các mức điện áp vào tương ứng \qty{0}{\kilo\gram} và \qty{1}{\kilo\gram}, kèm \textbackslash nhanxet.}
 
 % ---------------------------------------------------------------------
-\section{Mạch bù nhiệt độ}
-\label{sec:c3:bu-nhiet}
-% Yêu cầu (c).
+\section{Mạch đọc dòng}
+\label{sec:c3:doc-dong}
+% Phần mạch đọc dòng của yêu cầu (e). Điện trở shunt + khuếch đại vi sai + đệm.
+% Ngõ ra phải nằm trong dải ngõ vào của ADC (Chương 5).
 
-\subsection{Ảnh hưởng của nhiệt độ lên Load cell}
-\label{sec:c3:anh-huong-nhiet}
+\TODO{Thiết kế mạch đọc dòng, tính $\Rshunt$ và độ lợi.}
 
-\TODO{Phân tích trôi điểm không và trôi độ nhạy theo datasheet.}
+\subsection{Mô phỏng mạch đọc dòng}
+\label{sec:c3:mo-phong-doc-dong}
 
-\subsection{Thiết kế và mô phỏng mạch bù nhiệt}
-\label{sec:c3:thiet-ke-bu-nhiet}
-
-\TODO{Thiết kế mạch bù, mô phỏng tại nhiều nhiệt độ (VD: \qty{0}{\celsius}, \qty{25}{\celsius}, \qty{50}{\celsius}).}
+\TODO{Hình mô phỏng tại \qty{4}{\milli\ampere} và \qty{20}{\milli\ampere}, kèm \textbackslash nhanxet.}
 
 % ---------------------------------------------------------------------
-\section{Phân tích sai số}
-\label{sec:c3:sai-so}
-% Yêu cầu (d). Bảng so sánh lý thuyết - mô phỏng, công thức sai số tương đối.
-
-Sai số tương đối giữa giá trị mô phỏng và giá trị lý thuyết được tính theo:
-\begin{equation}
-    \delta = \frac{\left| X_{\mathrm{mp}} - X_{\mathrm{lt}} \right|}{X_{\mathrm{lt}}} \times \qty{100}{\percent}
-    \label{eq:c3:sai-so}
-\end{equation}
+\section{Tổng kết kết quả mô phỏng các khối}
+\label{sec:c3:tong-ket}
 
 \begin{table}[H]
     \centering
-    \caption{So sánh giá trị lý thuyết và mô phỏng}
-    \label{tab:c3:so-sanh-ly-thuyet-mo-phong}
+    \caption{Tổng hợp kết quả mô phỏng riêng lẻ các khối ở Chương~\ref{chap:c3}}
+    \label{tab:c3:tong-ket}
     \renewcommand{\arraystretch}{1.3}
-    \begin{tabular}{|c|c|c|c|}
+    \begin{tabularx}{\textwidth}{|X|c|c|c|c|}
         \hline
-        \textbf{Khối lượng (\unit{\gram})} & \textbf{$I_{\mathrm{lt}}$ (\unit{\milli\ampere})} &
-        \textbf{$I_{\mathrm{mp}}$ (\unit{\milli\ampere})} & \textbf{Sai số (\unit{\percent})} \\ \hline
-        0    & 4.00  & \TODO{} & \TODO{} \\ \hline
-        500  & 12.00 & \TODO{} & \TODO{} \\ \hline
-        1000 & 20.00 & \TODO{} & \TODO{} \\ \hline
-    \end{tabular}
+        \textbf{Khối / Đại lượng} & \textbf{Điều kiện} & \textbf{Lý thuyết} & \textbf{Mô phỏng} & \textbf{Sai số (\unit{\percent})} \\ \hline
+        Load cell, $\Vout$          & $m = \qty{1}{\kilo\gram}$ & \TODO{} & \TODO{} & \TODO{} \\ \hline
+        Khuếch đại vi sai, $\Vout$  & $m = \qty{1}{\kilo\gram}$ & \TODO{} & \TODO{} & \TODO{} \\ \hline
+        Chuyển đổi V-I, $I$         & $m = \qty{0}{\kilo\gram}$ & \qty{4}{\milli\ampere}  & \TODO{} & \TODO{} \\ \hline
+        Chuyển đổi V-I, $I$         & $m = \qty{1}{\kilo\gram}$ & \qty{20}{\milli\ampere} & \TODO{} & \TODO{} \\ \hline
+        Đọc dòng, $\Vout$           & $I = \qty{20}{\milli\ampere}$ & \TODO{} & \TODO{} & \TODO{} \\ \hline
+    \end{tabularx}
 \end{table}
 
-\nhanxet{\TODO{Đánh giá sai số so với yêu cầu $\pm\qty{5}{\percent}$.}}
+\nhanxet{\TODO{Đánh giá chung các khối trong chương.}}

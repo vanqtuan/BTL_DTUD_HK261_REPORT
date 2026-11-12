@@ -1,55 +1,88 @@
 % !TEX root = ../main.tex
 % =====================================================================
-%  CHƯƠNG 5 — THIẾT KẾ VÀ THI CÔNG PHẦN CỨNG
+%  CHƯƠNG 5 — THIẾT KẾ MẠCH ĐỌC ADC
 % ---------------------------------------------------------------------
 %  Người phụ trách : [TODO: Họ tên - MSSV]
 %  Tiền tố label   : c5      (fig:c5:..., tab:c5:..., eq:c5:..., sec:c5:...)
 %  Thư mục ảnh     : image/chuong5/
 %  File TLTK       : references/chuong5.bib   (key: c5_...)
-%  Độ dài gợi ý    : 5–10 trang
-%  Mục tiêu        : Schematic (nguồn + chức năng), layout PCB, ảnh mạch thực
-%                    tế, các lỗi gặp phải & cách khắc phục, đánh giá phần cứng.
+%  Độ dài gợi ý    : 6–12 trang
+%  Đáp ứng yêu cầu : phần ADC của (e): lựa chọn ADC (số bit, nguồn), mô phỏng
+%                    mạch đọc và kiểm chứng.
+%  Quy trình       : thông số ADC -> kiến trúc -> thiết kế từng khối -> MÔ PHỎNG
+%                    RIÊNG LẺ (ngõ vào là nguồn áp lý tưởng) -> \nhanxet{}.
+%  Giao tiếp       : Dải ngõ vào ADC phải khớp ngõ ra mạch đọc dòng (Chương 3)
+%                    theo Bảng tab:c2:giao-tiep-khoi.
 % =====================================================================
-\chapter{Thiết kế và thi công phần cứng}
+\chapter{Thiết kế mạch đọc ADC}
 \label{chap:c5}
 
 % ---------------------------------------------------------------------
-\section{Sơ đồ nguyên lý khối nguồn}
-\label{sec:c5:khoi-nguon}
+\section{Yêu cầu và lựa chọn thông số ADC}
+\label{sec:c5:thong-so}
 
-\TODO{Trình bày các mức nguồn cần thiết, IC nguồn được chọn, schematic.}
+Số bit tối thiểu của ADC được xác định từ tầm đo và độ phân giải yêu cầu:
+\begin{equation}
+    2^{N} \geq \frac{m_{\max}}{\Delta m} = \frac{\qty{1}{\kilo\gram}}{\qty{2}{\milli\gram}} = 5 \times 10^{5}
+    \;\Rightarrow\; N \geq \TODO{}
+    \label{eq:c5:so-bit}
+\end{equation}
+
+\TODO{Chọn số bit, điện áp tham chiếu $\Vref$, tính LSB, chọn nguồn cấp cho ADC.}
+
+\begin{table}[H]
+    \centering
+    \caption{Thông số của bộ ADC được thiết kế}
+    \label{tab:c5:thong-so-adc}
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabular}{|l|c|}
+        \hline
+        \textbf{Thông số} & \textbf{Giá trị} \\ \hline
+        Số bit $N$                   & \TODO{} \\ \hline
+        Dải điện áp ngõ vào          & \TODO{} \unit{\volt} \\ \hline
+        Điện áp tham chiếu $\Vref$   & \TODO{} \unit{\volt} \\ \hline
+        Độ phân giải (LSB)           & \TODO{} \unit{\micro\volt} \\ \hline
+        Nguồn cấp                    & \TODO{} \unit{\volt} \\ \hline
+    \end{tabular}
+\end{table}
 
 % ---------------------------------------------------------------------
-\section{Sơ đồ nguyên lý khối chức năng}
-\label{sec:c5:khoi-chuc-nang}
+\section{Kiến trúc bộ ADC}
+\label{sec:c5:kien-truc}
 
-\TODO{Schematic từng khối: khuếch đại, bù nhiệt, V-I, đọc dòng, ADC, connector.}
-
-% ---------------------------------------------------------------------
-\section{Thiết kế mạch in (PCB)}
-\label{sec:c5:layout}
-% Gợi ý: số lớp, độ rộng đường mạch, cách đi dây analog/digital, mặt top/bottom, 3D.
-
-\TODO{Trình bày layout PCB, ảnh top/bottom/3D.}
+\TODO{Trình bày kiến trúc được chọn, sơ đồ khối của bộ ADC.}
 
 % ---------------------------------------------------------------------
-\section{Phần cứng thực tế}
-\label{sec:c5:thuc-te}
+\section{Thiết kế các khối chức năng}
+\label{sec:c5:thiet-ke}
 
-\TODO{Ảnh mạch sau khi hàn, các lỗi phát sinh và cách khắc phục.}
+\TODO{Thiết kế từng khối (so sánh, DAC, cộng, thanh ghi, ...), kèm sơ đồ mạch.}
 
 % ---------------------------------------------------------------------
-\section{Đánh giá phần cứng}
-\label{sec:c5:danh-gia}
+\section{Mô phỏng mạch đọc ADC}
+\label{sec:c5:mo-phong}
 
-\subsection{Ưu điểm}
-\label{sec:c5:uu-diem}
-\begin{itemize}
-    \item \TODO{}
-\end{itemize}
+\TODO{Hình mô phỏng với các mức điện áp vào khác nhau.}
 
-\subsection{Hạn chế}
-\label{sec:c5:han-che}
-\begin{itemize}
-    \item \TODO{}
-\end{itemize}
+\begin{table}[H]
+    \centering
+    \caption{Kết quả mô phỏng riêng lẻ bộ ADC}
+    \label{tab:c5:ket-qua-adc}
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        \textbf{$\Vin$ (\unit{\volt})} & \textbf{Mã số lý thuyết} &
+        \textbf{Mã số mô phỏng} & \textbf{Sai số (LSB)} \\ \hline
+        \TODO{} & \TODO{} & \TODO{} & \TODO{} \\ \hline
+        \TODO{} & \TODO{} & \TODO{} & \TODO{} \\ \hline
+        \TODO{} & \TODO{} & \TODO{} & \TODO{} \\ \hline
+    \end{tabular}
+\end{table}
+
+\nhanxet{\TODO{Đánh giá độ chính xác của bộ ADC.}}
+
+% ---------------------------------------------------------------------
+\section{Tổng kết}
+\label{sec:c5:tong-ket}
+
+\TODO{Tóm tắt thông số đạt được của bộ ADC.}

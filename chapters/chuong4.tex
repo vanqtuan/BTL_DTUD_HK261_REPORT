@@ -1,63 +1,88 @@
 % !TEX root = ../main.tex
 % =====================================================================
-%  CHƯƠNG 4 — THIẾT KẾ MẠCH ĐỌC DÒNG VÀ BỘ CHUYỂN ĐỔI ADC
+%  CHƯƠNG 4 — THIẾT KẾ MẠCH BÙ NHIỆT
 % ---------------------------------------------------------------------
 %  Người phụ trách : [TODO: Họ tên - MSSV]
 %  Tiền tố label   : c4      (fig:c4:..., tab:c4:..., eq:c4:..., sec:c4:...)
 %  Thư mục ảnh     : image/chuong4/
 %  File TLTK       : references/chuong4.bib   (key: c4_...)
-%  Độ dài gợi ý    : 6–12 trang
-%  Mục tiêu        : Đáp ứng yêu cầu (e): mạch đọc dòng, lựa chọn ADC (số bit,
-%                    nguồn), mô phỏng mạch đọc và kiểm chứng.
+%  Độ dài gợi ý    : 6–10 trang
+%  Đáp ứng yêu cầu : (c).
+%  Quy trình       : ảnh hưởng nhiệt (định lượng từ datasheet) -> phương pháp
+%                    bù -> chọn cảm biến -> tính toán -> MÔ PHỎNG RIÊNG LẺ ở
+%                    nhiều nhiệt độ (trước / sau bù) -> \nhanxet{}.
+%  Giao tiếp       : Vị trí chèn mạch bù và dải tín hiệu phải khớp
+%                    Bảng tab:c2:giao-tiep-khoi.
 % =====================================================================
-\chapter{Thiết kế mạch đọc dòng và bộ chuyển đổi ADC}
+\chapter{Thiết kế mạch bù nhiệt}
 \label{chap:c4}
 
 % ---------------------------------------------------------------------
-\section{Mạch đọc dòng 4--20mA}
-\label{sec:c4:doc-dong}
-% Gợi ý: điện trở shunt + khuếch đại vi sai + đệm. Tính R_shunt, độ lợi.
+\section{Yêu cầu thiết kế}
+\label{sec:c4:yeu-cau}
 
-\TODO{Thiết kế mạch đọc dòng, tính $\Rshunt$ và độ lợi.}
+\TODO{Dải nhiệt độ làm việc, vị trí mạch bù trong sơ đồ khối (Hình~\ref{fig:c2:so-do-khoi}), sai số mục tiêu.}
 
 % ---------------------------------------------------------------------
-\section{Lựa chọn thông số ADC}
-\label{sec:c4:chon-adc}
-% Gợi ý: số bit N từ độ phân giải, điện áp tham chiếu, nguồn cấp, LSB.
+\section{Ảnh hưởng của nhiệt độ lên Load cell}
+\label{sec:c4:anh-huong-nhiet}
+% Định lượng trôi điểm không và trôi độ nhạy theo thông số datasheet,
+% tính sai lệch điện áp ngõ ra tại các nhiệt độ biên.
 
-Số bit tối thiểu của ADC được xác định từ tầm đo và độ phân giải yêu cầu:
+\TODO{Tính độ trôi điểm không và độ nhạy theo nhiệt độ.}
+
 \begin{equation}
-    2^{N} \geq \frac{m_{\max}}{\Delta m} = \frac{\qty{1}{\kilo\gram}}{\qty{2}{\milli\gram}} = 5 \times 10^{5}
-    \;\Rightarrow\; N \geq \TODO{}
-    \label{eq:c4:so-bit}
+    \Delta V_{\mathrm{zero}}(T) = \TODO{}
+    \label{eq:c4:troi-diem-khong}
 \end{equation}
 
-\TODO{Chọn điện áp tham chiếu, tính LSB, chọn nguồn cấp cho ADC.}
+% ---------------------------------------------------------------------
+\section{Phương pháp bù nhiệt}
+\label{sec:c4:phuong-phap}
+
+\TODO{Trình bày phương án bù được chọn và lý do (so sánh với phương án khác nếu có).}
 
 % ---------------------------------------------------------------------
-\section{Thiết kế bộ ADC}
-\label{sec:c4:thiet-ke-adc}
+\section{Lựa chọn cảm biến nhiệt độ}
+\label{sec:c4:cam-bien}
 
-\TODO{Trình bày kiến trúc ADC, sơ đồ nguyên lý, các khối chức năng.}
+\TODO{Lựa chọn cảm biến (RTD / NTC / IC), phương trình đặc tính, bảng thông số (có \textbackslash cite).}
 
 % ---------------------------------------------------------------------
-\section{Mô phỏng và kiểm chứng}
+\section{Tính toán thiết kế mạch bù nhiệt}
+\label{sec:c4:tinh-toan}
+
+\TODO{Sơ đồ mạch, tính toán giá trị linh kiện để điện áp bù triệt tiêu độ trôi theo \eqref{eq:c4:troi-diem-khong}.}
+
+% ---------------------------------------------------------------------
+\section{Mô phỏng mạch bù nhiệt}
 \label{sec:c4:mo-phong}
 
-\TODO{Mô phỏng tại nhiều mức điện áp vào, lập bảng kết quả.}
+\TODO{Hình mô phỏng tại các nhiệt độ khác nhau, ví dụ \qty{0}{\celsius}, \qty{25}{\celsius}, \qty{50}{\celsius}.}
 
 \begin{table}[H]
     \centering
-    \caption{Kết quả mô phỏng bộ ADC}
-    \label{tab:c4:ket-qua-adc}
+    \caption{Điện áp ngõ ra trước và sau khi bù nhiệt}
+    \label{tab:c4:ket-qua-bu-nhiet}
     \renewcommand{\arraystretch}{1.3}
     \begin{tabular}{|c|c|c|c|}
         \hline
-        \textbf{$\Vin$ (\unit{\volt})} & \textbf{Mã số lý thuyết} &
-        \textbf{Mã số mô phỏng} & \textbf{Sai số (LSB)} \\ \hline
-        \TODO{} & \TODO{} & \TODO{} & \TODO{} \\ \hline
-        \TODO{} & \TODO{} & \TODO{} & \TODO{} \\ \hline
+        \multirow{2}{*}{\textbf{Nhiệt độ}} & \multirow{2}{*}{\textbf{Khối lượng}} &
+        \multicolumn{2}{c|}{\textbf{Điện áp ngõ ra (\unit{\volt})}} \\ \cline{3-4}
+        & & \textbf{Trước bù} & \textbf{Sau bù} \\ \hline
+        \qty{0}{\celsius}  & \qty{0}{\kilo\gram} & \TODO{} & \TODO{} \\ \hline
+        \qty{25}{\celsius} & \qty{0}{\kilo\gram} & \TODO{} & \TODO{} \\ \hline
+        \qty{50}{\celsius} & \qty{0}{\kilo\gram} & \TODO{} & \TODO{} \\ \hline
+        \qty{0}{\celsius}  & \qty{1}{\kilo\gram} & \TODO{} & \TODO{} \\ \hline
+        \qty{25}{\celsius} & \qty{1}{\kilo\gram} & \TODO{} & \TODO{} \\ \hline
+        \qty{50}{\celsius} & \qty{1}{\kilo\gram} & \TODO{} & \TODO{} \\ \hline
     \end{tabular}
 \end{table}
 
-\nhanxet{\TODO{Đánh giá độ chính xác của bộ ADC.}}
+\nhanxet{\TODO{Mức độ giảm sai lệch nhờ mạch bù, so sánh với giá trị tại \qty{25}{\celsius}.}}
+
+% ---------------------------------------------------------------------
+\section{Tổng kết}
+\label{sec:c4:tong-ket}
+
+\TODO{Tóm tắt kết quả mạch bù nhiệt, dải nhiệt độ đạt yêu cầu.}

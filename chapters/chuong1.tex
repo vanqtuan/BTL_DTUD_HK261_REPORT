@@ -7,8 +7,9 @@
 %  Thư mục ảnh     : image/chuong1/
 %  File TLTK       : references/chuong1.bib   (key: c1_...)
 %  Độ dài gợi ý    : 2–4 trang
-%  Mục tiêu        : Nêu bối cảnh, yêu cầu đề tài, thông số mục tiêu và
-%                    sơ đồ khối tổng quát của hệ thống.
+%  Mục tiêu        : Nêu bối cảnh, yêu cầu đề tài, thông số mục tiêu,
+%                    phạm vi của Stage 1 và bố cục báo cáo.
+%                    (Sơ đồ khối tổng quát nằm ở Chương 2.)
 % =====================================================================
 \chapter{Giới thiệu đề tài}
 \label{chap:c1}
@@ -60,16 +61,21 @@ Các thông số kỹ thuật mà hệ thống cần đạt được tổng hợ
 \end{table}
 
 % ---------------------------------------------------------------------
-\section{Sơ đồ khối tổng quát}
-\label{sec:c1:so-do-khoi}
-% Gợi ý: Load cell -> Khuếch đại vi sai -> Bù nhiệt -> V-I 4--20mA
-%        -> Mạch đọc dòng -> ADC. Giải thích ngắn chức năng từng khối.
+\section{Phạm vi thực hiện của giai đoạn 1}
+\label{sec:c1:pham-vi}
+% Gợi ý: Stage 1 chỉ gồm tính toán và mô phỏng (phần mềm: Multisim/LTspice/...).
+% Thi công phần cứng thuộc giai đoạn sau. Nêu phần mềm, mô hình linh kiện sử dụng.
 
-Sơ đồ khối tổng quát của hệ thống được trình bày trong Hình~\ref{fig:c1:so-do-khoi}.
+Trong giai đoạn 1, nhóm thực hiện tính toán thiết kế và mô phỏng toàn bộ hệ thống trên phần mềm,
+chưa bao gồm thi công phần cứng. Các yêu cầu của đề được phân bổ vào các chương như sau:
+\begin{itemize}
+    \item Yêu cầu (a), (b) và phần mạch đọc dòng của yêu cầu (e): Chương~\ref{chap:c3}.
+    \item Yêu cầu (c): Chương~\ref{chap:c4}.
+    \item Phần ADC của yêu cầu (e): Chương~\ref{chap:c5}.
+    \item Yêu cầu (d), kiểm chứng trên toàn hệ thống: Chương~\ref{chap:c6}.
+\end{itemize}
 
-\hinh[0.9\textwidth]{chuong1/so_do_khoi.png}{Sơ đồ khối tổng quát của hệ thống}{fig:c1:so-do-khoi}
-
-\TODO{Mô tả chức năng của từng khối trong sơ đồ.}
+\TODO{Nêu phần mềm mô phỏng sử dụng (tên, phiên bản).}
 
 % ---------------------------------------------------------------------
 \section{Bố cục báo cáo}
@@ -77,10 +83,10 @@ Sơ đồ khối tổng quát của hệ thống được trình bày trong Hìn
 
 Báo cáo gồm các chương sau:
 \begin{itemize}
-    \item \textbf{Chương~\ref{chap:c1}} giới thiệu đề tài, yêu cầu và sơ đồ khối tổng quát.
-    \item \textbf{Chương~\ref{chap:c2}} trình bày cơ sở lý thuyết và lựa chọn linh kiện.
-    \item \textbf{Chương~\ref{chap:c3}} tính toán và mô phỏng các khối xử lý tín hiệu analog.
-    \item \textbf{Chương~\ref{chap:c4}} thiết kế mạch đọc dòng và bộ chuyển đổi ADC.
-    \item \textbf{Chương~\ref{chap:c5}} thiết kế và thi công phần cứng.
-    \item \textbf{Chương~\ref{chap:c6}} trình bày kết quả đo thực tế và đánh giá sai số.
+    \item \textbf{Chương~\ref{chap:c1}} giới thiệu đề tài, yêu cầu và phạm vi thực hiện.
+    \item \textbf{Chương~\ref{chap:c2}} trình bày cơ sở lý thuyết và sơ đồ khối tổng quát của hệ thống.
+    \item \textbf{Chương~\ref{chap:c3}} thiết kế và mô phỏng mạch đọc Load cell, mạch chuyển đổi áp thành dòng và mạch đọc dòng.
+    \item \textbf{Chương~\ref{chap:c4}} thiết kế và mô phỏng mạch bù nhiệt.
+    \item \textbf{Chương~\ref{chap:c5}} thiết kế và mô phỏng mạch đọc ADC.
+    \item \textbf{Chương~\ref{chap:c6}} ghép các khối và trình bày kết quả mô phỏng đầu cuối của toàn hệ thống.
 \end{itemize}
