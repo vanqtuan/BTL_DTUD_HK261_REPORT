@@ -1,0 +1,85 @@
+% =====================================================================
+%  CHƯƠNG 1 — GIỚI THIỆU ĐỀ TÀI
+% ---------------------------------------------------------------------
+%  Người phụ trách : [TODO: Họ tên - MSSV]
+%  Tiền tố label   : c1      (fig:c1:..., tab:c1:..., eq:c1:..., sec:c1:...)
+%  Thư mục ảnh     : image/chuong1/
+%  File TLTK       : references/chuong1.bib   (key: c1_...)
+%  Độ dài gợi ý    : 2–4 trang
+%  Mục tiêu        : Nêu bối cảnh, yêu cầu đề tài, thông số mục tiêu và
+%                    sơ đồ khối tổng quát của hệ thống.
+% =====================================================================
+\chapter{Giới thiệu đề tài}
+\label{chap:c1}
+
+% ---------------------------------------------------------------------
+\section{Đặt vấn đề}
+\label{sec:c1:dat-van-de}
+% Gợi ý: nhu cầu đo khối lượng chính xác (cân tiểu ly), ứng dụng chuẩn
+% truyền tín hiệu 4--20mA trong công nghiệp, lý do chọn giải pháp.
+
+\TODO{Viết 1--2 đoạn nêu bối cảnh và ý nghĩa của đề tài.}
+
+% ---------------------------------------------------------------------
+\section{Yêu cầu đề tài}
+\label{sec:c1:yeu-cau}
+
+\noindent\textbf{Đề \SoDeTai:} Thiết kế mạch đo khối lượng (tiểu ly) sử dụng Load cell.
+Mạch có tầm đo \qtyrange{0}{1}{\kilo\gram}, độ phân giải \qty{2}{\milli\gram},
+ngõ ra là dòng điện tương ứng từ \qtyrange{4}{20}{\milli\ampere} (thả nổi):
+\begin{enumerate}[label=\alph*.]
+    \item Lựa chọn và mô phỏng Load cell.
+    \item Lựa chọn OPAMP sử dụng, mô phỏng OPAMP theo datasheet.
+    \item Thiết kế mạch bù nhiệt độ.
+    \item Đảm bảo sai số (giữa giá trị lý thuyết và thực tế đo qua mạch) $\pm\qty{5}{\percent}$.
+    \item Thiết kế mạch đọc dòng điện và cho ngõ ra ADC. Tiến hành lựa chọn ADC
+          (số bit, nguồn). Mô phỏng mạch đọc và kiểm chứng.
+\end{enumerate}
+
+% ---------------------------------------------------------------------
+\section{Thông số kỹ thuật mục tiêu}
+\label{sec:c1:thong-so}
+
+Các thông số kỹ thuật mà hệ thống cần đạt được tổng hợp trong Bảng~\ref{tab:c1:thong-so-muc-tieu}.
+
+\begin{table}[H]
+    \centering
+    \caption{Thông số kỹ thuật mục tiêu của hệ thống}
+    \label{tab:c1:thong-so-muc-tieu}
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabular}{|l|c|}
+        \hline
+        \textbf{Thông số} & \textbf{Giá trị} \\ \hline
+        Tầm đo                       & \qtyrange{0}{1}{\kilo\gram} \\ \hline
+        Độ phân giải                 & \qty{2}{\milli\gram} \\ \hline
+        Tín hiệu ngõ ra              & \qtyrange{4}{20}{\milli\ampere} (thả nổi) \\ \hline
+        Sai số cho phép              & $\pm\qty{5}{\percent}$ \\ \hline
+        Ngõ ra số                    & ADC \TODO{số bit} \\ \hline
+    \end{tabular}
+\end{table}
+
+% ---------------------------------------------------------------------
+\section{Sơ đồ khối tổng quát}
+\label{sec:c1:so-do-khoi}
+% Gợi ý: Load cell -> Khuếch đại vi sai -> Bù nhiệt -> V-I 4--20mA
+%        -> Mạch đọc dòng -> ADC. Giải thích ngắn chức năng từng khối.
+
+Sơ đồ khối tổng quát của hệ thống được trình bày trong Hình~\ref{fig:c1:so-do-khoi}.
+
+\hinh[0.9\textwidth]{chuong1/so_do_khoi.png}{Sơ đồ khối tổng quát của hệ thống}{fig:c1:so-do-khoi}
+
+\TODO{Mô tả chức năng của từng khối trong sơ đồ.}
+
+% ---------------------------------------------------------------------
+\section{Bố cục báo cáo}
+\label{sec:c1:bo-cuc}
+
+Báo cáo gồm các chương sau:
+\begin{itemize}
+    \item \textbf{Chương~\ref{chap:c1}} giới thiệu đề tài, yêu cầu và sơ đồ khối tổng quát.
+    \item \textbf{Chương~\ref{chap:c2}} trình bày cơ sở lý thuyết và lựa chọn linh kiện.
+    \item \textbf{Chương~\ref{chap:c3}} tính toán và mô phỏng các khối xử lý tín hiệu analog.
+    \item \textbf{Chương~\ref{chap:c4}} thiết kế mạch đọc dòng và bộ chuyển đổi ADC.
+    \item \textbf{Chương~\ref{chap:c5}} thiết kế và thi công phần cứng.
+    \item \textbf{Chương~\ref{chap:c6}} trình bày kết quả đo thực tế và đánh giá sai số.
+\end{itemize}

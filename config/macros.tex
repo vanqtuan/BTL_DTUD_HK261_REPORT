@@ -1,0 +1,90 @@
+% =====================================================================
+%  config/macros.tex — LỆNH TỰ ĐỊNH NGHĨA DÙNG CHUNG
+% ---------------------------------------------------------------------
+%  * Chỉ NHÓM TRƯỞNG chỉnh sửa file này.
+%  * Thành viên KHÔNG dùng \newcommand / \def trong file chương.
+%    Cần macro mới -> đề xuất với nhóm trưởng để thêm vào đây.
+% =====================================================================
+
+% ---------------------------------------------------------------------
+% \chenanh{<độ rộng>}{<đường dẫn ảnh>}  (lệnh nội bộ, thường không gọi trực tiếp)
+%   Nếu ảnh chưa có -> hiện khung đỏ "THIẾU ẢNH" thay vì làm lỗi biên dịch.
+%   => Đường dẫn PHẢI có phần mở rộng (.png / .jpg / .pdf).
+% ---------------------------------------------------------------------
+\newcommand{\chenanh}[2]{%
+    \IfFileExists{image/#2}%
+        {\includegraphics[width=#1]{#2}}%
+        {\fcolorbox{red}{red!5}{\parbox[c][3cm][c]{#1}{\centering\color{red}%
+            \textbf{THIẾU ẢNH}\\\footnotesize\texttt{image/\detokenize{#2}}}}}%
+}
+
+% ---------------------------------------------------------------------
+% \hinh[<độ rộng>]{<đường dẫn ảnh>}{<chú thích>}{<label>}
+%   Chèn 1 hình, căn giữa, cố định vị trí [H].
+%   - Độ rộng mặc định 0.8\textwidth.
+%   - Đường dẫn tính từ thư mục image/  (VD: chuong3/vi_converter.png)
+%   VD: \hinh[0.6\textwidth]{chuong3/vi_converter.png}{Mạch chuyển đổi V-I}{fig:c3:vi-converter}
+% ---------------------------------------------------------------------
+\newcommand{\hinh}[4][0.8\textwidth]{%
+    \begin{figure}[H]
+        \centering
+        \chenanh{#1}{#2}
+        \caption{#3}
+        \label{#4}
+    \end{figure}%
+}
+
+% ---------------------------------------------------------------------
+% \haihinh{<ảnh 1>}{<chú thích 1>}{<label 1>}{<ảnh 2>}{<chú thích 2>}{<label 2>}
+%   Hai hình đặt cạnh nhau, mỗi hình có số hình riêng (Hình x.1, Hình x.2).
+% ---------------------------------------------------------------------
+\newcommand{\haihinh}[6]{%
+    \begin{figure}[H]
+        \centering
+        \begin{minipage}[t]{0.47\textwidth}
+            \centering
+            \chenanh{\textwidth}{#1}
+            \caption{#2}
+            \label{#3}
+        \end{minipage}\hfill
+        \begin{minipage}[t]{0.47\textwidth}
+            \centering
+            \chenanh{\textwidth}{#4}
+            \caption{#5}
+            \label{#6}
+        \end{minipage}
+    \end{figure}%
+}
+
+% ---------------------------------------------------------------------
+% \nhanxet{<nội dung>}  — đoạn nhận xét sau mỗi kết quả mô phỏng / đo đạc
+% ---------------------------------------------------------------------
+\newcommand{\nhanxet}[1]{%
+    \par\smallskip\noindent\textbf{Nhận xét:} #1\par\smallskip
+}
+
+% ---------------------------------------------------------------------
+% \ketqua{<công thức>}  — đóng khung kết quả tính toán quan trọng (dùng trong môi trường toán)
+%   VD: \[ \ketqua{R_G = \qty{100}{\ohm}} \]
+% ---------------------------------------------------------------------
+\newcommand{\ketqua}[1]{\boxed{#1}}
+
+% ---------------------------------------------------------------------
+% \tieumuc{<tiêu đề>}  — tiêu đề in đậm không đánh số, không vào mục lục
+%   Dùng cho các ý nhỏ hơn subsection (VD: "Cấu tạo của Load cell:")
+% ---------------------------------------------------------------------
+\newcommand{\tieumuc}[1]{\par\medskip\noindent\textbf{#1}\par\nopagebreak}
+
+% ---------------------------------------------------------------------
+% \TODO{<ghi chú>}  — đánh dấu phần chưa hoàn thành (chữ đỏ, dễ thấy khi review)
+%   PHẢI xóa hết \TODO trước khi merge vào bản final.
+% ---------------------------------------------------------------------
+\DeclareRobustCommand{\TODO}[1]{\textcolor{red}{\textbf{[TODO: #1]}}}
+
+% ---------------------------------------------------------------------
+% Ký hiệu hay dùng
+% ---------------------------------------------------------------------
+\newcommand{\Vin}{V_{\mathrm{in}}}
+\newcommand{\Vout}{V_{\mathrm{out}}}
+\newcommand{\Vref}{V_{\mathrm{ref}}}
+\newcommand{\Rshunt}{R_{\mathrm{shunt}}}

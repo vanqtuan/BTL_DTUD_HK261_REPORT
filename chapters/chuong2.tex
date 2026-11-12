@@ -1,0 +1,109 @@
+% =====================================================================
+%  CHƯƠNG 2 — CƠ SỞ LÝ THUYẾT VÀ LỰA CHỌN LINH KIỆN
+% ---------------------------------------------------------------------
+%  Người phụ trách : [TODO: Họ tên - MSSV]
+%  Tiền tố label   : c2      (fig:c2:..., tab:c2:..., eq:c2:..., sec:c2:...)
+%  Thư mục ảnh     : image/chuong2/
+%  File TLTK       : references/chuong2.bib   (key: c2_...)
+%  Độ dài gợi ý    : 6–10 trang
+%  Mục tiêu        : Trình bày lý thuyết nền và LÝ DO lựa chọn từng linh kiện
+%                    (so sánh, bảng thông số trích từ datasheet, có trích dẫn).
+% =====================================================================
+\chapter{Cơ sở lý thuyết và lựa chọn linh kiện}
+\label{chap:c2}
+
+% ---------------------------------------------------------------------
+\section{Tổng quan về Load cell}
+\label{sec:c2:loadcell}
+
+\subsection{Cấu tạo}
+\label{sec:c2:loadcell-cau-tao}
+% Gợi ý: thân đàn hồi, strain gauge, vỏ bọc. Có hình minh họa.
+
+\TODO{Trình bày cấu tạo Load cell.}
+
+\subsection{Nguyên lý hoạt động}
+\label{sec:c2:loadcell-nguyen-ly}
+% Gợi ý: cầu Wheatstone, quan hệ điện áp ra theo khối lượng, có phương trình đánh số.
+
+Điện áp ngõ ra của Load cell tỉ lệ tuyến tính với khối lượng đặt lên cảm biến:
+\begin{equation}
+    \Vout = \Vin \cdot RO \cdot \frac{m}{m_{\max}}
+    \label{eq:c2:vout-loadcell}
+\end{equation}
+trong đó $RO$ là độ nhạy định mức (\unit{\milli\volt\per\volt}), $m$ là khối lượng cần đo
+và $m_{\max}$ là tải trọng định mức của Load cell.
+
+\TODO{Giải thích nguyên lý cầu Wheatstone, kèm hình.}
+
+% ---------------------------------------------------------------------
+\section{Lựa chọn Load cell}
+\label{sec:c2:chon-loadcell}
+% Gợi ý: so sánh 2--3 loại có bán tại VN, chọn 1 loại, bảng thông số từ datasheet.
+
+\TODO{Lý do lựa chọn Load cell.}
+
+\begin{table}[H]
+    \centering
+    \caption{Thông số kỹ thuật Load cell \TODO{model}}
+    \label{tab:c2:thong-so-loadcell}
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabular}{|l|c|}
+        \hline
+        \textbf{Thông số} & \textbf{Giá trị} \\ \hline
+        Tải trọng định mức           & \qty{1}{\kilo\gram} \\ \hline
+        Độ nhạy định mức (RO)        & \TODO{} \unit{\milli\volt\per\volt} \\ \hline
+        Trở kháng ngõ vào            & \TODO{} \unit{\ohm} \\ \hline
+        Trở kháng ngõ ra             & \TODO{} \unit{\ohm} \\ \hline
+        Điện áp hoạt động            & \TODO{} \unit{\volt} \\ \hline
+    \end{tabular}
+\end{table}
+
+% ---------------------------------------------------------------------
+\section{Lựa chọn bộ khuếch đại}
+\label{sec:c2:chon-opamp}
+% Gợi ý: INA (instrumentation amplifier) cho tín hiệu vi sai mV;
+% OPAMP chính xác cho các khối V-I, đệm, cộng. Nêu thông số quan trọng:
+% Vos, drift, CMRR, GBW, nguồn cấp. Trích dẫn datasheet bằng \cite{}.
+
+Bộ khuếch đại dụng cụ được lựa chọn dựa trên các thông số trong datasheet~\cite{c2_ina333}.
+
+\TODO{So sánh và chọn INA / OPAMP, kèm bảng thông số.}
+
+% ---------------------------------------------------------------------
+\section{Cảm biến nhiệt độ cho mạch bù nhiệt}
+\label{sec:c2:cam-bien-nhiet}
+
+\TODO{Giới thiệu RTD/NTC/IC cảm biến nhiệt và lý do lựa chọn.}
+
+% ---------------------------------------------------------------------
+\section{Chuẩn tín hiệu dòng 4--20mA}
+\label{sec:c2:chuan-4-20ma}
+
+\TODO{Ưu điểm của chuẩn 4--20mA, khái niệm ngõ ra thả nổi.}
+
+% ---------------------------------------------------------------------
+\section{Lựa chọn ADC}
+\label{sec:c2:chon-adc}
+% Gợi ý: số bit tối thiểu từ độ phân giải yêu cầu: 2^N >= tầm đo / độ phân giải.
+
+\TODO{Tính số bit tối thiểu và chọn ADC / phương án ADC.}
+
+% ---------------------------------------------------------------------
+\section{Tổng hợp linh kiện sử dụng}
+\label{sec:c2:tong-hop}
+
+\begin{table}[H]
+    \centering
+    \caption{Tổng hợp các linh kiện chính được lựa chọn}
+    \label{tab:c2:tong-hop-linh-kien}
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabularx}{\textwidth}{|c|l|l|X|}
+        \hline
+        \textbf{STT} & \textbf{Khối} & \textbf{Linh kiện} & \textbf{Lý do lựa chọn} \\ \hline
+        1 & Cảm biến        & \TODO{} & \TODO{} \\ \hline
+        2 & Khuếch đại      & \TODO{} & \TODO{} \\ \hline
+        3 & Chuyển đổi V-I  & \TODO{} & \TODO{} \\ \hline
+        4 & ADC             & \TODO{} & \TODO{} \\ \hline
+    \end{tabularx}
+\end{table}

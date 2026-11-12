@@ -1,0 +1,64 @@
+% =====================================================================
+%  main.tex — FILE GỐC CỦA BÁO CÁO
+% ---------------------------------------------------------------------
+%  Biên dịch : pdfLaTeX -> BibTeX -> pdfLaTeX -> pdfLaTeX
+%              (hoặc: latexmk -pdf main.tex)
+%  Chỉ NHÓM TRƯỞNG chỉnh sửa file này.
+%
+%  Mẹo cho thành viên: để biên dịch nhanh CHỈ chương của mình, bỏ comment
+%  dòng \includeonly bên dưới và để lại tên chương cần xem (KHÔNG commit thay đổi này).
+% =====================================================================
+\documentclass[12pt, a4paper, oneside, fleqn]{extreport}
+
+\input{config/info}
+\input{config/preamble}
+\input{config/macros}
+
+% \includeonly{chapters/chuong3}
+
+\begin{document}
+
+% ------------------- Phần mở đầu (không đánh số trang) -------------------
+\pagenumbering{gobble}
+\input{frontmatter/titlepage}
+\cleardoublepage
+
+\thispagestyle{empty}
+\input{frontmatter/nhiemvu}
+\cleardoublepage
+
+% ------------------- Lời cảm ơn, mục lục (số trang La Mã) -------------------
+\pagenumbering{roman}
+\input{frontmatter/loicamon}
+\cleardoublepage
+
+\tableofcontents
+\cleardoublepage
+\listoffigures
+\cleardoublepage
+\listoftables
+\cleardoublepage
+
+% ------------------- Nội dung chính (số trang Ả Rập) -------------------
+\pagenumbering{arabic}
+
+\include{chapters/chuong1}   % Giới thiệu đề tài
+\include{chapters/chuong2}   % Cơ sở lý thuyết & lựa chọn linh kiện
+\include{chapters/chuong3}   % Tính toán & mô phỏng mạch analog
+\include{chapters/chuong4}   % Thiết kế & mô phỏng mạch đọc ADC
+\include{chapters/chuong5}   % Thiết kế & thi công phần cứng
+\include{chapters/chuong6}   % Kết quả đo thực tế & đánh giá
+\include{chapters/ketluan}   % Kết luận & hướng phát triển
+
+% ------------------- Tài liệu tham khảo -------------------
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{\bibname}
+\bibliographystyle{ieeetr}
+\bibliography{references/common,references/chuong1,references/chuong2,references/chuong3,references/chuong4,references/chuong5,references/chuong6}
+
+% ------------------- Phụ lục (tùy chọn) -------------------
+\batdauphuluc
+\include{chapters/phuluc}
+
+\end{document}

@@ -1,0 +1,32 @@
+# ---- LaTeX build artifacts ----
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.lot
+*.toc
+*.out
+*.log
+*.synctex.gz
+*.synctex(busy)
+*.xdv
+*.nav
+*.snm
+*.vrb
+*.run.xml
+*.bcf
+*.lol
+build/
+
+# PDF build output (chỉ commit bản PDF final khi nhóm trưởng yêu cầu)
+main.pdf
+
+# ---- Editor / OS ----
+.vscode/
+*.swp
+*~
+.DS_Store
+Thumbs.db
+desktop.ini

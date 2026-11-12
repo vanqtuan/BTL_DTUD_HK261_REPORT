@@ -1,0 +1,81 @@
+# Báo cáo BTL Điện tử ứng dụng: Template LaTeX
+
+Template LaTeX chung cho cả nhóm. Mỗi thành viên viết chương của mình trên template này, nhóm trưởng merge lại thành báo cáo hoàn chỉnh.
+
+- **Quy tắc viết (cho người và AI):** [report_guideline.md](report_guideline.md). **Đọc trước khi viết.**
+- **Mẫu cú pháp mọi thành phần:** [template/chapter_template.tex](template/chapter_template.tex)
+
+## Biên dịch
+
+Yêu cầu: MiKTeX / TeX Live (pdfLaTeX + BibTeX) hoặc Overleaf.
+
+```bash
+latexmk main.tex          # tự chạy pdflatex + bibtex đủ số lần
+latexmk -c                # dọn file tạm
+```
+
+Không có latexmk: `pdflatex main` → `bibtex main` → `pdflatex main` → `pdflatex main`.
+
+**Overleaf:** upload cả thư mục (zip), chọn Compiler = pdfLaTeX, Main document = `main.tex`.
+
+**VS Code (LaTeX Workshop):** mở thư mục `Report/`, mở `main.tex`, nhấn `Ctrl+Alt+B`.
+
+Biên dịch nhanh chỉ chương của mình: bỏ comment dòng `% \includeonly{chapters/chuong3}` trong `main.tex` (sửa đúng tên chương). **Không commit thay đổi này.**
+
+## Phân công file
+
+| Chương | File | Ảnh | TLTK | Người phụ trách |
+|---|---|---|---|---|
+| 1. Giới thiệu đề tài | `chapters/chuong1.tex` | `image/chuong1/` | `references/chuong1.bib` | _điền tên_ |
+| 2. Cơ sở lý thuyết & chọn linh kiện | `chapters/chuong2.tex` | `image/chuong2/` | `references/chuong2.bib` | _điền tên_ |
+| 3. Tính toán & mô phỏng | `chapters/chuong3.tex` | `image/chuong3/` | `references/chuong3.bib` | _điền tên_ |
+| 4. Mạch đọc dòng & ADC | `chapters/chuong4.tex` | `image/chuong4/` | `references/chuong4.bib` | _điền tên_ |
+| 5. Phần cứng | `chapters/chuong5.tex` | `image/chuong5/` | `references/chuong5.bib` | _điền tên_ |
+| 6. Kết quả thực nghiệm | `chapters/chuong6.tex` | `image/chuong6/` | `references/chuong6.bib` | _điền tên_ |
+| Kết luận, phụ lục, `config/`, `main.tex` | | | | Nhóm trưởng |
+
+## Quy trình Git
+
+Mỗi thành viên làm trên **nhánh riêng**, chỉ sửa file của mình, nên khi merge sẽ không bị conflict.
+
+### Thành viên
+
+```bash
+# 1. Clone (lần đầu)
+git clone <URL_REPO>
+cd <TEN_REPO>
+
+# 2. Tạo nhánh riêng theo chương
+git checkout -b chuong3-tenban
+
+# 3. Viết, biên dịch kiểm tra, rồi commit
+git add chapters/chuong3.tex image/chuong3/ references/chuong3.bib
+git commit -m "chuong3: viet muc mach V-I converter"
+
+# 4. Đẩy nhánh lên
+git push -u origin chuong3-tenban
+```
+
+Cập nhật template mới nhất từ `main` (khi nhóm trưởng sửa config):
+
+```bash
+git fetch origin
+git merge origin/main
+```
+
+### Nhóm trưởng: merge
+
+```bash
+git checkout main
+git pull
+git fetch origin
+git merge origin/chuong3-tenban      # lặp lại cho từng nhánh
+latexmk main.tex                     # kiểm tra biên dịch
+git push
+```
+
+Hoặc tạo Pull Request trên GitHub/GitLab để review trước khi merge.
+
+## Quy ước commit message
+
+`<phạm vi>: <mô tả ngắn không dấu>`, ví dụ: `chuong2: them bang thong so loadcell`, `config: them goi circuitikz`, `image/chuong5: them anh layout`.

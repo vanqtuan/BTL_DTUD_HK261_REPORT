@@ -1,0 +1,144 @@
+% =====================================================================
+%  config/preamble.tex — GÓI LỆNH & ĐỊNH DẠNG TOÀN BÁO CÁO
+% ---------------------------------------------------------------------
+%  * Chỉ NHÓM TRƯỞNG chỉnh sửa file này.
+%  * Thành viên KHÔNG thêm \usepackage trong file chương. Nếu cần gói mới,
+%    báo nhóm trưởng để thêm vào đây.
+%  * Trình biên dịch: pdfLaTeX (MiKTeX / TeX Live / Overleaf).
+% =====================================================================
+
+% ---------------- Ngôn ngữ & font ----------------
+\usepackage[utf8]{vietnam}
+
+% ---------------- Toán học ----------------
+\usepackage{amsmath, amsfonts, amssymb}
+\usepackage{siunitx}                 % đơn vị: \qty{5}{\milli\volt}, \unit{\ohm}
+\sisetup{
+    mode                  = math,    % tránh lỗi ký tự µ/° với font tiếng Việt (T5)
+    output-decimal-marker = {.},     % thống nhất dấu chấm thập phân
+    group-digits          = false,
+    per-mode              = symbol,  % \qty{3}{\milli\volt\per\celsius} -> mV/°C
+    range-phrase          = {\text{--}},
+    inter-unit-product    = \ensuremath{\cdot}
+}
+
+% ---------------- Hình ảnh, bảng ----------------
+\usepackage{graphicx}
+\usepackage{float}                   % cho phép [H]
+\usepackage{array, booktabs, tabularx, multirow, makecell, longtable}
+\usepackage{caption, subcaption}
+\captionsetup{font=small, labelfont=bf, justification=centering}
+\captionsetup[table]{position=top, skip=4pt}   % quy ước: tên bảng ở TRÊN, tên hình ở DƯỚI
+\graphicspath{{image/}}              % mọi đường dẫn ảnh tính từ thư mục image/
+
+% ---------------- Bố cục trang ----------------
+\usepackage[left=3cm, right=2cm, top=2cm, bottom=2cm]{geometry}
+\usepackage{setspace}
+\usepackage{indentfirst}
+\usepackage{enumitem}
+\setlist{nosep, leftmargin=*, labelindent=\parindent}
+
+% ---------------- Tiêu đề chương, header/footer, mục lục ----------------
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{tocloft}
+
+% ---------------- Vẽ hình, code ----------------
+\usepackage{tikz}
+\usetikzlibrary{calc, positioning, shapes, arrows.meta}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{pdfpages}
+
+% ---------------- Hyperref (luôn đặt cuối) ----------------
+\usepackage[hidelinks, unicode]{hyperref}
+
+% =====================================================================
+%  ĐỊNH DẠNG
+% =====================================================================
+
+% --- Cỡ chữ 13pt, giãn dòng ---
+\renewcommand{\normalsize}{\fontsize{13}{16}\selectfont}
+\setstretch{1.1}
+\setlength{\parindent}{35pt}
+
+% --- Header & Footer ---
+\setlength{\headheight}{25pt}
+\setlength{\footskip}{20pt}
+\fancypagestyle{baocao}{%
+    \fancyhf{}
+    \fancyhead[L]{\small\textit{\TenMonHoc}}
+    \fancyhead[R]{\small\textit{GVHD: \GVHD}}
+    \fancyfoot[R]{Trang $\mid$ \thepage}
+    \renewcommand{\headrulewidth}{0.4pt}
+}
+\fancypagestyle{plain}{%            % trang mở đầu chương cũng dùng chung style
+    \fancyhf{}
+    \fancyhead[L]{\small\textit{\TenMonHoc}}
+    \fancyhead[R]{\small\textit{GVHD: \GVHD}}
+    \fancyfoot[R]{Trang $\mid$ \thepage}
+    \renewcommand{\headrulewidth}{0.4pt}
+}
+\pagestyle{baocao}
+
+% --- Tiêu đề chương (có số) ---
+\titleformat{\chapter}[block]
+    {\normalfont\LARGE\bfseries\raggedright}
+    {CHƯƠNG \thechapter}{1em}
+    {\rule{\textwidth}{0.5pt}\vspace{0.4em}\\\raggedright}
+    [\rule{\textwidth}{0.5pt}]
+\titlespacing*{\chapter}{0pt}{-10pt}{20pt}
+
+% --- Tiêu đề chương không số (Kết luận, TLTK, ...) ---
+\titleformat{name=\chapter, numberless}[block]
+    {\normalfont\LARGE\bfseries\raggedright}
+    {}{0pt}
+    {\rule{\textwidth}{0.5pt}\vspace{0.4em}\\\raggedright}
+    [\rule{\textwidth}{0.5pt}]
+\titlespacing*{name=\chapter, numberless}{0pt}{-10pt}{20pt}
+
+% --- Phụ lục: tiêu đề "PHỤ LỤC A" thay cho "CHƯƠNG A" (gọi trong main.tex) ---
+\newcommand{\batdauphuluc}{%
+    \appendix
+    \titleformat{\chapter}[block]
+        {\normalfont\LARGE\bfseries\raggedright}
+        {PHỤ LỤC \thechapter}{1em}
+        {\rule{\textwidth}{0.5pt}\vspace{0.4em}\\\raggedright}
+        [\rule{\textwidth}{0.5pt}]%
+}
+
+% --- Section / Subsection ---
+\titleformat{\section}{\normalfont\Large\bfseries}{\thesection}{0.8em}{}
+\titleformat{\subsection}{\normalfont\large\bfseries}{\thesubsection}{0.8em}{}
+\titleformat{\subsubsection}{\normalfont\normalsize\bfseries\itshape}{\thesubsubsection}{0.8em}{}
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{2}             % mục lục hiển thị tới subsection
+
+% --- Khoảng cách tiêu đề TOC / LOF / LOT ---
+\setlength{\cftbeforetoctitleskip}{0pt}
+\setlength{\cftaftertoctitleskip}{10pt}
+\setlength{\cftbeforeloftitleskip}{0pt}
+\setlength{\cftafterloftitleskip}{10pt}
+\setlength{\cftbeforelottitleskip}{0pt}
+\setlength{\cftafterlottitleskip}{10pt}
+
+% --- Đánh số hình / bảng / phương trình theo chương (VD: Hình 3.2) ---
+\numberwithin{figure}{chapter}
+\numberwithin{table}{chapter}
+\numberwithin{equation}{chapter}
+
+% --- Code listing ---
+\lstset{
+    basicstyle   = \ttfamily\small,
+    numbers      = left,
+    numberstyle  = \tiny\color{gray},
+    frame        = single,
+    breaklines   = true,
+    tabsize      = 4,
+    showstringspaces = false,
+    keywordstyle = \color{blue!70!black}\bfseries,
+    commentstyle = \color{green!50!black}\itshape,
+    stringstyle  = \color{red!60!black},
+    extendedchars = false
+}
+\renewcommand{\lstlistingname}{Đoạn mã}

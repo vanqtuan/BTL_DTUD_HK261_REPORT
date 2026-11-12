@@ -1,0 +1,61 @@
+% =====================================================================
+%  CHƯƠNG 6 — KẾT QUẢ THỰC NGHIỆM VÀ ĐÁNH GIÁ
+% ---------------------------------------------------------------------
+%  Người phụ trách : [TODO: Họ tên - MSSV]
+%  Tiền tố label   : c6      (fig:c6:..., tab:c6:..., eq:c6:..., sec:c6:...)
+%  Thư mục ảnh     : image/chuong6/
+%  File TLTK       : references/chuong6.bib   (key: c6_...)
+%  Độ dài gợi ý    : 5–10 trang
+%  Mục tiêu        : Kết quả đo thực tế tại nhiều mức khối lượng, so sánh
+%                    Lý thuyết – Mô phỏng – Thực tế, kiểm tra yêu cầu ±5%.
+%  Quy ước         : Gom kết quả vào BẢNG TỔNG HỢP; ảnh đo đặt theo cặp bằng
+%                    \haihinh (dòng | áp). KHÔNG tạo mỗi khối lượng một \section.
+% =====================================================================
+\chapter{Kết quả thực nghiệm và đánh giá}
+\label{chap:c6}
+
+% ---------------------------------------------------------------------
+\section{Phương pháp và thiết bị đo}
+\label{sec:c6:phuong-phap}
+
+\TODO{Mô tả quy trình đo, thiết bị (đồng hồ VOM, nguồn, quả cân chuẩn), điều kiện môi trường.}
+
+% ---------------------------------------------------------------------
+\section{Kết quả đo tại các mức khối lượng}
+\label{sec:c6:ket-qua}
+
+% Ví dụ ảnh đo theo cặp:
+\haihinh{chuong6/m0_dong.jpg}{Dòng ngõ ra tại $m = \qty{0}{\gram}$}{fig:c6:m0-dong}%
+        {chuong6/m0_ap.jpg}{Điện áp ngõ ra tại $m = \qty{0}{\gram}$}{fig:c6:m0-ap}
+
+\begin{table}[H]
+    \centering
+    \caption{Tổng hợp kết quả đo thực tế}
+    \label{tab:c6:ket-qua-do}
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabular}{|c|c|c|c|c|c|}
+        \hline
+        \textbf{$m$ (\unit{\gram})} &
+        \textbf{$I_{\mathrm{lt}}$ (\unit{\milli\ampere})} &
+        \textbf{$I_{\mathrm{mp}}$ (\unit{\milli\ampere})} &
+        \textbf{$I_{\mathrm{tt}}$ (\unit{\milli\ampere})} &
+        \textbf{$V_{\mathrm{ADC}}$ (\unit{\volt})} &
+        \textbf{Sai số (\unit{\percent})} \\ \hline
+        0    & 4.00  & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\ \hline
+        100  & 5.60  & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\ \hline
+        500  & 12.00 & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\ \hline
+        1000 & 20.00 & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\ \hline
+    \end{tabular}
+\end{table}
+
+% ---------------------------------------------------------------------
+\section{So sánh lý thuyết, mô phỏng và thực tế}
+\label{sec:c6:so-sanh}
+
+\TODO{Vẽ đồ thị $I$ theo $m$ (lý thuyết / mô phỏng / thực tế), nhận xét độ tuyến tính.}
+
+% ---------------------------------------------------------------------
+\section{Đánh giá kết quả}
+\label{sec:c6:danh-gia}
+
+\nhanxet{\TODO{Kết luận hệ thống có đạt yêu cầu sai số $\pm\qty{5}{\percent}$ hay không, nguyên nhân sai số.}}

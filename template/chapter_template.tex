@@ -1,0 +1,228 @@
+% =====================================================================
+%  template/chapter_template.tex — MẪU THAM CHIẾU CHO MỌI THÀNH PHẦN
+% ---------------------------------------------------------------------
+%  * File này KHÔNG nằm trong báo cáo. Dùng để copy cú pháp chuẩn.
+%  * Muốn xem bản PDF của mẫu: thêm tạm  \include{template/chapter_template}
+%    vào main.tex (KHÔNG commit thay đổi đó).
+%  * Thay "cX" bằng tiền tố chương của bạn (c1, c2, ..., c6).
+% =====================================================================
+
+% ============================ 1. HEADER ==============================
+%  Mỗi file chương PHẢI bắt đầu bằng khối comment header như các file
+%  trong chapters/ (Người phụ trách, Tiền tố label, Thư mục ảnh, ...).
+
+\chapter{Mẫu định dạng các thành phần}
+\label{chap:cX}
+
+% ======================= 2. CẤU TRÚC MỤC =============================
+\section{Tiêu đề mục cấp 1}
+\label{sec:cX:muc-cap-1}
+
+\subsection{Tiêu đề mục cấp 2}
+\label{sec:cX:muc-cap-2}
+
+\subsubsection{Tiêu đề mục cấp 3 (hạn chế dùng)}
+
+\tieumuc{Tiêu đề nhỏ không đánh số:}
+Dùng \verb|\tieumuc{}| cho các ý nhỏ như “Cấu tạo:”, “Nguyên lý hoạt động:”.
+
+% ========================= 3. ĐOẠN VĂN ===============================
+\section{Đoạn văn và định dạng chữ}
+\label{sec:cX:doan-van}
+
+Mỗi đoạn văn cách nhau bằng MỘT dòng trống. Không dùng \verb|\\| để xuống dòng
+cuối đoạn. Dùng \textbf{in đậm} cho thuật ngữ quan trọng khi xuất hiện lần đầu,
+\textit{in nghiêng} cho thuật ngữ tiếng Anh, ví dụ: bộ khuếch đại dụng cụ
+(\textit{Instrumentation Amplifier}, INA).
+
+% ========================== 4. DANH SÁCH =============================
+\section{Danh sách}
+\label{sec:cX:danh-sach}
+
+Danh sách không thứ tự:
+\begin{itemize}
+    \item \textbf{Thân cảm biến:} thanh kim loại đàn hồi.
+    \item \textbf{Strain gauge:} điện trở thay đổi theo biến dạng.
+\end{itemize}
+
+Danh sách có thứ tự (bước thực hiện):
+\begin{enumerate}
+    \item Hiệu chỉnh điểm không.
+    \item Đặt quả cân chuẩn và ghi nhận kết quả.
+\end{enumerate}
+
+Danh sách đánh chữ cái:
+\begin{enumerate}[label=\alph*.]
+    \item Yêu cầu thứ nhất.
+    \item Yêu cầu thứ hai.
+\end{enumerate}
+
+% ======================= 5. ĐƠN VỊ (siunitx) =========================
+\section{Đại lượng và đơn vị}
+\label{sec:cX:don-vi}
+
+Luôn dùng \texttt{\textbackslash qty\{số\}\{đơn vị\}} cho số có đơn vị và \verb|\unit{}| cho đơn vị đứng riêng:
+điện áp \qty{3.3}{\volt}, dòng \qty{20}{\milli\ampere}, điện trở \qty{10}{\kilo\ohm},
+\qty{3.3}{\ohm}, tụ \qty{100}{\nano\farad}, \qty{1}{\micro\farad}, tần số \qty{1}{\kilo\hertz},
+nhiệt độ \qty{25}{\celsius}, khối lượng \qty{2}{\milli\gram}, tỉ lệ \qty{5}{\percent},
+độ nhạy \qty{1}{\milli\volt\per\volt}, khoảng \qtyrange{4}{20}{\milli\ampere}.
+Đơn vị đứng riêng trong bảng: (\unit{\milli\ampere}).
+
+% ========================= 6. CÔNG THỨC ==============================
+\section{Công thức toán}
+\label{sec:cX:cong-thuc}
+
+Công thức trong dòng: độ lợi $G = 1 + \frac{\qty{100}{\kilo\ohm}}{R_G}$.
+
+Công thức đứng riêng, CÓ đánh số (khi cần tham chiếu):
+\begin{equation}
+    G = 1 + \frac{\qty{100}{\kilo\ohm}}{R_G}
+    \label{eq:cX:do-loi-ina}
+\end{equation}
+Tham chiếu: theo \eqref{eq:cX:do-loi-ina}, để $G = 1000$ ta chọn $R_G \approx \qty{100}{\ohm}$.
+
+Chuỗi biến đổi nhiều dòng:
+\begin{align}
+    \Vout &= I_1 R_f = R_f \frac{\Vin}{R_{\mathrm{in}}} \label{eq:cX:vout} \\
+    R_f   &= R_{\mathrm{in}} \cdot RO \cdot \frac{m}{m_{\max}} \label{eq:cX:rf}
+\end{align}
+
+Kết quả quan trọng (đóng khung, không đánh số):
+\[
+    \ketqua{R_f = 1.066 \times m \ (\unit{\ohm})}
+\]
+
+Hệ phương trình:
+\begin{equation}
+    \left\{
+    \begin{aligned}
+        R_{\mathrm{in}}  &= R_0 + 2R_s \\
+        R_{\mathrm{out}} &= R_0 - \frac{R_f^2}{R_0 + 2R_s}
+    \end{aligned}
+    \right.
+    \label{eq:cX:he-pt}
+\end{equation}
+
+% =========================== 7. HÌNH ẢNH =============================
+\section{Hình ảnh}
+\label{sec:cX:hinh-anh}
+
+Một hình (độ rộng mặc định 0.8\verb|\textwidth|), xem Hình~\ref{fig:cX:mot-hinh}:
+\hinh[0.6\textwidth]{chuongX/ten_anh.png}{Chú thích ngắn gọn, viết hoa chữ đầu, không dấu chấm cuối}{fig:cX:mot-hinh}
+
+Hai hình cạnh nhau, mỗi hình một số thứ tự:
+\haihinh{chuongX/anh_trai.png}{Mô phỏng khi $m = \qty{0}{\kilo\gram}$}{fig:cX:trai}%
+        {chuongX/anh_phai.png}{Mô phỏng khi $m = \qty{1}{\kilo\gram}$}{fig:cX:phai}
+
+Nhiều hình con chung một số (subfigure), tham chiếu Hình~\ref{fig:cX:pcb} và Hình~\ref{fig:cX:pcb-top}:
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[t]{0.47\textwidth}
+        \centering
+        \chenanh{\textwidth}{chuongX/top.png}
+        \caption{Mặt trên}
+        \label{fig:cX:pcb-top}
+    \end{subfigure}\hfill
+    \begin{subfigure}[t]{0.47\textwidth}
+        \centering
+        \chenanh{\textwidth}{chuongX/bottom.png}
+        \caption{Mặt dưới}
+        \label{fig:cX:pcb-bottom}
+    \end{subfigure}
+    \caption{Layout PCB}
+    \label{fig:cX:pcb}
+\end{figure}
+
+% ============================ 8. BẢNG ================================
+\section{Bảng}
+\label{sec:cX:bang}
+
+Bảng thông số (2 cột), xem Bảng~\ref{tab:cX:thong-so}. Tên bảng đặt TRÊN bảng:
+\begin{table}[H]
+    \centering
+    \caption{Thông số kỹ thuật của linh kiện}
+    \label{tab:cX:thong-so}
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabular}{|l|c|}
+        \hline
+        \textbf{Thông số} & \textbf{Giá trị} \\ \hline
+        Điện áp hoạt động & \qtyrange{1.8}{5.5}{\volt} \\ \hline
+        Dòng tĩnh         & \qty{50}{\micro\ampere} \\ \hline
+    \end{tabular}
+\end{table}
+
+Bảng có cột văn bản dài (tự xuống dòng) dùng \texttt{tabularx} với cột \texttt{X}:
+\begin{table}[H]
+    \centering
+    \caption{So sánh các phương án}
+    \label{tab:cX:so-sanh}
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabularx}{\textwidth}{|c|l|X|}
+        \hline
+        \textbf{STT} & \textbf{Phương án} & \textbf{Nhận xét} \\ \hline
+        1 & Phương án A & Nội dung dài sẽ tự động xuống dòng trong cột X. \\ \hline
+        2 & Phương án B & \TODO{} \\ \hline
+    \end{tabularx}
+\end{table}
+
+Bảng số liệu (tiêu đề cột ghi đơn vị trong ngoặc):
+\begin{table}[H]
+    \centering
+    \caption{Kết quả đo}
+    \label{tab:cX:ket-qua}
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        \textbf{$m$ (\unit{\gram})} & \textbf{$I_{\mathrm{lt}}$ (\unit{\milli\ampere})} &
+        \textbf{$I_{\mathrm{tt}}$ (\unit{\milli\ampere})} & \textbf{Sai số (\unit{\percent})} \\ \hline
+        0    & 4.00  & 3.96  & 1.00 \\ \hline
+        1000 & 20.00 & 19.98 & 0.10 \\ \hline
+    \end{tabular}
+\end{table}
+
+Bảng gộp ô:
+\begin{table}[H]
+    \centering
+    \caption{Ví dụ gộp ô}
+    \label{tab:cX:gop-o}
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \multirow{2}{*}{\textbf{Nhiệt độ}} & \multicolumn{2}{c|}{\textbf{Điện áp ngõ ra (\unit{\volt})}} \\ \cline{2-3}
+        & \textbf{Trước bù} & \textbf{Sau bù} \\ \hline
+        \qty{0}{\celsius}  & 0.12 & 0.01 \\ \hline
+        \qty{50}{\celsius} & 0.15 & 0.02 \\ \hline
+    \end{tabular}
+\end{table}
+
+% ======================== 9. NHẬN XÉT ===============================
+\section{Nhận xét sau kết quả}
+\label{sec:cX:nhan-xet}
+
+\nhanxet{Dòng ngõ ra tại \qty{1}{\kilo\gram} đạt \qty{19.98}{\milli\ampere}, sai số
+\qty{0.1}{\percent} so với lý thuyết, nằm trong giới hạn $\pm\qty{5}{\percent}$.}
+
+% ========================= 10. TRÍCH DẪN ==============================
+\section{Trích dẫn tài liệu}
+\label{sec:cX:trich-dan}
+
+Thông số được lấy từ datasheet của nhà sản xuất~\cite{c2_ina333}.
+Key trích dẫn phải nằm trong \texttt{references/chuongX.bib} và có tiền tố \texttt{cX\_}.
+
+% ========================== 11. CODE =================================
+\section{Mã nguồn}
+\label{sec:cX:ma-nguon}
+
+Chỉ dùng chữ KHÔNG DẤU trong code và comment của code.
+\begin{lstlisting}[language=C, caption={Doc gia tri ADC}, label={lst:cX:doc-adc}]
+uint32_t read_adc(void) {
+    // Doc 19 bit tu ADC
+    return adc_value & 0x7FFFF;
+}
+\end{lstlisting}
+
+% ===================== 12. ĐÁNH DẤU CHƯA XONG ========================
+\section{Phần chưa hoàn thành}
+\label{sec:cX:todo}
+
+\TODO{Ghi chú phần chưa hoàn thành. Xóa hết trước khi merge bản final.}

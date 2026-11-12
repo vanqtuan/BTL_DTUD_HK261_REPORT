@@ -1,0 +1,104 @@
+% =====================================================================
+%  CHƯƠNG 3 — TÍNH TOÁN VÀ MÔ PHỎNG MẠCH XỬ LÝ TÍN HIỆU
+% ---------------------------------------------------------------------
+%  Người phụ trách : [TODO: Họ tên - MSSV]
+%  Tiền tố label   : c3      (fig:c3:..., tab:c3:..., eq:c3:..., sec:c3:...)
+%  Thư mục ảnh     : image/chuong3/
+%  File TLTK       : references/chuong3.bib   (key: c3_...)
+%  Độ dài gợi ý    : 10–15 trang
+%  Mục tiêu        : Với MỖI khối: (1) sơ đồ mạch -> (2) tính toán có phương
+%                    trình đánh số -> (3) chọn giá trị linh kiện -> (4) hình mô
+%                    phỏng -> (5) \nhanxet{} so sánh với lý thuyết.
+%                    Đáp ứng yêu cầu a, b, c, d của đề.
+% =====================================================================
+\chapter{Tính toán và mô phỏng mạch xử lý tín hiệu}
+\label{chap:c3}
+
+% ---------------------------------------------------------------------
+\section{Mô hình hóa và mô phỏng Load cell}
+\label{sec:c3:mo-hinh-loadcell}
+% Yêu cầu (a). Xây dựng mô hình điện trở tương đương, tính R_f theo m,
+% mô phỏng tại m = 0 và m = 1 kg.
+
+\TODO{Trình bày mô hình Load cell và tính toán.}
+
+% Ví dụ hệ phương trình:
+\begin{equation}
+    \left\{
+    \begin{aligned}
+        R_{\mathrm{in}}  &= \TODO{} \\
+        R_{\mathrm{out}} &= \TODO{}
+    \end{aligned}
+    \right.
+    \label{eq:c3:rin-rout}
+\end{equation}
+
+% Ví dụ hai hình mô phỏng cạnh nhau:
+\haihinh{chuong3/loadcell_m0.png}{Mô phỏng Load cell khi $m = \qty{0}{\kilo\gram}$}{fig:c3:loadcell-m0}%
+        {chuong3/loadcell_m1.png}{Mô phỏng Load cell khi $m = \qty{1}{\kilo\gram}$}{fig:c3:loadcell-m1}
+
+\nhanxet{\TODO{So sánh kết quả mô phỏng ở Hình~\ref{fig:c3:loadcell-m0} và
+Hình~\ref{fig:c3:loadcell-m1} với giá trị tính theo \eqref{eq:c3:rin-rout}.}}
+
+% ---------------------------------------------------------------------
+\section{Mô phỏng OPAMP theo datasheet}
+\label{sec:c3:mo-phong-opamp}
+% Yêu cầu (b). Mô phỏng các thông số không lý tưởng (Vos, Ib, GBW, CMRR...)
+% và so sánh với datasheet bằng bảng.
+
+\TODO{Mô phỏng các thông số OPAMP và lập bảng so sánh với datasheet.}
+
+% ---------------------------------------------------------------------
+\section{Mạch khuếch đại vi sai}
+\label{sec:c3:khuech-dai}
+
+\TODO{Tính độ lợi cần thiết, chọn $R_G$, mô phỏng.}
+
+% ---------------------------------------------------------------------
+\section{Mạch chuyển đổi điện áp -- dòng điện (V-I) 4--20mA}
+\label{sec:c3:vi-converter}
+
+\TODO{Thiết lập quan hệ tuyến tính $I = aV + b$, thiết kế mạch, mô phỏng tại \qty{0}{\kilo\gram} và \qty{1}{\kilo\gram}.}
+
+% ---------------------------------------------------------------------
+\section{Mạch bù nhiệt độ}
+\label{sec:c3:bu-nhiet}
+% Yêu cầu (c).
+
+\subsection{Ảnh hưởng của nhiệt độ lên Load cell}
+\label{sec:c3:anh-huong-nhiet}
+
+\TODO{Phân tích trôi điểm không và trôi độ nhạy theo datasheet.}
+
+\subsection{Thiết kế và mô phỏng mạch bù nhiệt}
+\label{sec:c3:thiet-ke-bu-nhiet}
+
+\TODO{Thiết kế mạch bù, mô phỏng tại nhiều nhiệt độ (VD: \qty{0}{\celsius}, \qty{25}{\celsius}, \qty{50}{\celsius}).}
+
+% ---------------------------------------------------------------------
+\section{Phân tích sai số}
+\label{sec:c3:sai-so}
+% Yêu cầu (d). Bảng so sánh lý thuyết - mô phỏng, công thức sai số tương đối.
+
+Sai số tương đối giữa giá trị mô phỏng và giá trị lý thuyết được tính theo:
+\begin{equation}
+    \delta = \frac{\left| X_{\mathrm{mp}} - X_{\mathrm{lt}} \right|}{X_{\mathrm{lt}}} \times \qty{100}{\percent}
+    \label{eq:c3:sai-so}
+\end{equation}
+
+\begin{table}[H]
+    \centering
+    \caption{So sánh giá trị lý thuyết và mô phỏng}
+    \label{tab:c3:so-sanh-ly-thuyet-mo-phong}
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        \textbf{Khối lượng (\unit{\gram})} & \textbf{$I_{\mathrm{lt}}$ (\unit{\milli\ampere})} &
+        \textbf{$I_{\mathrm{mp}}$ (\unit{\milli\ampere})} & \textbf{Sai số (\unit{\percent})} \\ \hline
+        0    & 4.00  & \TODO{} & \TODO{} \\ \hline
+        500  & 12.00 & \TODO{} & \TODO{} \\ \hline
+        1000 & 20.00 & \TODO{} & \TODO{} \\ \hline
+    \end{tabular}
+\end{table}
+
+\nhanxet{\TODO{Đánh giá sai số so với yêu cầu $\pm\qty{5}{\percent}$.}}

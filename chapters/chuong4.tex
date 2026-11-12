@@ -1,0 +1,62 @@
+% =====================================================================
+%  CHƯƠNG 4 — THIẾT KẾ MẠCH ĐỌC DÒNG VÀ BỘ CHUYỂN ĐỔI ADC
+% ---------------------------------------------------------------------
+%  Người phụ trách : [TODO: Họ tên - MSSV]
+%  Tiền tố label   : c4      (fig:c4:..., tab:c4:..., eq:c4:..., sec:c4:...)
+%  Thư mục ảnh     : image/chuong4/
+%  File TLTK       : references/chuong4.bib   (key: c4_...)
+%  Độ dài gợi ý    : 6–12 trang
+%  Mục tiêu        : Đáp ứng yêu cầu (e): mạch đọc dòng, lựa chọn ADC (số bit,
+%                    nguồn), mô phỏng mạch đọc và kiểm chứng.
+% =====================================================================
+\chapter{Thiết kế mạch đọc dòng và bộ chuyển đổi ADC}
+\label{chap:c4}
+
+% ---------------------------------------------------------------------
+\section{Mạch đọc dòng 4--20mA}
+\label{sec:c4:doc-dong}
+% Gợi ý: điện trở shunt + khuếch đại vi sai + đệm. Tính R_shunt, độ lợi.
+
+\TODO{Thiết kế mạch đọc dòng, tính $\Rshunt$ và độ lợi.}
+
+% ---------------------------------------------------------------------
+\section{Lựa chọn thông số ADC}
+\label{sec:c4:chon-adc}
+% Gợi ý: số bit N từ độ phân giải, điện áp tham chiếu, nguồn cấp, LSB.
+
+Số bit tối thiểu của ADC được xác định từ tầm đo và độ phân giải yêu cầu:
+\begin{equation}
+    2^{N} \geq \frac{m_{\max}}{\Delta m} = \frac{\qty{1}{\kilo\gram}}{\qty{2}{\milli\gram}} = 5 \times 10^{5}
+    \;\Rightarrow\; N \geq \TODO{}
+    \label{eq:c4:so-bit}
+\end{equation}
+
+\TODO{Chọn điện áp tham chiếu, tính LSB, chọn nguồn cấp cho ADC.}
+
+% ---------------------------------------------------------------------
+\section{Thiết kế bộ ADC}
+\label{sec:c4:thiet-ke-adc}
+
+\TODO{Trình bày kiến trúc ADC, sơ đồ nguyên lý, các khối chức năng.}
+
+% ---------------------------------------------------------------------
+\section{Mô phỏng và kiểm chứng}
+\label{sec:c4:mo-phong}
+
+\TODO{Mô phỏng tại nhiều mức điện áp vào, lập bảng kết quả.}
+
+\begin{table}[H]
+    \centering
+    \caption{Kết quả mô phỏng bộ ADC}
+    \label{tab:c4:ket-qua-adc}
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        \textbf{$\Vin$ (\unit{\volt})} & \textbf{Mã số lý thuyết} &
+        \textbf{Mã số mô phỏng} & \textbf{Sai số (LSB)} \\ \hline
+        \TODO{} & \TODO{} & \TODO{} & \TODO{} \\ \hline
+        \TODO{} & \TODO{} & \TODO{} & \TODO{} \\ \hline
+    \end{tabular}
+\end{table}
+
+\nhanxet{\TODO{Đánh giá độ chính xác của bộ ADC.}}
