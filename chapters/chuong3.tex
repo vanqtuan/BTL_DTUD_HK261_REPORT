@@ -21,7 +21,17 @@
 \section{Yêu cầu thiết kế}
 \label{sec:c3:yeu-cau}
 
-\TODO{Tóm tắt yêu cầu của các khối trong chương: dải vào/ra theo Bảng~\ref{tab:c2:giao-tiep-khoi}, nguồn cấp, sai số mục tiêu.}
+Các khối trong chương này được thiết kế theo dải tín hiệu ở Bảng~\ref{tab:c2:giao-tiep-khoi}:
+\begin{itemize}
+    \item \textbf{Load cell:} nhận khối lượng \qtyrange{0}{1}{\kilo\gram}, ngõ ra \qtyrange{0}{5}{\milli\volt}
+          khi cấp nguồn \qty{5}{\volt}.
+    \item \textbf{Khuếch đại vi sai:} khuếch đại ngõ ra Load cell lên 1000 lần, ngõ ra \qtyrange{0}{5}{\volt}.
+    \item \textbf{Chuyển đổi áp thành dòng:} chuyển \qtyrange{0}{5}{\volt} thành dòng \qtyrange{4}{20}{\milli\ampere}.
+    \item \textbf{Đọc dòng:} chuyển dòng \qtyrange{4}{20}{\milli\ampere} thành điện áp \qtyrange{0.66}{3.3}{\volt}
+          phù hợp với ADC dùng nguồn \qty{3.3}{\volt}.
+\end{itemize}
+Vòng dòng được cấp nguồn \qty{12}{\volt}. Sai số mục tiêu của mỗi khối nhỏ hơn $\pm\qty{5}{\percent}$ so với
+lý thuyết.
 
 % ---------------------------------------------------------------------
 \section{Lựa chọn và mô phỏng Load cell}
@@ -31,31 +41,133 @@
 \subsection{Lựa chọn Load cell}
 \label{sec:c3:chon-loadcell}
 
-\TODO{Lý do lựa chọn Load cell, bảng thông số trích từ datasheet (có \textbackslash cite).}
+Dựa trên yêu cầu đề tài và các Load cell được bán tại Việt Nam, nhóm lựa chọn Load cell YZC-133 tải
+trọng \qty{1}{\kilo\gram} (Hình~\ref{fig:c3:loadcell-yzc133}) với các lý do sau:
+\begin{itemize}
+    \item \textbf{Tầm đo phù hợp:} tải định mức \qty{1}{\kilo\gram} đúng bằng tầm đo yêu cầu, quá tải an
+          toàn \qty{120}{\percent} (\qty{1.2}{\kilo\gram}). Nếu chọn Load cell tải lớn hơn thì độ phân giải
+          bị giảm, nếu chọn tải nhỏ hơn thì không đo hết tầm.
+    \item \textbf{Độ nhạy \qty{1}{\milli\volt\per\volt}:} là loại phổ biến, có datasheet đầy đủ
+          (\unit{\milli\volt\per\volt}, $R_{\mathrm{in}}$, $R_{\mathrm{out}}$) nên có thể mô hình hóa trong
+          phần mềm mô phỏng.
+    \item \textbf{Điện trở cầu khoảng \qty{1}{\kilo\ohm}:} ở nguồn \qty{5}{\volt}, dòng qua cầu chỉ khoảng
+          \qty{4.7}{\milli\ampere} nên tiêu thụ thấp, nhiễu nhiệt nhỏ.
+    \item \textbf{Điện áp hoạt động \qty{5}{\volt}:} thuận tiện dùng chung nguồn với mạch.
+    \item \textbf{Thông số đủ tốt:} độ lệch tuyến tính \qty{0.05}{\percent}, ảnh hưởng nhiệt độ tới độ nhạy
+          \qty{0.003}{\percent}~RO/\unit{\celsius}, nhiệt độ hoạt động từ \qty{-20}{\celsius} đến \qty{65}{\celsius}.
+    \item \textbf{Ảnh hưởng nhiệt độ tới điểm không khá lớn} (\qty{0.02}{\percent}~RO/\unit{\celsius}), đây là
+          lý do đề bài yêu cầu phải có mạch bù nhiệt.
+\end{itemize}
+
+\hinh[0.45\textwidth]{chuong3/loadcell_yzc133.png}{Load cell YZC-133 \qty{1}{\kilo\gram}}{fig:c3:loadcell-yzc133}
+
+Các thông số của Load cell trích từ datasheet~\cite{c3_yzc133} được trình bày trong
+Bảng~\ref{tab:c3:thong-so-loadcell}.
+
+\begin{table}[H]
+    \centering
+    \caption{Thông số kỹ thuật Load cell YZC-133}
+    \label{tab:c3:thong-so-loadcell}
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabular}{|l|c|}
+        \hline
+        \textbf{Thông số} & \textbf{YZC-133} \\ \hline
+        Tải trọng                                        & \qty{1}{\kilo\gram} \\ \hline
+        Rated Output                                     & \qty{1.0 \pm 0.15}{\milli\volt\per\volt} \\ \hline
+        Độ lệch tuyến tính                               & \qty{0.05}{\percent} \\ \hline
+        Creep (\qty{5}{\minute})                         & \qty{0.1}{\percent} \\ \hline
+        Ảnh hưởng nhiệt độ tới độ nhạy                   & \qty{0.003}{\percent}~RO/\unit{\celsius} \\ \hline
+        Ảnh hưởng nhiệt độ tới điểm không                & \qty{0.02}{\percent}~RO/\unit{\celsius} \\ \hline
+        Độ cân bằng điểm không                           & $\pm\qty{0.1}{\percent}$~RO \\ \hline
+        Trở kháng đầu vào                                & \qty{1066 \pm 20}{\ohm} \\ \hline
+        Trở kháng ngõ ra                                 & \qty{1000 \pm 20}{\ohm} \\ \hline
+        Trở kháng cách li (\qty{50}{\volt})              & \qty{2000}{\mega\ohm} \\ \hline
+        Điện áp hoạt động                                & \qty{5}{\volt} \\ \hline
+        Nhiệt độ hoạt động                               & \qtyrange{-20}{65}{\celsius} \\ \hline
+        Safe Overload                                    & \qty{120}{\percent}~RO \\ \hline
+        Ultimate Overload                                & \qty{150}{\percent}~RO \\ \hline
+        Chất liệu cảm biến                               & Nhôm \\ \hline
+        Độ dài dây                                       & \qty{180}{\milli\meter} \\ \hline
+        Dây đỏ / Dây đen                                 & Ngõ vào ($+$) / Ngõ vào ($-$) \\ \hline
+        Dây xanh lá / Dây trắng                          & Ngõ ra ($+$) / Ngõ ra ($-$) \\ \hline
+    \end{tabular}
+\end{table}
+
+Theo \eqref{eq:c2:vout-loadcell}, khi cấp nguồn \qty{5}{\volt} và khối lượng đo được là \qty{1}{\kilo\gram},
+tín hiệu ngõ ra là $\Vout = \qty{5 \pm 0.75}{\milli\volt}$.
 
 \subsection{Mô hình hóa Load cell}
 \label{sec:c3:mo-hinh-loadcell}
 
-\TODO{Xây dựng mô hình điện trở tương đương, tính $R_f$ theo khối lượng $m$.}
+Datasheet của Load cell chỉ cho các thông số mức hộp đen gồm độ nhạy (\unit{\milli\volt\per\volt}), trở
+kháng vào $R_{\mathrm{in}}$ và trở kháng ra $R_{\mathrm{out}}$. Do đó, để mô phỏng trong NI Multisim,
+nhóm xây dựng mô hình Load cell từ cầu Wheatstone gồm bốn điện trở $R_0 \pm R_f$ (Hình~\ref{fig:c2:cau-wheatstone}),
+kèm hai điện trở $R_s$ nối tiếp nguồn, sao cho mô hình khớp với datasheet. Sơ đồ tính $R_{\mathrm{in}}$ và
+$R_{\mathrm{out}}$ được thể hiện trong Hình~\ref{fig:c3:loadcell-rin} và Hình~\ref{fig:c3:loadcell-rout};
+mô hình đầy đủ dùng để mô phỏng ở Hình~\ref{fig:c3:loadcell-mo-hinh}.
 
+\haihinh{chuong3/loadcell_rin.png}{Sơ đồ tính trở kháng vào $R_{\mathrm{in}}$}{fig:c3:loadcell-rin}%
+        {chuong3/loadcell_rout.png}{Sơ đồ tính trở kháng ra $R_{\mathrm{out}}$}{fig:c3:loadcell-rout}
+
+\hinh[0.3\textwidth]{chuong3/loadcell_mo_hinh.png}{Mô hình Load cell dùng để mô phỏng}{fig:c3:loadcell-mo-hinh}
+
+Từ Hình~\ref{fig:c3:loadcell-rin} và Hình~\ref{fig:c3:loadcell-rout}, ta có:
 \begin{equation}
     \left\{
     \begin{aligned}
-        R_{\mathrm{in}}  &= \TODO{} \\
-        R_{\mathrm{out}} &= \TODO{}
+        R_{\mathrm{in}}  &= \frac{(R_0 + R_f) + (R_0 - R_f)}{2} + 2R_s \\
+        R_{\mathrm{out}} &= R_0 - \frac{R_f^2}{R_0 + 2R_s}
     \end{aligned}
     \right.
     \label{eq:c3:rin-rout}
 \end{equation}
 
+Khi chưa có tải ($m = \qty{0}{\kilo\gram}$), cầu cân bằng. Từ \eqref{eq:c3:rin-rout}, với
+$R_{\mathrm{in}} = \qty{1066}{\ohm}$ theo Bảng~\ref{tab:c3:thong-so-loadcell}, ta được:
+\[
+    \left\{
+    \begin{aligned}
+        R_f &= 0 \\
+        R_0 &= R_{\mathrm{out}} = \qty{1000}{\ohm} \\
+        R_s &= \qty{33}{\ohm}
+    \end{aligned}
+    \right.
+\]
+
+Khi có tải $m \neq 0$ thì $R_f \neq 0$. Dòng qua mỗi nhánh của cầu bằng một nửa dòng nguồn
+($I_2 = I_3 = I_1/2$), nên:
+\begin{align}
+    \Vout &= V_a - V_b
+           = \left[ I_1 R_s + \frac{I_1}{2}(R_0 + R_f) \right] - \left[ I_1 R_s + \frac{I_1}{2}(R_0 - R_f) \right]
+           = I_1 R_f = R_f \frac{\Vin}{R_{\mathrm{in}}} \label{eq:c3:vout-rf} \\
+    R_f   &= R_{\mathrm{in}} \frac{\Vout}{\Vin}
+           = R_{\mathrm{in}} \cdot RO \cdot \frac{m}{m_{\max}}
+           = 1066 \times 10^{-3} \times m \label{eq:c3:rf-tong-quat}
+\end{align}
+trong đó $V_a$, $V_b$ là điện áp tại hai điểm giữa của cầu, $I_1$ là dòng nguồn. Kết quả:
+\[
+    \ketqua{R_f = 1.066 \times m \ (\unit{\ohm})}
+\]
+với $m$ tính bằng \unit{\kilo\gram}.
+
+Kiểm tra với $m = \qty{1}{\kilo\gram}$: $R_f = \qty{1.066}{\ohm}$, dòng nguồn
+$I_1 = \qty{5}{\volt} / \qty{1066}{\ohm} \approx \qty{4.69}{\milli\ampere}$ và
+$\Vout = I_1 R_f \approx \qty{5}{\milli\volt}$ theo \eqref{eq:c3:vout-rf}, đúng với tính toán từ datasheet
+ở \eqref{eq:c2:vout-loadcell}.
+
 \subsection{Mô phỏng Load cell}
 \label{sec:c3:mo-phong-loadcell}
+
+Mô hình ở Hình~\ref{fig:c3:loadcell-mo-hinh} được mô phỏng trên NI Multisim với $R_f$ tính theo
+\eqref{eq:c3:rf-tong-quat}, kết quả ở Hình~\ref{fig:c3:loadcell-m0} và Hình~\ref{fig:c3:loadcell-m1}.
 
 \haihinh{chuong3/loadcell_m0.png}{Mô phỏng Load cell khi $m = \qty{0}{\kilo\gram}$}{fig:c3:loadcell-m0}%
         {chuong3/loadcell_m1.png}{Mô phỏng Load cell khi $m = \qty{1}{\kilo\gram}$}{fig:c3:loadcell-m1}
 
-\nhanxet{\TODO{So sánh kết quả ở Hình~\ref{fig:c3:loadcell-m0} và
-Hình~\ref{fig:c3:loadcell-m1} với giá trị tính theo \eqref{eq:c3:rin-rout}.}}
+\nhanxet{Tại $m = \qty{0}{\kilo\gram}$ ($R_f = \qty{0}{\ohm}$) ngõ ra đo được \qty{0}{\volt} (Hình~\ref{fig:c3:loadcell-m0}).
+Tại $m = \qty{1}{\kilo\gram}$ ($R_f = \qty{1.066}{\ohm}$) ngõ ra đo được \qty{5.00}{\milli\volt}
+(Hình~\ref{fig:c3:loadcell-m1}), trùng với giá trị $I_1 R_f \approx \qty{5}{\milli\volt}$ tính theo
+\eqref{eq:c3:vout-rf}, sai số \qty{0}{\percent} trong độ phân giải hiển thị của phép đo.}
 
 % ---------------------------------------------------------------------
 \section{Lựa chọn và mô phỏng OPAMP theo datasheet}
@@ -63,9 +175,39 @@ Hình~\ref{fig:c3:loadcell-m1} với giá trị tính theo \eqref{eq:c3:rin-rout
 % Yêu cầu (b). Chọn INA cho khuếch đại vi sai và OPAMP cho V-I, đọc dòng, đệm.
 % Mô phỏng các thông số (Vos, Ib, GBW, CMRR...) và so sánh với datasheet.
 
-Bộ khuếch đại dụng cụ được lựa chọn dựa trên các thông số trong datasheet~\cite{c3_ina333}.
+Ngõ ra vi sai của Load cell chỉ có điện áp tối đa \qty{5}{\milli\volt}, rất nhỏ và dễ bị ảnh hưởng bởi
+các giá trị không lý tưởng của OPAMP (offset, trôi, nhiễu). Vì vậy nhóm khuếch đại điện áp lên
+\qty{5}{\volt} để hạn chế các ảnh hưởng này và giúp việc đo lường dễ dàng hơn. Bộ khuếch đại dụng cụ
+INA333 (Hình~\ref{fig:c3:ina333}) được lựa chọn dựa trên các thông số trong datasheet~\cite{c3_ina333}
+với các lý do sau:
+\begin{itemize}
+    \item \textbf{Tín hiệu vi sai nhỏ trên mức common-mode:} tín hiệu Load cell nằm trên mức common-mode
+          khoảng \qty{2.5}{\volt}, cần bộ khuếch đại dụng cụ có CMRR cao và trở kháng vào lớn để không
+          làm tải cầu \qty{1}{\kilo\ohm}.
+    \item \textbf{Offset và độ trôi rất nhỏ:} điều này quan trọng vì mọi offset đều bị nhân với độ lợi
+          $G = 1000$.
+    \item \textbf{Độ lợi đặt bằng điện trở ngoài:} theo công thức ở \eqref{eq:c3:do-loi-ina}.
+    \item \textbf{Có chân REF:} cho phép cộng điện áp bù nhiệt và cân chỉnh điểm không.
+\end{itemize}
+\begin{equation}
+    G = 1 + \frac{\qty{100}{\kilo\ohm}}{R_G}
+    \label{eq:c3:do-loi-ina}
+\end{equation}
 
-\TODO{Lý do lựa chọn INA / OPAMP.}
+\hinh[0.5\textwidth]{chuong3/ina333.png}{Sơ đồ khối bộ khuếch đại dụng cụ INA333}{fig:c3:ina333}
+
+Bên cạnh đó, nhóm chọn OPAMP OP07C (Hình~\ref{fig:c3:op07c}) cho các mạch V-I converter, mạch khuếch
+đại và mạch đệm~\cite{c3_op07c}, với các lý do sau:
+\begin{itemize}
+    \item \textbf{Chính xác cho mạch DC:} điện áp offset thấp, trôi thấp, độ lợi vòng hở lớn.
+    \item \textbf{Dễ sử dụng:} giá thành rẻ, phổ biến, dễ mua và có sẵn mô hình trong NI Multisim (OP07CS8).
+    \item \textbf{Hạn chế:} không rail-to-rail và tốc độ chậm, nhưng tín hiệu cân là tín hiệu DC nên không
+          ảnh hưởng. Cần cấp nguồn đủ cao để ngõ ra đạt được mức điện áp cần thiết.
+\end{itemize}
+
+\hinh[0.35\textwidth]{chuong3/op07c.jpg}{OPAMP OP07C}{fig:c3:op07c}
+
+Bảng~\ref{tab:c3:opamp-datasheet} so sánh các thông số của OPAMP giữa datasheet và mô phỏng.
 
 \begin{table}[H]
     \centering
@@ -86,23 +228,140 @@ Bộ khuếch đại dụng cụ được lựa chọn dựa trên các thông s
 \section{Mạch khuếch đại vi sai}
 \label{sec:c3:khuech-dai}
 
-\TODO{Tính độ lợi cần thiết theo Bảng~\ref{tab:c2:giao-tiep-khoi}, chọn $R_G$, mạch hiệu chỉnh điểm không.}
+Từ \qty{5}{\milli\volt} lên \qty{5}{\volt} (Bảng~\ref{tab:c2:giao-tiep-khoi}), độ lợi cần thiết là
+$G = 1000$. Theo \eqref{eq:c3:do-loi-ina}, ta chọn:
+\[
+    \ketqua{R_G = \qty{100}{\ohm}}
+\]
+khi đó $G = 1 + \qty{100}{\kilo\ohm}/\qty{100}{\ohm} = 1001$.
+
+Độ nhạy của Load cell có dung sai $\pm\qty{0.15}{\milli\volt\per\volt}$ ($\pm\qty{15}{\percent}$), lớn hơn
+yêu cầu sai số $\pm\qty{5}{\percent}$ của đề. Vì vậy, trong thiết kế thực tế nên thay $R_G$ bằng một điện
+trở cố định mắc nối tiếp với biến trở nhỏ để hiệu chỉnh độ lợi (span) sao cho \qty{1}{\kilo\gram} cho
+đúng \qty{5}{\volt}.
+
+Để hiệu chỉnh cho các giá trị không lý tưởng của OPAMP và cân bằng lại Load cell, nhóm cấp tín hiệu
+calib vào chân $\Vref$ của INA333. Tín hiệu này được tạo từ một biến trở \qty{10}{\kilo\ohm} nối giữa
+\qty{+5}{\volt} và \qty{-5}{\volt}, kết hợp mạch đệm (\textit{voltage follower}) dùng OP07.
 
 \subsection{Mô phỏng mạch khuếch đại vi sai}
 \label{sec:c3:mo-phong-khuech-dai}
 
-\TODO{Hình mô phỏng tại $m = \qty{0}{\kilo\gram}$ và $m = \qty{1}{\kilo\gram}$, kèm \textbackslash nhanxet.}
+\hinh[0.9\textwidth]{chuong3/ina333_m1.png}{Mô phỏng mạch khuếch đại vi sai khi $m = \qty{1}{\kilo\gram}$}{fig:c3:ina333-m1}
+
+\nhanxet{Với $m = \qty{1}{\kilo\gram}$, ngõ vào INA333 là \qty{5.00}{\milli\volt} và ngõ ra đo được
+\qty{5.00}{\volt} (Hình~\ref{fig:c3:ina333-m1}), so với lý thuyết $1001 \times \qty{5}{\milli\volt} = \qty{5.005}{\volt}$
+chênh lệch khoảng \qty{0.1}{\percent}, nằm trong độ phân giải hiển thị. Tại $m = \qty{0}{\kilo\gram}$, ngõ ra INA333
+chỉ lệch khoảng \qty{378}{\micro\volt} so với \qty{0}{\volt} (Hình~\ref{fig:c3:vi-m0}).}
 
 % ---------------------------------------------------------------------
 \section{Mạch chuyển đổi áp thành dòng 4--20mA}
 \label{sec:c3:vi-converter}
 
-\TODO{Thiết lập quan hệ tuyến tính $I = aV + b$, thiết kế mạch, chọn linh kiện.}
+Sau khi khuếch đại tín hiệu từ INA333, cần chuyển đổi tín hiệu từ \qtyrange{0}{5}{\volt} thành dòng
+\qtyrange{4}{20}{\milli\ampere} (Hình~\ref{fig:c3:vi-dac-tuyen}). Quan hệ cần có là một hàm bậc nhất
+$I = aV + b$. Với $V = 0 \rightarrow \qty{5}{\volt}$ và $I = 4 \rightarrow \qty{20}{\milli\ampere}$:
+\begin{align}
+    a &= \frac{(20 - 4)\,\unit{\milli\ampere}}{\qty{5}{\volt}} = \qty{3.2}{\milli\ampere\per\volt},
+    \qquad b = \qty{4}{\milli\ampere} \label{eq:c3:he-so-vi} \\
+    I &= 3.2V + 4 \ \rightarrow \ I = \frac{V + \qty{1.25}{\volt}}{\qty{312.5}{\ohm}} \label{eq:c3:i-v}
+\end{align}
+
+\hinh[0.4\textwidth]{chuong3/vi_dac_tuyen.png}{Đặc tuyến chuyển đổi áp thành dòng}{fig:c3:vi-dac-tuyen}
+
+Từ hệ số $a$, $b$ ở \eqref{eq:c3:he-so-vi}, theo \eqref{eq:c3:i-v} dòng điện được tạo ra bởi điện áp $(V + \qty{1.25}{\volt})$ đặt lên điện trở
+$R_3 = \qty{312.5}{\ohm}$. Từ đó cần hai khối: mạch cộng điện áp với $\Vref = \qty{1.25}{\volt}$ và mạch
+chuyển đổi V-I (nguồn dòng), như Hình~\ref{fig:c3:vi-so-do}.
+
+\hinh[0.7\textwidth]{chuong3/vi_so_do.png}{Mạch cộng điện áp và V-I converter}{fig:c3:vi-so-do}
+
+\tieumuc{Mạch cộng điện áp (cộng không đảo):}
+Hai ngõ vào $V$ và \qty{1.25}{\volt} qua hai điện trở $R$ bằng nhau, nên điện áp tại ngõ vào không đảo là
+$(V + \qty{1.25}{\volt})/2$. Mạch khuếch đại không đảo có độ lợi $(1 + R_2/R_1)$, nên:
+\begin{equation}
+    V_{\mathrm{o1}} = \frac{\left(1 + \frac{R_2}{R_1}\right)(V + \qty{1.25}{\volt})}{2}
+    \ \rightarrow \ \frac{R_2}{R_1} = 1 \ \rightarrow \ V_{\mathrm{o1}} = V + \qty{1.25}{\volt}
+    \label{eq:c3:vo1}
+\end{equation}
+Chọn $R_1 = R_2 = \qty{10}{\kilo\ohm}$. Khi đó, theo \eqref{eq:c3:vo1}, $V_{\mathrm{o1}}$ chạy từ \qty{1.25}{\volt}
+($m = \qty{0}{\kilo\gram}$) đến \qty{6.25}{\volt} ($m = \qty{1}{\kilo\gram}$).
+
+\tieumuc{Mạch tạo điện áp \qty{1.25}{\volt}:}
+Dùng biến trở \qty{10}{\kilo\ohm} chia áp từ nguồn \qty{+5}{\volt}, đặt ở vị trí \qty{25}{\percent} để có
+$\qty{5}{\volt} \times \qty{25}{\percent} = \qty{1.25}{\volt}$, sau đó qua mạch đệm OP07 để cách ly biến
+trở khỏi tải. Biến trở này chính là $V_{\mathrm{calib}}$ dùng để cân chỉnh điểm \qty{4}{\milli\ampere}.
+
+\tieumuc{Mạch nguồn dòng:}
+OPAMP, MOSFET 2N7002 và điện trở $R_3$ tạo thành nguồn dòng có hồi tiếp. Hồi tiếp âm từ source của MOSFET
+ép điện áp trên $R_3$ bằng $V_{\mathrm{o1}}$. Vì gate không lấy dòng nên dòng qua tải bằng dòng qua $R_3$:
+\begin{equation}
+    I = \frac{V_{\mathrm{o1}}}{R_3} = \frac{V + \qty{1.25}{\volt}}{R_3}
+    \label{eq:c3:i-r3}
+\end{equation}
+Dòng này không phụ thuộc vào giá trị tải $R_L$ (miễn là nguồn cấp đủ lớn). Điện trở \qty{1}{\kilo\ohm} ở
+gate giúp hạn chế dao động.
+
+\tieumuc{Chọn giá trị linh kiện:}
+Chọn $R_1 = R_2 = \qty{10}{\kilo\ohm}$, $R_L = \qty{50}{\ohm}$. Theo \eqref{eq:c3:i-v}, $R_3$ lý thuyết là
+\qty{312.5}{\ohm}. Vì không có điện trở đúng giá trị này nên nhóm chọn nối tiếp 3 điện trở \qty{100}{\ohm} và
+1 điện trở \qty{10}{\ohm}:
+\[
+    \ketqua{R_3 = \qty{310}{\ohm}}
+\]
+lệch khoảng \qty{0.8}{\percent} so với lý thuyết.
+
+\tieumuc{Kiểm tra điện áp cấp (compliance):}
+Điện áp nguồn tối thiểu cần để nguồn dòng hoạt động bình thường tại \qty{20}{\milli\ampere} là:
+\begin{equation}
+    V_{\mathrm{CC}} \geq I_{\max}\left(R_L + R_3 + \Rshunt\right) + V_{\mathrm{DS(min)}}
+    \approx \qty{20}{\milli\ampere} \times (50 + 310 + 3.3)\,\unit{\ohm} + \qty{1}{\volt} \approx \qty{8.3}{\volt}
+    \label{eq:c3:compliance}
+\end{equation}
+Theo \eqref{eq:c3:compliance}, nguồn \qty{12}{\volt} là đủ. Công suất tiêu tán trên $R_3$ là
+$P = I^2 R_3 = (\qty{0.02}{\ampere})^2 \times \qty{310}{\ohm} \approx \qty{0.124}{\watt}$, nên cần dùng điện
+trở có công suất từ \qty{0.25}{\watt} trở lên.
+
+Dòng điện lý thuyết với $R_3 = \qty{310}{\ohm}$ được tính theo \eqref{eq:c3:i-r3} và so sánh với mô phỏng trong
+Bảng~\ref{tab:c3:vi-dong-dien}.
+
+\begin{table}[H]
+    \centering
+    \caption{Dòng điện ngõ ra V-I converter}
+    \label{tab:c3:vi-dong-dien}
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        \textbf{$m$ (\unit{\kilo\gram})} & \textbf{$V_{\mathrm{INA}}$ (\unit{\volt})} &
+        \textbf{$V_{\mathrm{o1}}$ (\unit{\volt})} & \textbf{$I$ lý thuyết (\unit{\milli\ampere})} &
+        \textbf{$I$ mô phỏng (\unit{\milli\ampere})} \\ \hline
+        0 & 0.00 & 1.25 & 4.03  & 4.03 \\ \hline
+        1 & 5.00 & 6.25 & 20.16 & 20.2 \\ \hline
+    \end{tabular}
+\end{table}
 
 \subsection{Mô phỏng mạch chuyển đổi áp thành dòng}
 \label{sec:c3:mo-phong-vi}
 
-\TODO{Hình mô phỏng tại các mức điện áp vào tương ứng \qty{0}{\kilo\gram} và \qty{1}{\kilo\gram}, kèm \textbackslash nhanxet.}
+Kết quả mô phỏng tại $m = \qty{1}{\kilo\gram}$ và $m = \qty{0}{\kilo\gram}$ lần lượt ở
+Hình~\ref{fig:c3:vi-m1} và Hình~\ref{fig:c3:vi-m0}.
+
+\hinh[0.75\textwidth]{chuong3/vi_m1.png}{Mô phỏng V-I converter với khối lượng \qty{1}{\kilo\gram}}{fig:c3:vi-m1}
+
+\hinh[0.75\textwidth]{chuong3/vi_m0.png}{Mô phỏng V-I converter với khối lượng \qty{0}{\kilo\gram}}{fig:c3:vi-m0}
+
+\nhanxet{Với khối lượng \qty{0}{\kilo\gram}, ngõ ra INA333 lệch khoảng \qty{378}{\micro\volt} so với \qty{0}{\volt},
+điện áp calib $V_{\mathrm{calib}}$ đo được \qty{1.25}{\volt} đúng thiết kế và dòng ngõ ra đo được khoảng
+\qty{4.03}{\milli\ampere}. Giá trị này trùng với lý thuyết khi dùng $R_3 = \qty{310}{\ohm}$
+($\qty{1.25}{\volt}/\qty{310}{\ohm} = \qty{4.03}{\milli\ampere}$) và lệch khoảng \qty{0.8}{\percent} so với
+\qty{4}{\milli\ampere} lý tưởng. Với khối lượng \qty{1}{\kilo\gram}, dòng ngõ ra đo được khoảng
+\qty{20.2}{\milli\ampere}, so với \qty{20.16}{\milli\ampere} lý thuyết ($R_3 = \qty{310}{\ohm}$) và lệch khoảng
+\qty{1}{\percent} so với \qty{20}{\milli\ampere}. Dấu âm của ampe kế chỉ do chiều đặt ampe kế, không ảnh hưởng đến
+độ lớn dòng. Sai lệch còn lại chủ yếu đến từ việc dùng $R_3 = \qty{310}{\ohm}$ thay cho \qty{312.5}{\ohm}; ngoài
+ra còn có offset INA333 bị khuếch đại 1000 lần (\qty{378}{\micro\volt} ở ngõ ra, tương ứng chỉ khoảng
+\qty{1.2}{\micro\ampere} ở ngõ ra dòng), offset của OP07 và dung sai điện trở \qty{5}{\percent}. Tất cả đều nhỏ
+hơn nhiều so với yêu cầu $\pm\qty{5}{\percent}$. Nếu cần đưa dòng về đúng \qty{4}{\milli\ampere} và
+\qty{20}{\milli\ampere} hơn, có thể tinh chỉnh biến trở $V_{\mathrm{calib}}$, dùng tổ hợp điện trở gần
+\qty{312.5}{\ohm} hơn (ví dụ \qty{300}{\ohm} nối tiếp \qty{12}{\ohm}) hoặc dùng điện trở độ chính xác cao.}
 
 % ---------------------------------------------------------------------
 \section{Mạch đọc dòng}
@@ -110,16 +369,78 @@ Bộ khuếch đại dụng cụ được lựa chọn dựa trên các thông s
 % Phần mạch đọc dòng của yêu cầu (e). Điện trở shunt + khuếch đại vi sai + đệm.
 % Ngõ ra phải nằm trong dải ngõ vào của ADC (Chương 5).
 
-\TODO{Thiết kế mạch đọc dòng, tính $\Rshunt$ và độ lợi.}
+Dòng \qtyrange{4}{20}{\milli\ampere} được đo bằng cách chuyển đổi dòng thành điện áp qua điện trở $\Rshunt$
+mắc nối tiếp trong vòng dòng. Điện áp rơi trên $\Rshunt$ sau đó được đưa vào bộ khuếch đại vi sai để tạo ra
+điện áp tương ứng cấp cho ADC, như Hình~\ref{fig:c3:doc-dong-so-do}.
+
+\hinh[0.55\textwidth]{chuong3/doc_dong_so_do.png}{Mạch đọc dòng}{fig:c3:doc-dong-so-do}
+
+$\Rshunt$ được mắc nối tiếp giữa nguồn \qty{12}{\volt} và tải $R_L$, nên toàn bộ dòng
+\qtyrange{4}{20}{\milli\ampere} của nguồn dòng chạy qua nó. Do V-I converter là nguồn dòng nên việc thêm
+$\Rshunt$ chỉ làm tăng tải một chút mà không làm thay đổi dòng. Hai đầu $\Rshunt$ được nối vào hai ngõ vào
+của mạch khuếch đại vi sai.
+
+Chọn $R_1 = R_2 = \qty{32}{\kilo\ohm}$, điện trở hồi tiếp và điện trở xuống đất \qty{1.6}{\mega\ohm}, ta được
+độ lợi khuếch đại vi sai:
+\begin{equation}
+    G = \frac{\qty{1.6}{\mega\ohm}}{\qty{32}{\kilo\ohm}} = 50
+    \label{eq:c3:do-loi-vi-sai}
+\end{equation}
+
+Với $I = \qty{20}{\milli\ampere}$ thì $\Vout = \qty{3.3}{\volt}$ (phù hợp với ADC dùng nguồn \qty{3.3}{\volt},
+Bảng~\ref{tab:c2:giao-tiep-khoi}). Từ \eqref{eq:c3:do-loi-vi-sai} và \eqref{eq:c2:v-shunt}, tính được điện trở shunt:
+\begin{equation}
+    \Rshunt = \frac{V_{\mathrm{shunt}}}{I} = \frac{\Vout}{G \times I}
+    = \frac{\qty{3.3}{\volt}}{50 \times \qty{20}{\milli\ampere}} = \qty{3.3}{\ohm}
+    \label{eq:c3:rshunt}
+\end{equation}
+\[
+    \ketqua{\Rshunt = \qty{3.3}{\ohm}}
+\]
+
+Điện áp tại các điểm đầu và cuối thang đo được tính theo \eqref{eq:c3:rshunt} và so sánh với mô phỏng trong
+Bảng~\ref{tab:c3:doc-dong-dien-ap}. Điện áp sau khi đọc dòng được đệm qua một buffer (\textit{voltage follower})
+để cách ly và đưa vào khối ADC.
+
+\begin{table}[H]
+    \centering
+    \caption{Điện áp ngõ ra mạch đọc dòng}
+    \label{tab:c3:doc-dong-dien-ap}
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        \textbf{$I$ (\unit{\milli\ampere})} & \textbf{$V_{\mathrm{shunt}}$ (\unit{\milli\volt})} &
+        \textbf{$\Vout$ lý thuyết (\unit{\volt})} & \textbf{$\Vout$ mô phỏng (\unit{\volt})} \\ \hline
+        4  & 13.2 & 0.660 & 0.671 \\ \hline
+        20 & 66.0 & 3.300 & 3.330 \\ \hline
+    \end{tabular}
+\end{table}
 
 \subsection{Mô phỏng mạch đọc dòng}
 \label{sec:c3:mo-phong-doc-dong}
 
-\TODO{Hình mô phỏng tại \qty{4}{\milli\ampere} và \qty{20}{\milli\ampere}, kèm \textbackslash nhanxet.}
+Kết quả mô phỏng tại $m = \qty{1}{\kilo\gram}$ và $m = \qty{0}{\kilo\gram}$ lần lượt ở
+Hình~\ref{fig:c3:doc-dong-m1} và Hình~\ref{fig:c3:doc-dong-m0}.
+
+\hinh[0.9\textwidth]{chuong3/doc_dong_m1.png}{Mô phỏng mạch đọc dòng với khối lượng \qty{1}{\kilo\gram}}{fig:c3:doc-dong-m1}
+
+\hinh[0.9\textwidth]{chuong3/doc_dong_m0.png}{Mô phỏng mạch đọc dòng với khối lượng \qty{0}{\kilo\gram}}{fig:c3:doc-dong-m0}
+
+\nhanxet{Với khối lượng \qty{1}{\kilo\gram}, dòng qua $\Rshunt$ đo được khoảng \qty{20.2}{\milli\ampere}, điện áp rơi
+trên $\Rshunt$ là $\qty{20.2}{\milli\ampere} \times \qty{3.3}{\ohm} \approx \qty{66.7}{\milli\volt}$; sau khi khuếch đại
+50 lần cho điện áp ngõ ra khoảng \qty{3.33}{\volt}, sát với giá trị lý thuyết \qty{3.3}{\volt} (lệch khoảng
+\qty{0.9}{\percent}). Với khối lượng \qty{0}{\kilo\gram}, dòng đo được khoảng \qty{4.05}{\milli\ampere} và điện áp
+ngõ ra khoảng \qty{671}{\milli\volt}, sát với giá trị lý thuyết \qty{0.66}{\volt} (lệch khoảng \qty{1.7}{\percent}).
+Điện áp tại ngõ ra buffer (PR6) bằng điện áp trước buffer (PR5), chứng tỏ buffer có độ lợi 1 và không làm sai lệch
+tín hiệu. Như vậy điện áp cấp cho ADC nằm trong dải khoảng \qtyrange{0.66}{3.3}{\volt} như thiết kế, sai số nhỏ hơn
+\qty{5}{\percent} so với lý thuyết. Sai lệch nhỏ đến từ dòng của V-I converter cao hơn lý thuyết khoảng
+\qty{1}{\percent} (do $R_3 = \qty{310}{\ohm}$) và dung sai điện trở \qty{5}{\percent} trong mạch khuếch đại vi sai.}
 
 % ---------------------------------------------------------------------
 \section{Tổng kết kết quả mô phỏng các khối}
 \label{sec:c3:tong-ket}
+
+Bảng~\ref{tab:c3:tong-ket} tổng hợp kết quả mô phỏng riêng lẻ của các khối trong chương.
 
 \begin{table}[H]
     \centering
@@ -129,12 +450,16 @@ Bộ khuếch đại dụng cụ được lựa chọn dựa trên các thông s
     \begin{tabularx}{\textwidth}{|X|c|c|c|c|}
         \hline
         \textbf{Khối / Đại lượng} & \textbf{Điều kiện} & \textbf{Lý thuyết} & \textbf{Mô phỏng} & \textbf{Sai số (\unit{\percent})} \\ \hline
-        Load cell, $\Vout$          & $m = \qty{1}{\kilo\gram}$ & \TODO{} & \TODO{} & \TODO{} \\ \hline
-        Khuếch đại vi sai, $\Vout$  & $m = \qty{1}{\kilo\gram}$ & \TODO{} & \TODO{} & \TODO{} \\ \hline
-        Chuyển đổi V-I, $I$         & $m = \qty{0}{\kilo\gram}$ & \qty{4}{\milli\ampere}  & \TODO{} & \TODO{} \\ \hline
-        Chuyển đổi V-I, $I$         & $m = \qty{1}{\kilo\gram}$ & \qty{20}{\milli\ampere} & \TODO{} & \TODO{} \\ \hline
-        Đọc dòng, $\Vout$           & $I = \qty{20}{\milli\ampere}$ & \TODO{} & \TODO{} & \TODO{} \\ \hline
+        Load cell, $\Vout$          & $m = \qty{1}{\kilo\gram}$ & \qty{5.00}{\milli\volt}  & \qty{5.00}{\milli\volt}  & 0.0 \\ \hline
+        Khuếch đại vi sai, $\Vout$  & $m = \qty{1}{\kilo\gram}$ & \qty{5.005}{\volt}       & \qty{5.00}{\volt}        & 0.1 \\ \hline
+        Chuyển đổi V-I, $I$         & $m = \qty{0}{\kilo\gram}$ & \qty{4}{\milli\ampere}   & \qty{4.03}{\milli\ampere} & 0.8 \\ \hline
+        Chuyển đổi V-I, $I$         & $m = \qty{1}{\kilo\gram}$ & \qty{20}{\milli\ampere}  & \qty{20.2}{\milli\ampere} & 1.0 \\ \hline
+        Đọc dòng, $\Vout$           & $I = \qty{4}{\milli\ampere}$  & \qty{0.66}{\volt}    & \qty{0.671}{\volt}       & 1.7 \\ \hline
+        Đọc dòng, $\Vout$           & $I = \qty{20}{\milli\ampere}$ & \qty{3.30}{\volt}    & \qty{3.33}{\volt}        & 0.9 \\ \hline
     \end{tabularx}
 \end{table}
 
-\nhanxet{\TODO{Đánh giá chung các khối trong chương.}}
+\nhanxet{Sai số lớn nhất giữa mô phỏng và lý thuyết là \qty{1.7}{\percent} (mạch đọc dòng tại
+$I = \qty{4}{\milli\ampere}$), nhỏ hơn nhiều so với yêu cầu $\pm\qty{5}{\percent}$ của đề. Sai số chủ yếu đến từ
+việc dùng $R_3 = \qty{310}{\ohm}$ thay cho \qty{312.5}{\ohm} (khoảng \qty{0.8}{\percent}) và dung sai điện trở
+\qty{5}{\percent}.}
