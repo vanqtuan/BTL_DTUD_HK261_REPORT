@@ -22,14 +22,70 @@
 \section{Cảm biến Load cell}
 \label{sec:c2:loadcell}
 
+Load cell là một cảm biến dùng để đo lực hoặc khối lượng bằng cách chuyển đổi lực tác dụng lên nó
+thành tín hiệu điện. Load cell hiện đại thường hoạt động dựa trên các \textit{strain gauge} được dán
+lên một cấu trúc kim loại đàn hồi. Khi có lực tác động, cấu trúc này bị biến dạng rất nhỏ, làm thay
+đổi điện trở của các strain gauge. Những thay đổi điện trở này được mắc trong một cầu Wheatstone,
+nhờ đó tạo ra một tín hiệu điện áp rất nhỏ, tỉ lệ tuyến tính với lực. Vì tín hiệu đầu ra của Load cell
+chỉ ở mức vài \unit{\milli\volt}, nó thường cần được khuếch đại bởi các mạch chuyên dụng trước khi
+đưa vào bộ ADC hoặc bộ điều khiển. Load cell được ứng dụng rộng rãi trong cân điện tử, hệ thống đo
+lường công nghiệp, robot và các thiết bị kiểm soát lực.
+
 \subsection{Cấu tạo}
 \label{sec:c2:loadcell-cau-tao}
-% Gợi ý: thân đàn hồi, strain gauge, vỏ bọc. Có hình minh họa.
 
-\TODO{Trình bày cấu tạo Load cell, kèm hình.}
+Cấu tạo của Load cell gồm ba thành phần chính, được minh họa trong Hình~\ref{fig:c2:cau-tao}:
+\begin{itemize}
+    \item \textbf{Thân cảm biến:} thanh kim loại chịu tải có tính đàn hồi cao, thường được chế tạo từ
+          nhôm hợp kim hoặc thép không gỉ. Khi có lực tác động, thanh này sẽ biến dạng nhẹ.
+    \item \textbf{Strain gauge:} điện trở đặc biệt với kích thước nhỏ. Khi bị kéo giãn hoặc nén lại,
+          điện trở của strain gauge thay đổi tỉ lệ với lực tác động. Strain gauge thường được dán lên
+          thân cảm biến.
+    \item \textbf{Vỏ bọc:} bảo vệ các thành phần bên trong khỏi bụi bẩn, độ ẩm và các tác động môi
+          trường khác.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[t]{0.85\textwidth}
+        \centering
+        \chenanh{\textwidth}{chuong2/loadcell_cau_tao.png}
+        \caption{Tên các bộ phận của Load cell}
+        \label{fig:c2:cau-tao-bo-phan}
+    \end{subfigure}
+
+    \begin{subfigure}[t]{0.85\textwidth}
+        \centering
+        \chenanh{\textwidth}{chuong2/loadcell_nguyen_ly.png}
+        \caption{Mô tả hoạt động của Load cell}
+        \label{fig:c2:cau-tao-hoat-dong}
+    \end{subfigure}
+    \caption{Cấu tạo của Load cell}
+    \label{fig:c2:cau-tao}
+\end{figure}
+
+Hình~\ref{fig:c2:cau-tao-bo-phan} chỉ rõ tên các bộ phận và Hình~\ref{fig:c2:cau-tao-hoat-dong} mô tả
+sự biến dạng của thân cảm biến khi chịu lực.
 
 \subsection{Nguyên lý hoạt động và cầu Wheatstone}
 \label{sec:c2:loadcell-nguyen-ly}
+
+Trong hầu hết các ứng dụng, một đầu của Load cell được cố định vào khung hoặc bệ đỡ, trong khi đầu
+còn lại liên kết với vật cần cân hay chịu lực. Khi lực tác dụng lên Load cell, thân kim loại sẽ cong
+hoặc biến dạng nhẹ. Mức biến dạng này rất nhỏ, gần như không thể quan sát bằng mắt thường, nhưng đủ
+để tác động lên các strain gauge được dán trên bề mặt. Khi thân cảm biến biến dạng, các strain gauge
+cũng biến dạng theo, làm thay đổi điện trở của chúng theo quan hệ tỷ lệ với lực tác dụng. Chính sự
+thay đổi điện trở vi mô này là cơ sở để Load cell chuyển đổi lực cơ học thành tín hiệu điện.
+
+Load cell hoạt động dựa trên nguyên lý cầu Wheatstone, như Hình~\ref{fig:c2:cau-wheatstone}. Điện áp
+tín hiệu ra (\textit{Signal Output}) được đo giữa hai điểm giữa của cầu. Các điện trở $R_1$, $R_2$,
+$R_3$, $R_4$ tạo thành cầu Wheatstone. Khi có lực tác dụng, một cặp strain gauge bị giãn và một cặp
+bị nén, nên $R_1$ và $R_3$ có cùng giá trị thay đổi, ngược với $R_2$ và $R_4$. Khi ở trạng thái không
+tải, cầu cân bằng, điện áp tín hiệu ra bằng 0 hoặc xấp xỉ bằng 0. Khi có lực tác dụng lên Load cell,
+hai điện trở thuộc cặp giãn tăng thêm một lượng $R_f$, trong khi hai điện trở thuộc cặp nén giảm đi
+một lượng $R_f$.
+
+\hinh[0.25\textwidth]{chuong2/cau_wheatstone.png}{Mô hình cầu Wheatstone của Load cell}{fig:c2:cau-wheatstone}
 
 Điện áp ngõ ra của Load cell tỉ lệ tuyến tính với khối lượng đặt lên cảm biến:
 \begin{equation}
@@ -39,15 +95,20 @@
 trong đó $RO$ là độ nhạy định mức (\unit{\milli\volt\per\volt}), $m$ là khối lượng cần đo
 và $m_{\max}$ là tải trọng định mức của Load cell.
 
-\TODO{Giải thích nguyên lý cầu Wheatstone, kèm hình.}
-
 % ---------------------------------------------------------------------
 \section{Bộ khuếch đại thuật toán và khuếch đại dụng cụ}
 \label{sec:c2:opamp}
 % Gợi ý: OPAMP lý tưởng vs thực tế (Vos, Ib, GBW, CMRR, slew rate);
 % cấu trúc khuếch đại dụng cụ (INA) 3 OPAMP, công thức độ lợi.
 
-\TODO{Trình bày các thông số không lý tưởng của OPAMP và cấu trúc INA.}
+Tín hiệu từ Load cell là tín hiệu vi sai rất nhỏ (cỡ vài \unit{\milli\volt}) nằm trên một mức điện áp
+chung (\textit{common-mode}) lớn hơn nhiều, nên cần dùng bộ khuếch đại dụng cụ
+(\textit{Instrumentation Amplifier}, INA). Bộ khuếch đại này phải có tỉ số nén tín hiệu chung
+(\textit{CMRR}) cao và trở kháng vào lớn để không làm tải cầu Wheatstone. Độ lợi của INA thường được
+đặt bằng một điện trở ngoài. Vì điện áp offset và độ trôi của bộ khuếch đại bị nhân với độ lợi nên
+chúng phải rất nhỏ so với tín hiệu cần đo.
+
+\TODO{Trình bày các thông số không lý tưởng của OPAMP ($V_{\mathrm{OS}}$, $I_{\mathrm{B}}$, GBW, CMRR, slew rate) và cấu trúc INA 3 OPAMP, công thức độ lợi.}
 
 % ---------------------------------------------------------------------
 \section{Chuẩn tín hiệu dòng 4--20mA}
@@ -55,7 +116,20 @@ và $m_{\max}$ là tải trọng định mức của Load cell.
 % Gợi ý: ưu điểm (chống nhiễu, phát hiện đứt dây), khái niệm ngõ ra thả nổi,
 % nguyên lý mạch chuyển đổi áp - dòng và mạch đọc dòng bằng điện trở shunt.
 
-\TODO{Trình bày chuẩn 4--20mA, nguyên lý chuyển đổi V-I và đọc dòng.}
+Trong chuẩn tín hiệu dòng \qtyrange{4}{20}{\milli\ampere}, đầu thang đo ứng với \qty{4}{\milli\ampere}
+và cuối thang đo ứng với \qty{20}{\milli\ampere}. Mạch chuyển đổi áp thành dòng (V-I) tạo ra dòng ngõ ra
+là hàm bậc nhất của điện áp điều khiển, dựa trên nguồn dòng có hồi tiếp âm: hồi tiếp ép điện áp trên một
+điện trở đo bằng đúng điện áp điều khiển, nên dòng qua tải không phụ thuộc vào giá trị tải.
+
+Để đọc dòng, ta cho dòng chạy qua điện trở shunt $\Rshunt$ mắc nối tiếp trong vòng dòng. Điện áp rơi
+trên điện trở này tỉ lệ với dòng theo \eqref{eq:c2:v-shunt}, sau đó được khuếch đại bằng mạch khuếch
+đại vi sai để đưa vào ADC:
+\begin{equation}
+    V_{\mathrm{shunt}} = I \cdot \Rshunt
+    \label{eq:c2:v-shunt}
+\end{equation}
+
+\TODO{Trình bày ưu điểm của chuẩn \qtyrange{4}{20}{\milli\ampere} (chống nhiễu, phát hiện đứt dây) và khái niệm ngõ ra thả nổi.}
 
 % ---------------------------------------------------------------------
 \section{Ảnh hưởng của nhiệt độ và cảm biến nhiệt}
@@ -63,7 +137,11 @@ và $m_{\max}$ là tải trọng định mức của Load cell.
 % Gợi ý: trôi điểm không, trôi độ nhạy; các loại cảm biến nhiệt (RTD, NTC,
 % IC cảm biến) và phương trình đặc tính.
 
-\TODO{Trình bày ảnh hưởng nhiệt độ lên cảm biến và các loại cảm biến nhiệt.}
+Nhiệt độ ảnh hưởng đến Load cell theo hai cách: làm trôi điểm không (ngõ ra khi không tải) và làm
+trôi độ nhạy. Hai ảnh hưởng này thường được nhà sản xuất cho dưới dạng phần trăm của ngõ ra định mức
+trên mỗi độ C (\unit{\percent} RO/\unit{\celsius}).
+
+\TODO{Trình bày các loại cảm biến nhiệt (RTD, NTC, IC cảm biến) và phương trình đặc tính.}
 
 % ---------------------------------------------------------------------
 \section{Bộ chuyển đổi tương tự -- số (ADC)}
@@ -71,7 +149,17 @@ và $m_{\max}$ là tải trọng định mức của Load cell.
 % Gợi ý: các thông số (số bit, LSB, Vref, sai số lượng tử), các kiến trúc
 % ADC phổ biến (SAR, Sigma-Delta, Flash, nhiều bước).
 
-\TODO{Trình bày các thông số và kiến trúc ADC.}
+Số bit tối thiểu $N$ của ADC được xác định từ tầm đo và độ phân giải khối lượng yêu cầu. Với tầm đo
+$m_{\max} = \qty{1000}{\gram}$ và độ phân giải $\Delta m = \qty{2}{\milli\gram}$:
+\begin{equation}
+    N \geq \log_2 \frac{m_{\max}}{\Delta m}
+      = \log_2 \frac{\qty{1000}{\gram}}{\qty{0.002}{\gram}}
+      = \log_2 500000 \approx 18.93
+    \label{eq:c2:so-bit-adc}
+\end{equation}
+Theo \eqref{eq:c2:so-bit-adc}, ADC cần tối thiểu 19 bit, vì $2^{19} = 524288 > 500000$.
+
+\TODO{Trình bày các thông số của ADC (LSB, $\Vref$, sai số lượng tử) và các kiến trúc phổ biến (SAR, Sigma-Delta, Flash, nhiều bước).}
 
 % ---------------------------------------------------------------------
 \section{Sơ đồ khối tổng quát của hệ thống}
@@ -81,7 +169,19 @@ Sơ đồ khối tổng quát của hệ thống được trình bày trong Hìn
 
 \hinh[0.95\textwidth]{chuong2/so_do_khoi.png}{Sơ đồ khối tổng quát của hệ thống}{fig:c2:so-do-khoi}
 
-\TODO{Mô tả chức năng của từng khối trong sơ đồ.}
+Chức năng của từng khối như sau:
+\begin{enumerate}
+    \item \textbf{Load cell:} chuyển khối lượng \qtyrange{0}{1}{\kilo\gram} thành điện áp vi sai
+          \qtyrange{0}{5}{\milli\volt} khi cấp nguồn \qty{5}{\volt}.
+    \item \textbf{Khuếch đại vi sai:} khuếch đại tín hiệu từ Load cell lên 1000 lần, ngõ ra
+          \qtyrange{0}{5}{\volt}.
+    \item \textbf{Bù nhiệt:} \TODO{Mô tả chức năng khối bù nhiệt và vị trí ghép vào sơ đồ (Chương~\ref{chap:c4}).}
+    \item \textbf{Chuyển đổi áp thành dòng:} cộng thêm \qty{1.25}{\volt} vào điện áp ngõ vào rồi
+          chuyển thành dòng \qtyrange{4}{20}{\milli\ampere}.
+    \item \textbf{Đọc dòng:} dùng điện trở shunt kết hợp mạch khuếch đại vi sai để chuyển dòng thành
+          điện áp \qtyrange{0.66}{3.3}{\volt}.
+    \item \textbf{ADC:} chuyển điện áp từ khối đọc dòng thành mã số 19 bit.
+\end{enumerate}
 
 \subsection{Giao tiếp tín hiệu giữa các khối}
 \label{sec:c2:giao-tiep-khoi}
@@ -98,11 +198,12 @@ Bảng~\ref{tab:c2:giao-tiep-khoi}. Các chương thiết kế phía sau tuân t
     \begin{tabularx}{\textwidth}{|c|X|c|c|c|}
         \hline
         \textbf{STT} & \textbf{Khối} & \textbf{Chương} & \textbf{Ngõ vào} & \textbf{Ngõ ra} \\ \hline
-        1 & Load cell                     & 3 & \qtyrange{0}{1}{\kilo\gram} & \TODO{} \unit{\milli\volt} \\ \hline
-        2 & Khuếch đại vi sai             & 3 & \TODO{} \unit{\milli\volt} & \TODO{} \unit{\volt} \\ \hline
-        3 & Bù nhiệt                      & 4 & \TODO{}                    & \TODO{}             \\ \hline
-        4 & Chuyển đổi áp thành dòng      & 3 & \TODO{} \unit{\volt}       & \qtyrange{4}{20}{\milli\ampere} \\ \hline
-        5 & Đọc dòng                      & 3 & \qtyrange{4}{20}{\milli\ampere} & \TODO{} \unit{\volt} \\ \hline
-        6 & ADC                           & 5 & \TODO{} \unit{\volt}       & \TODO{} bit         \\ \hline
+        1 & Load cell                     & 3 & \qtyrange{0}{1}{\kilo\gram}      & \qtyrange{0}{5}{\milli\volt} \\ \hline
+        2 & Khuếch đại vi sai             & 3 & \qtyrange{0}{5}{\milli\volt}     & \qtyrange{0}{5}{\volt} \\ \hline
+        3 & Bù nhiệt                      & 4 & \TODO{}                          & \TODO{} \\ \hline
+        4 & Chuyển đổi áp thành dòng      & 3 & \qtyrange{0}{5}{\volt}           & \qtyrange{4}{20}{\milli\ampere} \\ \hline
+        5 & Đọc dòng                      & 3 & \qtyrange{4}{20}{\milli\ampere}  & \qtyrange{0.66}{3.3}{\volt} \\ \hline
+        6 & ADC                           & 5 & \qtyrange{0.66}{3.3}{\volt}      & 19 bit \\ \hline
     \end{tabularx}
 \end{table}
+ 
