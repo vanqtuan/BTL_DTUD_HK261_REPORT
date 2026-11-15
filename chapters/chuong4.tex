@@ -21,68 +21,413 @@
 \section{Yêu cầu thiết kế}
 \label{sec:c4:yeu-cau}
 
-\TODO{Dải nhiệt độ làm việc, vị trí mạch bù trong sơ đồ khối (Hình~\ref{fig:c2:so-do-khoi}), sai số mục tiêu.}
+Trong hệ thống đo khối lượng ở Hình~\ref{fig:c2:so-do-khoi}, cùng một
+khối lượng có thể cho hai điện áp khác nhau khi nhiệt độ của load cell
+thay đổi. Mạch bù nhiệt có nhiệm vụ giảm chênh lệch này trên dải tải
+\qtyrange{0}{1}{\kilo\gram}. Nhóm khảo sát nhiệt độ load cell từ
+\qtyrange{0}{50}{\celsius}, lấy \qty{25}{\celsius} làm nhiệt độ hiệu chuẩn.
+
+Hai nhánh bù tác động tại chân tham chiếu REF và cặp chân đặt độ lợi
+của bộ khuếch đại đo lường (\textit{instrumentation amplifier}) INA333.
+Đại lượng dùng để kiểm chứng là điện áp $\Vout$ của INA333 trên tải
+\qty{1}{\mega\ohm}. Tại nhiệt độ hiệu chuẩn, điện áp lý tưởng bằng
+\qty{0.4}{\volt} ở không tải và \qty{2.0}{\volt} ở toàn tải.
+Nhóm đánh giá mạch bằng sai số khối lượng sau hiệu chuẩn hai điểm,
+đồng thời khảo sát riêng ảnh hưởng của nhiệt độ mạch điện tử.
+
+\TODO{Đối chiếu vị trí lấy tín hiệu và dải điện áp
+\qtyrange{0.4}{2.0}{\volt} với Bảng~\ref{tab:c2:giao-tiep-khoi}.
+Bổ sung mức sai số cho phép phân bổ cho khối bù nhiệt từ yêu cầu
+$\pm\qty{5}{\percent}$ của toàn hệ thống.}
 
 % ---------------------------------------------------------------------
 \section{Ảnh hưởng của nhiệt độ lên Load cell}
 \label{sec:c4:anh-huong-nhiet}
-% Định lượng trôi điểm không và trôi độ nhạy theo thông số datasheet,
-% tính sai lệch điện áp ngõ ra tại các nhiệt độ biên.
 
-\TODO{Tính độ trôi điểm không và độ nhạy theo nhiệt độ.}
+Mô hình YZC133 sử dụng cầu điện trở có bốn nhánh danh định
+$R_0=\qty{1000}{\ohm}$. Nguồn kích thích \qty{5}{\volt} cấp cho cầu
+qua hai điện trở \qty{33}{\ohm}, mỗi điện trở đặt ở một đầu cấp nguồn.
+Tại \qty{25}{\celsius}, mô hình có độ nhạy danh định
+\qty{1}{\milli\volt\per\volt} và cho điện áp vi sai lý tưởng
+\qty{5}{\milli\volt} ở tải \qty{1}{\kilo\gram}~\cite{c4_mo_hinh}.
 
+Gọi $T_0=\qty{25}{\celsius}$ là nhiệt độ hiệu chuẩn,
+$\Delta T=T-T_0$ là chênh lệch nhiệt độ và
+$x=m/m_{\max}$ là phần tải toàn thang, với
+$m_{\max}=\qty{1}{\kilo\gram}$. Mô hình xét hai ảnh hưởng nhiệt.
+
+\tieumuc{Trôi điểm không}
+Khi cầu không chịu tải, nhiệt độ vẫn làm dịch điện áp vi sai.
+Mô hình biểu diễn độ dịch này bằng một nguồn điện áp nối tiếp với tín hiệu
+cầu theo~\eqref{eq:c4:troi-diem-khong}:
 \begin{equation}
-    \Delta V_{\mathrm{zero}}(T) = \TODO{}
+    \Delta V_{\mathrm{zero}}(T)=k_0\Delta T,
+    \qquad k_0=\qty{1}{\micro\volt\per\kelvin}.
     \label{eq:c4:troi-diem-khong}
 \end{equation}
+Trong đó $k_0$ là hệ số trôi điểm không quy về ngõ vào INA333.
+Thành phần này xuất hiện ở mọi mức tải.
+
+\tieumuc{Trôi độ nhạy}
+Ở tải cố định, nhiệt độ còn làm thay đổi biên độ tín hiệu do biến dạng
+của cầu. Trong mô hình, $R_1=R_4=R_0-\Delta R$ và
+$R_2=R_3=R_0+\Delta R$, với
+$\Delta R=\qty{1.066}{\ohm}\,x(1+\alpha_s\Delta T)$.
+Hệ số nhiệt tương đối của độ nhạy được đặt bằng
+$\alpha_s=\qty{30e-6}{\per\kelvin}$. Kết hợp hai thành phần cho điện áp
+vi sai theo~\eqref{eq:c4:dien-ap-vi-sai}:
+\begin{equation}
+    V_{\mathrm{diff}}(T,m)
+    = V_{\mathrm{FS},0}\,x(1+\alpha_s\Delta T)+k_0\Delta T,
+    \qquad V_{\mathrm{FS},0}=\qty{5}{\milli\volt}.
+    \label{eq:c4:dien-ap-vi-sai}
+\end{equation}
+Trong đó $V_{\mathrm{FS},0}$ là điện áp vi sai lý tưởng ở toàn tải tại
+$T_0$. Hai hệ số $k_0$ và $\alpha_s$ mang dấu dương theo giả thiết khảo
+sát của bộ mô phỏng~\cite{c4_mo_hinh}.
+
+\nhanxet{So với \qty{25}{\celsius}, tại \qty{0}{\celsius} và
+\qty{50}{\celsius}, điện áp không tải lệch lần lượt
+\qty{-25}{\micro\volt} và \qty{25}{\micro\volt}. Ở tải
+\qty{1}{\kilo\gram}, trôi độ nhạy đóng góp thêm lần lượt
+\qty{-3.75}{\micro\volt} và \qty{3.75}{\micro\volt}. Sai lệch tổng
+tại hai biên vì vậy đạt \qty{-28.75}{\micro\volt} và
+\qty{28.75}{\micro\volt}.}
+
+\TODO{Bổ sung datasheet đúng biến thể YZC133 đã chọn và trích dẫn thông
+số nhiệt của nhà sản xuất. Đối chiếu đơn vị, trị số và điều kiện áp dụng
+với hai hệ số đang dùng trong mô hình.}
 
 % ---------------------------------------------------------------------
 \section{Phương pháp bù nhiệt}
 \label{sec:c4:phuong-phap}
 
-\TODO{Trình bày phương án bù được chọn và lý do (so sánh với phương án khác nếu có).}
+Theo quan hệ truyền đạt của INA333~\cite{c4_ina333}, ngõ ra lý tưởng
+được xác định bởi~\eqref{eq:c4:dien-ap-ngo-ra}:
+\begin{equation}
+    \Vout(T,m)=G(T)V_{\mathrm{diff}}(T,m)+\Vref(T),
+    \label{eq:c4:dien-ap-ngo-ra}
+\end{equation}
+trong đó $G$ là độ lợi vi sai và $\Vref$ là điện áp đặt tại chân REF.
+Thay~\eqref{eq:c4:dien-ap-vi-sai} vào~\eqref{eq:c4:dien-ap-ngo-ra}
+cho thấy có thể điều chỉnh riêng điểm không và khoảng điện áp giữa
+hai đầu thang.
+
+Ở không tải, $x=0$ nên ngõ ra bằng $G(T)k_0\Delta T+\Vref(T)$.
+Nhánh bù thứ nhất làm giảm $\Vref$ khi nhiệt độ tăng để giữ điện áp
+không tải gần giá trị tại $T_0$. Ở nhiệt độ hiệu chuẩn, độ dốc cần tạo
+cho $\Vref$ xấp xỉ $-G(T_0)k_0$.
+
+Lấy điện áp toàn tải trừ điện áp không tải tại cùng nhiệt độ sẽ khử
+thành phần $\Vref$. Khoảng điện áp còn lại bằng
+$G(T)V_{\mathrm{FS},0}(1+\alpha_s\Delta T)$. Nhánh bù thứ hai vì vậy
+làm giảm $G$ khi nhiệt độ tăng. Để đánh giá đóng góp của từng nhánh,
+nhóm khảo sát ba cấu hình gồm chưa bù, chỉ bù điểm không và bù đồng
+thời điểm không với độ nhạy.
 
 % ---------------------------------------------------------------------
 \section{Lựa chọn cảm biến nhiệt độ}
 \label{sec:c4:cam-bien}
 
-\TODO{Lựa chọn cảm biến (RTD / NTC / IC), phương trình đặc tính, bảng thông số (có \textbackslash cite).}
+Nhóm sử dụng hai nhiệt điện trở bạch kim
+(\textit{resistance temperature detector}, RTD) loại Pt1000. Hai cảm biến
+độc lập về điện và được giả thiết có cùng nhiệt độ với load cell.
+Pt1000 thứ nhất đặt trong cầu chia áp tạo tín hiệu bù điểm không.
+Pt1000 thứ hai đặt trong mạng điện trở xác lập độ lợi. Cách bố trí này
+cho phép chọn hệ số bù riêng cho từng nhánh.
+
+Trong dải khảo sát, mô hình dùng đặc tính~\eqref{eq:c4:pt1000}
+cho cả hai cảm biến~\cite{c4_mo_hinh}:
+\begin{equation}
+    R_{\mathrm{Pt}}(T)
+    =\qty{1000}{\ohm}
+     \left(1+0.0039083\,t-0.0000005775\,t^2\right),
+    \label{eq:c4:pt1000}
+\end{equation}
+trong đó $t$ là trị số nhiệt độ khi biểu diễn $T$ theo
+\unit{\celsius}. Bảng~\ref{tab:c4:dien-tro-pt1000} trình bày điện trở
+dùng để tính mạch ở nhiệt độ hiệu chuẩn và hai biên khảo sát.
+
+\begin{table}[H]
+    \centering
+    \caption{Điện trở Pt1000 tính theo đặc tính của mô hình}
+    \label{tab:c4:dien-tro-pt1000}
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabular}{|c|c|}
+        \hline
+        \textbf{Nhiệt độ (\unit{\celsius})} &
+        \textbf{Điện trở (\unit{\ohm})} \\ \hline
+        0  & 1000.000 \\ \hline
+        25 & 1097.347 \\ \hline
+        50 & 1193.971 \\ \hline
+    \end{tabular}
+\end{table}
+
+\nhanxet{Từ \qty{0}{\celsius} đến \qty{50}{\celsius}, điện trở Pt1000
+trong mô hình tăng \qty{193.971}{\ohm}. Khi đặt Pt1000 ở nhánh dưới
+của cầu chia áp, biến thiên này làm điện áp tại nút giữa tăng theo
+nhiệt độ. Tầng đảo phía sau sử dụng điện áp đó để giảm $\Vref$.}
+
+\TODO{Bổ sung hãng, mã đặt hàng, cấp dung sai và trích dẫn datasheet
+của Pt1000 được chọn.}
 
 % ---------------------------------------------------------------------
 \section{Tính toán thiết kế mạch bù nhiệt}
 \label{sec:c4:tinh-toan}
 
-\TODO{Sơ đồ mạch, tính toán giá trị linh kiện để điện áp bù triệt tiêu độ trôi theo \eqref{eq:c4:troi-diem-khong}.}
+Hình~\ref{fig:c4:so-do-bu-nhiet} trình bày sơ đồ dùng trong mô phỏng.
+Cầu và U2 INA333 dùng nguồn đơn \qty{5}{\volt}. U3 và U4 là hai
+OP07CS8~\cite{c4_op07cs8}, dùng nguồn đối xứng với chân 7 nối
+\qty{15}{\volt}, chân 4 nối \qty{-15}{\volt} và cùng điểm chuẩn điện áp
+với INA333. Trong tính toán, nhóm coi các nguồn chuẩn và các điện trở
+cố định là lý tưởng.
+
+\hinh[0.98\textwidth]{chuong4/so_do_bu_nhiet.png}{Sơ đồ mạch bù điểm không và độ nhạy cho load cell YZC133}{fig:c4:so-do-bu-nhiet}
+
+\tieumuc{Xác định độ lợi tại nhiệt độ hiệu chuẩn}
+Để biến khoảng điện áp vi sai \qty{5}{\milli\volt} thành khoảng điện áp
+ngõ ra \qty{1.6}{\volt}, độ lợi danh định phải bằng
+\[
+    \ketqua{G_0=
+    \frac{\qty{2.0}{\volt}-\qty{0.4}{\volt}}
+         {\qty{5}{\milli\volt}}=320}.
+\]
+Theo quan hệ $G=1+\qty{100}{\kilo\ohm}/R_G$ của INA333,
+điện trở đặt độ lợi tại $T_0$ là
+$R_G(T_0)=\qty{100}{\kilo\ohm}/319\approx\qty{313.479624}{\ohm}$.
+Ở cấu hình chưa bù, mạch giữ cố định điện trở này và đặt
+$\Vref=\qty{0.4}{\volt}$.
+
+\tieumuc{Tính nhánh bù điểm không}
+Điểm không tại ngõ vào trôi \qty{1}{\micro\volt\per\kelvin}.
+Với $G_0=320$, điện áp bù tại REF cần có độ dốc xấp xỉ
+\qty{-320}{\micro\volt\per\kelvin} quanh $T_0$.
+Nguồn chuẩn \qty{2.5}{\volt} cấp cho cầu chia gồm điện trở
+\qty{10}{\kilo\ohm} ở phía nguồn và Pt1000 ở phía đất.
+U3 mắc theo điện áp để đệm nút giữa của cầu chia. Điện áp lý tưởng tại
+ngõ ra bộ đệm được xác định theo~\eqref{eq:c4:dien-ap-cau-chia}:
+\begin{equation}
+    V_{\mathrm{TB}}(T)\simeq V_T(T)
+    =\qty{2.5}{\volt}
+     \frac{R_{\mathrm{Pt}}(T)}
+          {\qty{10}{\kilo\ohm}+R_{\mathrm{Pt}}(T)},
+    \label{eq:c4:dien-ap-cau-chia}
+\end{equation}
+trong đó $V_T$ là điện áp nút giữa và $V_{\mathrm{TB}}$ là điện áp
+sau bộ đệm U3.
+
+U4 nhận $V_{\mathrm{TB}}$ qua điện trở $R_{\mathrm{in}}$ ở ngõ vào đảo.
+Ngõ vào không đảo được đặt ở điện áp $V_B$. Viết phương trình dòng điện
+tại nút vào đảo thu được~\eqref{eq:c4:dien-ap-ref}:
+\begin{equation}
+    \Vref=(1+a)V_B-aV_{\mathrm{TB}},
+    \qquad a=\frac{R_{\mathrm{fb}}}{R_{\mathrm{in}}},
+    \label{eq:c4:dien-ap-ref}
+\end{equation}
+trong đó $R_{\mathrm{fb}}$ là điện trở hồi tiếp của U4.
+Với $R_{\mathrm{in}}=\qty{100}{\kilo\ohm}$ và
+$R_{\mathrm{fb}}=\qty{40.633189}{\kilo\ohm}$, hệ số đảo có độ lớn
+$a\approx0.406332$. Tại $T_0$, cầu chia cho
+$V_{\mathrm{TB}}\simeq\qty{0.247209}{\volt}$.
+Từ điều kiện $\Vref(T_0)=\qty{0.4}{\volt}$, điện áp phân cực cần đặt là
+$V_B=[\Vref(T_0)+aV_{\mathrm{TB}}(T_0)]/(1+a)
+\approx\qty{0.355854115}{\volt}$.
+
+\tieumuc{Tính nhánh bù độ nhạy}
+Để giữ khoảng điện áp toàn thang ổn định, độ lợi mục tiêu là
+$G_0/(1+\alpha_s\Delta T)$. Mô hình xấp xỉ đặc tính này bằng một
+điện trở cố định nối tiếp với tổ hợp song song giữa một điện trở và
+Pt1000 thứ hai, theo~\eqref{eq:c4:mang-dat-do-loi}:
+\begin{equation}
+    R_G(T)=R_s+
+    \frac{R_pR_{\mathrm{Pt}}(T)}{R_p+R_{\mathrm{Pt}}(T)},
+    \qquad
+    G(T)=1+\frac{\qty{100}{\kilo\ohm}}{R_G(T)},
+    \label{eq:c4:mang-dat-do-loi}
+\end{equation}
+trong đó $R_s=\qty{259.366194}{\ohm}$ và
+$R_p=\qty{56.920341}{\ohm}$ là các giá trị dùng trong mô hình.
+Khi $R_{\mathrm{Pt}}$ tăng, $R_G$ tăng và độ lợi giảm.
+Các chữ số của giá trị điện trở được giữ để tái lập phép mô phỏng.
+
+\nhanxet{Thay điện trở ở Bảng~\ref{tab:c4:dien-tro-pt1000}
+vào~\eqref{eq:c4:mang-dat-do-loi} cho độ lợi lần lượt bằng
+$320.2633$, $320.0000$ và $319.7795$ tại \qty{0}{\celsius},
+\qty{25}{\celsius} và \qty{50}{\celsius}. Mạch giữ được độ lợi thiết kế
+ở nhiệt độ hiệu chuẩn và giảm độ lợi khi độ nhạy của cầu tăng.}
 
 % ---------------------------------------------------------------------
 \section{Mô phỏng mạch bù nhiệt}
 \label{sec:c4:mo-phong}
 
-\TODO{Hình mô phỏng tại các nhiệt độ khác nhau, ví dụ \qty{0}{\celsius}, \qty{25}{\celsius}, \qty{50}{\celsius}.}
+\tieumuc{Điều kiện khảo sát}
+Nhóm sử dụng phân tích điểm làm việc một chiều
+(\textit{DC operating point}) trong NI Multisim 14.3. Mỗi tổ hợp
+nhiệt độ và khối lượng được khảo sát ở cả ba cấu hình bù. Bộ dữ liệu
+gồm 126 ca~\cite{c4_ket_qua}, chia thành hai nhóm:
+\begin{itemize}
+    \item Giữ mạch điện tử ở \qty{25}{\celsius}. Quét nhiệt độ load cell
+    và hai Pt1000 từ \qtyrange{0}{50}{\celsius} với bước \qty{5}{\kelvin}.
+    Với ba tải \qty{0}{\kilo\gram}, \qty{0.5}{\kilo\gram} và
+    \qty{1}{\kilo\gram}, nhóm này có $11\times3\times3=99$ ca.
+    \item Cho mạch điện tử, load cell và hai Pt1000 cùng nhiệt độ.
+    Khảo sát tại \qty{15}{\celsius}, \qty{25}{\celsius} và
+    \qty{35}{\celsius} với cùng ba mức tải. Nhóm này có
+    $3\times3\times3=27$ ca.
+\end{itemize}
+
+\tieumuc{Hiệu chuẩn và tính sai số}
+Mỗi cấu hình được hiệu chuẩn riêng tại \qty{25}{\celsius} bằng hai
+giá trị $\Vout$ ứng với không tải và toàn tải. Khối lượng suy ra từ
+điện áp mô phỏng và sai số có dấu được tính
+theo~\eqref{eq:c4:hieu-chuan}:
+\begin{equation}
+    m_{\mathrm{cal}}
+    =m_{\max}\frac{\Vout-V_0}{V_1-V_0},
+    \qquad e_m=m_{\mathrm{cal}}-m,
+    \label{eq:c4:hieu-chuan}
+\end{equation}
+trong đó $V_0$ và $V_1$ là điện áp hiệu chuẩn tại \qty{0}{\kilo\gram}
+và \qty{1}{\kilo\gram}, $m$ là khối lượng đặt và $e_m$ được quy đổi
+sang \unit{\milli\gram} khi so sánh. Với cấu hình bù cả hai thành phần,
+$V_0=\qty{0.403118489}{\volt}$ và $V_1=\qty{2.002987265}{\volt}$.
+
+\tieumuc{Điện áp trước và sau bù}
+Bảng~\ref{tab:c4:ket-qua-bu-nhiet} trình bày điện áp trực tiếp tại
+ngõ ra INA333 khi mạch điện tử giữ ở \qty{25}{\celsius}.
+Để xác định độ trôi, mỗi giá trị ở nhiệt độ biên được so với giá trị
+tại \qty{25}{\celsius} trong cùng cột và ở cùng tải.
 
 \begin{table}[H]
     \centering
     \caption{Điện áp ngõ ra trước và sau khi bù nhiệt}
     \label{tab:c4:ket-qua-bu-nhiet}
     \renewcommand{\arraystretch}{1.3}
-    \begin{tabular}{|c|c|c|c|}
+    \begin{tabular}{|c|c|c|c|c|}
         \hline
-        \multirow{2}{*}{\textbf{Nhiệt độ}} & \multirow{2}{*}{\textbf{Khối lượng}} &
-        \multicolumn{2}{c|}{\textbf{Điện áp ngõ ra (\unit{\volt})}} \\ \cline{3-4}
-        & & \textbf{Trước bù} & \textbf{Sau bù} \\ \hline
-        \qty{0}{\celsius}  & \qty{0}{\kilo\gram} & \TODO{} & \TODO{} \\ \hline
-        \qty{25}{\celsius} & \qty{0}{\kilo\gram} & \TODO{} & \TODO{} \\ \hline
-        \qty{50}{\celsius} & \qty{0}{\kilo\gram} & \TODO{} & \TODO{} \\ \hline
-        \qty{0}{\celsius}  & \qty{1}{\kilo\gram} & \TODO{} & \TODO{} \\ \hline
-        \qty{25}{\celsius} & \qty{1}{\kilo\gram} & \TODO{} & \TODO{} \\ \hline
-        \qty{50}{\celsius} & \qty{1}{\kilo\gram} & \TODO{} & \TODO{} \\ \hline
+        \multirow{2}{*}{\textbf{$T$ (\unit{\celsius})}} &
+        \multirow{2}{*}{\textbf{$m$ (\unit{\kilo\gram})}} &
+        \multicolumn{3}{c|}{\textbf{Điện áp ngõ ra (\unit{\volt})}}
+        \\ \cline{3-5}
+        & & \textbf{Chưa bù} & \textbf{Bù điểm không} &
+        \textbf{Bù cả hai} \\ \hline
+        0  & 0 & 0.394968 & 0.403220 & 0.403215 \\ \hline
+        25 & 0 & 0.402967 & 0.403118 & 0.403118 \\ \hline
+        50 & 0 & 0.410967 & 0.403217 & 0.403209 \\ \hline
+        0  & 1 & 1.993637 & 2.001889 & 2.003200 \\ \hline
+        25 & 1 & 2.002836 & 2.002987 & 2.002987 \\ \hline
+        50 & 1 & 2.012035 & 2.004285 & 2.003175 \\ \hline
     \end{tabular}
 \end{table}
 
-\nhanxet{\TODO{Mức độ giảm sai lệch nhờ mạch bù, so sánh với giá trị tại \qty{25}{\celsius}.}}
+\nhanxet{Tại \qty{50}{\celsius} và \qty{1}{\kilo\gram}, điện áp chưa
+bù tăng khoảng \qty{9.199}{\milli\volt} so với mốc
+\qty{25}{\celsius}. Từ~\eqref{eq:c4:dien-ap-vi-sai}, giá trị lý tưởng
+là $320\times\qty{28.75}{\micro\volt}=\qty{9.200}{\milli\volt}$.
+Khi chỉ bù điểm không, độ tăng còn \qty{1.298}{\milli\volt}.
+Khi bật cả hai nhánh, độ tăng còn \qty{0.188}{\milli\volt}.}
+
+\tieumuc{Sai số khối lượng theo nhiệt độ}
+Hình~\ref{fig:c4:sai-so-theo-nhiet-do} biểu diễn sai số có dấu tại
+\qty{1}{\kilo\gram} trên toàn bộ 11 điểm nhiệt độ, với mạch điện tử giữ
+ở \qty{25}{\celsius}. Mỗi điểm được tính từ điện áp ngõ ra bằng cặp
+hệ số hiệu chuẩn của cấu hình tương ứng~\cite{c4_ket_qua}.
+
+\hinh[0.94\textwidth]{chuong4/sai_so_theo_nhiet_do.pdf}{Sai số khối lượng tại tải \qty{1}{\kilo\gram} khi mạch điện tử giữ ở \qty{25}{\celsius}}{fig:c4:sai-so-theo-nhiet-do}
+
+\nhanxet{Tại \qty{35}{\celsius}, sai số giảm từ
+\qty{2299.989}{\milli\gram} xuống \qty{309.836}{\milli\gram} khi bù
+điểm không. Sau khi bổ sung nhánh bù độ nhạy, mô phỏng cho
+$\Vref=\qty{0.396967197}{\volt}$ và $\Vout=\qty{2.003017592}{\volt}$.
+Thay vào~\eqref{eq:c4:hieu-chuan} thu được
+$m_{\mathrm{cal}}\approx\qty{1.000018956}{\kilo\gram}$, tương ứng
+sai số \qty{18.956}{\milli\gram}.}
+
+Bảng~\ref{tab:c4:sai-so-cuc-dai} tổng hợp giá trị lớn nhất của
+$\lvert e_m\rvert$ trên các tải và các nhiệt độ đã khảo sát trong từng
+nhóm. Hàng thứ hai chỉ gồm ba mức nhiệt độ của phép khảo sát đồng nhiệt.
+
+\begin{table}[H]
+    \centering
+    \caption{Sai số khối lượng tuyệt đối lớn nhất sau hiệu chuẩn}
+    \label{tab:c4:sai-so-cuc-dai}
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabularx}{\textwidth}{|X|c|c|c|}
+        \hline
+        \textbf{Điều kiện nhiệt độ} &
+        \multicolumn{3}{c|}{\textbf{Sai số cực đại (\unit{\milli\gram})}}
+        \\ \cline{2-4}
+        & \textbf{Chưa bù} & \textbf{Bù điểm không} &
+        \textbf{Bù cả hai} \\ \hline
+        Mạch điện tử ở \qty{25}{\celsius}, load cell từ
+        \qtyrange{0}{50}{\celsius}
+        & 5750.007 & 811.407 & 132.696 \\ \hline
+        Mạch điện tử và load cell cùng ở \qty{15}{\celsius},
+        \qty{25}{\celsius} hoặc \qty{35}{\celsius}
+        & 3300.636 & 1311.725 & 1020.555 \\ \hline
+    \end{tabularx}
+\end{table}
+
+\nhanxet{Khi mạch điện tử giữ ở \qty{25}{\celsius}, bù cả hai thành
+phần làm giảm \qty{97.69}{\percent} sai số tuyệt đối cực đại so với
+chưa bù. Ảnh hưởng của nhiệt độ mạch điện tử thể hiện rõ khi đối chiếu
+cùng một điểm làm việc. Ở tải \qty{1}{\kilo\gram} và nhiệt độ load cell
+\qty{35}{\celsius}, sai số sau bù là \qty{18.956}{\milli\gram} nếu
+mạch điện tử giữ ở \qty{25}{\celsius}, và tăng lên
+\qty{1020.555}{\milli\gram} nếu mạch điện tử cũng ở
+\qty{35}{\celsius}.}
 
 % ---------------------------------------------------------------------
 \section{Tổng kết}
 \label{sec:c4:tong-ket}
 
-\TODO{Tóm tắt kết quả mạch bù nhiệt, dải nhiệt độ đạt yêu cầu.}
+Bảng~\ref{tab:c4:ly-thuyet-mo-phong} đối chiếu điện áp toàn tải
+tính từ~\eqref{eq:c4:dien-ap-ngo-ra} với kết quả mô phỏng khi bật
+cả hai nhánh bù. Phép tính lý tưởng lấy $V_{\mathrm{TB}}=V_T$.
+Các ca mô phỏng tương ứng giữ mạch điện tử ở \qty{25}{\celsius}.
+
+\begin{table}[H]
+    \centering
+    \caption{Điện áp toàn tải sau bù theo lý thuyết và mô phỏng}
+    \label{tab:c4:ly-thuyet-mo-phong}
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        \textbf{$T$ (\unit{\celsius})} &
+        \textbf{Lý thuyết (\unit{\volt})} &
+        \textbf{Mô phỏng (\unit{\volt})} &
+        \textbf{Chênh lệch (\unit{\milli\volt})} \\ \hline
+        0  & 2.000210 & 2.003200 & 2.990 \\ \hline
+        25 & 2.000000 & 2.002987 & 2.987 \\ \hline
+        50 & 2.000190 & 2.003175 & 2.985 \\ \hline
+    \end{tabular}
+\end{table}
+
+\nhanxet{Tại nhiệt độ hiệu chuẩn, điện áp toàn tải mô phỏng cao hơn
+lý thuyết \qty{2.987}{\milli\volt}, tương đương khoảng
+\qty{0.149}{\percent} của \qty{2.0}{\volt}. Chênh lệch này đã có tại
+điểm chuẩn và được tính vào $V_1$ khi hiệu chuẩn. Từ
+\qty{25}{\celsius} đến \qty{50}{\celsius}, điện áp toàn tải sau bù
+chỉ tăng khoảng \qty{0.188}{\milli\volt} trong mô phỏng, gần với mức
+tăng lý tưởng \qty{0.190}{\milli\volt}.}
+
+Trên các điểm khảo sát từ \qtyrange{0}{50}{\celsius} với mạch điện tử
+giữ ở \qty{25}{\celsius}, sai số sau bù lớn nhất bằng
+\qty{132.696}{\milli\gram}, tương ứng \qty{0.01327}{\percent}
+toàn thang. Khi nhiệt độ mạch điện tử cùng thay đổi với load cell tại
+ba mức đã khảo sát, sai số lớn nhất bằng \qty{1020.555}{\milli\gram},
+tương ứng \qty{0.10206}{\percent} toàn thang. Hai giá trị này đặc trưng
+cho sai số nhiệt của khối trong phân tích điểm làm việc. Việc kiểm chứng
+độ phân giải \qty{2}{\milli\gram} còn cần đánh giá nhiễu trong băng
+thông đo và độ lặp lại của hệ thống.
+
+% ---------------------------------------------------------------------
+% Các TODO còn lại trước khi nộp
+% 1. Điền họ tên và MSSV vào khối comment đầu chương.
+% 2. Xác nhận giao tiếp với Chương 2 và mức sai số phân bổ cho khối bù.
+% 3. Bổ sung datasheet đúng biến thể YZC133, đối chiếu hai hệ số nhiệt.
+% 4. Bổ sung mã Pt1000, hãng sản xuất, cấp dung sai và datasheet.
+%
+% Đã rà tĩnh tên chương, thứ tự mục, label, tham chiếu, đơn vị,
+% bảng, hình và nhận xét. Hai ảnh đã được chuẩn bị trong image/chuong4/.
+% Chưa kiểm tra biên dịch toàn báo cáo bằng pdfLaTeX.
